@@ -1,3 +1,11 @@
+# White community scene review, 2026-10-07
+
+Astro check: 51 files, zero diagnostics. Static build and the three canonical ThreeUI hashes pass. Ambient lifecycle/crop checks cover 46,800 positions. Existing particle/camera checks preserve 24,240 positions, 30,507 seeds and 140 source-aligned product positions. Desktop 1440x900 and mobile 390x844 review confirms pure white stages, dark text, outlined labels, fine blue filaments and dark moving dots. WebGL remains at two draw calls with cached inputs, 20,500 particles on desktop and 10,000 on mobile. No horizontal overflow. Visible field phase advances and focus states have readable dark-blue text. Static fallback shares the light ink palette; reduced-motion/context lifecycle remains covered by the existing verification. These checks are not a physical-device FPS benchmark.
+
+Evidence in the task workspace: tributary-white-creator-desktop.jpg, tributary-white-builder-desktop.jpg, tributary-white-creator-mobile.jpg and tributary-white-builder-mobile.jpg.
+
+---
+
 # Current review: full-width builder scene and revised favicon, 2026-10-07
 
 Astro check passes for 51 files with zero errors/warnings/hints. Build and canonical ThreeUI hashes pass. Ambient verification covers 46,800 finite positions, native crop behavior and the existing context/phase/accessibility lifecycle. Desktop 1440x900 and phone 390x844 browser review show a larger builder stage and a dedicated eddy, with zero horizontal overflow, 20,500 desktop / 10,000 phone particles, two draw calls and cached inputs. Native performance safeguards remain; this is not a physical-device FPS benchmark. The mobile field fades at its internal drawing bounds. The replacement favicon uses one asymmetric river bend and a fresh cache version; existing browser fallbacks and touch size are regenerated. Evidence: tributary-builder-eddy-desktop.jpg, tributary-builder-eddy-mobile.jpg and tributary-river-favicon-review.png in the task workspace.

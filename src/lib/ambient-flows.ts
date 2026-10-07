@@ -38,7 +38,7 @@ export function mountAmbientFlows(root:ParentNode=document){
   for(const scene of selected){
    if(!scene.field){
     const composition=scene.host.dataset.composition as AmbientComposition;
-    scene.field=mount(scene.canvas,scene.host,{composition:ambientCompositions.includes(composition)?composition:'gateway',orientation:scene.host.dataset.orientation==='horizontal'?'horizontal':'vertical',phase:scene.phase,releaseContextOnDispose:true});
+    scene.field=mount(scene.canvas,scene.host,{surface:scene.host.dataset.surface==='light'?'light':'dark',composition:ambientCompositions.includes(composition)?composition:'gateway',orientation:scene.host.dataset.orientation==='horizontal'?'horizontal':'vertical',phase:scene.phase,releaseContextOnDispose:true});
     if(scene.field)scene.canvas.addEventListener('webglcontextlost',scene.lost);
    }
    scene.host.dataset.available=String(Boolean(scene.field)&&!scene.host.dataset.fieldError);

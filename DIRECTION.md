@@ -1,3 +1,9 @@
+# White community scenes, 2026-10-07
+
+User explicitly requested white backgrounds in section 03 and proposed black outlines. Preserve the stacked creator-first structure, copy, large builder eddy, dimensions and mobile art placement. Both audience stages now use pure white, black text, thin black outer/separator borders and outlined labels. Their existing trajectories use a dedicated blue ink palette with dark particle glints and normal transparent compositing against white; static SVG fallback uses the same palette. This is the existing current rendered as ink on paper, with the dark hero and other scenes retaining their existing material. White masks protect copy on desktop and leave the mobile artwork below it. Link hover/focus uses a readable dark blue.
+
+---
+
 # Current direction: expansive builder eddy and river favicon, 2026-10-07
 
 Give creators and builders separate full-width audience scenes. The builder receives a 720px desktop / 850px phone reading-and-art stage, with a 56px / 40px headline and a dedicated inward-winding eddy. Copy stays concise and creator-first proposal framing remains. The broad blue-white particle spiral sits beside desktop copy and below phone copy, with local reading gradients and a faded mobile drawing edge. Preserve the shared two-pass renderer, existing particle budgets and visibility lifecycle. Replace the rejected crossed favicon with one tilted, asymmetric river bend, using SVG and generated ICO/PNG/touch fallbacks.

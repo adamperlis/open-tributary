@@ -2,7 +2,7 @@
  * The three canonical source files are retained byte-for-byte separately. */
 import { fieldCamera } from './field-camera';
 import { fieldParticles } from './field-particles';
-import { FLOW_INK } from './flow-palette';
+import { FLOW_INK, FLOW_PAPER_INK } from './flow-palette';
 import { fieldResolution } from './field-resolution';
 import { ambientCompositions, ambientFrame, ambientPositionShader, type AmbientComposition } from './ambient-shapes';
 const shaderColor = (ink: readonly number[]) => ink.map(channel => channel.toFixed(4)).join(',');
@@ -12,7 +12,7 @@ attribute vec4 a_seed;
 attribute float a_kind;
 uniform float u_time, u_story, u_follow, u_pixel, u_junction, u_stretch;
 uniform vec2 u_size, u_rotation, u_focus;
-uniform float u_composition;
+uniform float u_composition, u_light;
 uniform vec4 u_compositionFrame;
 varying mediump vec4 v_ink;
 varying mediump float v_kind;
@@ -61,18 +61,19 @@ void main(){
  // Avoid a hot knot underneath the project wordmark.
  if(u_composition<.5)fade*=mix(.35,1.0,smoothstep(.005,.10,abs(1.0-t)));
  // Only line vertices need travelling dashes; only points need glints.
- vec3 dim=vec3(${shaderColor(FLOW_INK.filament)}),silver=vec3(${shaderColor(FLOW_INK.highlight)});
+ vec3 dim=mix(vec3(${shaderColor(FLOW_INK.filament)}),vec3(${shaderColor(FLOW_PAPER_INK.filament)}),u_light);
+ vec3 silver=mix(vec3(${shaderColor(FLOW_INK.highlight)}),vec3(${shaderColor(FLOW_PAPER_INK.highlight)}),u_light);
  float outer=1.0-smoothstep(.08,.75,t),alpha,highlight=0.0;
  if(kind>.5){
   float glint=pow(max(0.0,sin(seed*173.0+u_time*.18)),28.0);
   highlight=max(glint,step(.82,seed));
   alpha=(kind>1.5?.13:.72)*fade*mix(1.0,1.20,outer);
-  dim=mix(vec3(${shaderColor(FLOW_INK.particle)}),silver,highlight);
+  dim=mix(mix(vec3(${shaderColor(FLOW_INK.particle)}),vec3(${shaderColor(FLOW_PAPER_INK.particle)}),u_light),silver,highlight);
  }else{
   float broken=.28+.72*smoothstep(-.5,.35,sin(t*151.0+seed*83.0-u_time*9.0));
   alpha=(.16+seed*.14)*broken*fade*mix(1.0,1.45,outer);
  }
- v_ink=vec4(dim,alpha);
+ v_ink=vec4(dim,alpha*mix(1.0,1.25,u_light));
  gl_Position=vec4(p.x*2.0-1.0,1.0-p.y*2.0,0.0,1.0);
  gl_PointSize=(kind>1.5?1.0:1.3+highlight*.65)*u_pixel;
 }`;
@@ -95,7 +96,7 @@ export interface TributaryField {
  dispose(): void;
 }
 
-export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement, options: { orientation?: 'horizontal' | 'vertical'; composition?:AmbientComposition; phase?:number; releaseContextOnDispose?:boolean } = {}): TributaryField | null {
+export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement, options: { orientation?: 'horizontal' | 'vertical'; surface?:'dark'|'light'; composition?:AmbientComposition; phase?:number; releaseContextOnDispose?:boolean } = {}): TributaryField | null {
  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:'low-power',preserveDrawingBuffer:false});
  if(!gl){host.dataset.fieldError='WebGL context unavailable';return null;}
  const shaders: WebGLShader[]=[];
@@ -114,6 +115,7 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   const uniform=(name:string)=>gl.getUniformLocation(program!,name);
   const time=uniform('u_time'),story=uniform('u_story'),follow=uniform('u_follow'),pixel=uniform('u_pixel'),size=uniform('u_size'),rotation=uniform('u_rotation'),focus=uniform('u_focus'),junction=uniform('u_junction'),stretch=uniform('u_stretch');
   gl.uniform1f(uniform('u_composition'),compositionIndex);
+  gl.uniform1f(uniform('u_light'),options.surface==='light'?1:0);
   const compositionFrame=uniform('u_compositionFrame');
   let randomState=731;
   const random=()=>{randomState=(Math.imul(randomState,1664525)+1013904223)>>>0;return randomState/4294967296;};
@@ -147,7 +149,10 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
    configureInput(batch);
   });
   arrays?.bindVertexArrayOES(null);
-  gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);
+  gl.enable(gl.BLEND);
+  // White stages need normal transparency: additive light vanishes against white.
+  if(options.surface==='light')gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
+  else gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);
   let disposed=false,running=false,raf=0,last=0,elapsed=options.phase??0,progress=0,outward=false,velocity=1,contextLost=false,frames=0,frameTotal=0;
   let frameObserver:((phase:number)=>void)|null=null;
   let cameraDirty=true,viewportWidth=1,viewportHeight=1,nextDiagnostics=0,submitTotal=0,submissions=0;

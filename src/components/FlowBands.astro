@@ -1,15 +1,16 @@
 ---
-import { FLOW_INK, flowColor } from '../lib/flow-palette';
+import { FLOW_INK, FLOW_PAPER_INK, flowColor } from '../lib/flow-palette';
 import { ambientPoint, type AmbientComposition } from '../lib/ambient-shapes';
-interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; reveal?: 'flow'; composition?: AmbientComposition; }
-const { id, class: className = '', reveal, composition = 'confluence' } = Astro.props;
+interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; reveal?: 'flow'; composition?: AmbientComposition; surface?: 'dark' | 'light'; }
+const { id, class: className = '', reveal, composition = 'confluence', surface = 'dark' } = Astro.props;
+const ink=surface==='light'?FLOW_PAPER_INK:FLOW_INK;
 const paths=Array.from({length:80},(_,i)=>Array.from({length:65},(_,j)=>{const p=ambientPoint(composition,i/80*1.4-.2,i%2,j/64);return `${j?'L':'M'}${(p.x*1440).toFixed(1)} ${(p.y*640).toFixed(1)}`;}).join(''));
 const particles=Array.from({length:180},(_,i)=>ambientPoint(composition,i/180*1.4-.2,i%2,.08+(i%41)/48));
 ---
-<div id={id} class:list={['flow-bands','ambient-flow',className]} data-ambient-flow data-composition={composition} data-available="false" data-reveal={reveal} aria-hidden="true">
+<div id={id} class:list={['flow-bands','ambient-flow',className]} data-ambient-flow data-composition={composition} data-surface={surface} data-available="false" data-reveal={reveal} aria-hidden="true">
  <svg class="ambient-still" viewBox="0 0 1440 640" fill="none" preserveAspectRatio="xMidYMid slice">
-  <g class="filament-lines" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" opacity=".35">{paths.map(d=><path d={d}/>)}</g>
-  <g class="field-dust">{particles.map((p,i)=><circle cx={p.x*1440} cy={p.y*640} fill={flowColor(i%11<2?FLOW_INK.highlight:FLOW_INK.particle)} r={i%11<2?.85:.65}/>)}</g>
+  <g class="filament-lines" stroke={flowColor(ink.filament)} stroke-width=".7" opacity=".35">{paths.map(d=><path d={d}/>)}</g>
+  <g class="field-dust">{particles.map((p,i)=><circle cx={p.x*1440} cy={p.y*640} fill={flowColor(i%11<2?ink.highlight:ink.particle)} r={i%11<2?.85:.65}/>)}</g>
  </svg>
  <canvas class="ambient-canvas"></canvas>
 </div>
