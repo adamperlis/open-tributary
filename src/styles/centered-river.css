@@ -87,7 +87,7 @@
 @media(prefers-reduced-motion:reduce){:where(a,button) .icon[data-arrow]{transition:none;transform:none!important}}
 
 
-/* Give the flow the stage: one headline, four labels, one quiet control. */
+/* Give the flow the stage: one headline, moving annotations, one quiet control. */
 .river-story{--source-y:42%;--project-y:66%}
 .mechanism-grid{padding-top:48px}
 .mechanism-copy{max-width:900px;padding-inline:24px}
@@ -159,3 +159,12 @@
 .current-destination{position:absolute;left:88%;top:70%;transform:translate(-100%,-50%);display:flex;align-items:center;gap:16px;color:#e4eaf5;font:10px var(--mono);letter-spacing:.03em;padding:12px 0 12px 16px;background:linear-gradient(90deg,#0000,#000 24%);white-space:nowrap}
 .current-destination i{width:5px;height:5px;background:#f0f7ff;border-radius:50%;flex:none}
 @media(max-width:768px){.current-destination{top:78%;font-size:8px;gap:12px}}
+
+/* Static diagram retains the same tall field as the opening hero. */
+.static-diagram-current{transform:scaleY(1.65);transform-origin:50% var(--project-y)}
+
+/* Product annotations travel on the field's existing clock and source lanes. */
+.connected-diagram .current-product{color:#d9e6fa;font-size:16px;transform-origin:50% 100%;text-shadow:0 1px 8px #000;pointer-events:none}
+.connected-diagram .current-product .node-dot{background:#f0f7ff;box-shadow:0 0 6px #789edb80}
+.river-story[data-story-ready="true"] .current-product{left:0!important;top:0!important;opacity:0}
+@media(max-width:768px){.connected-diagram .current-product{font-size:13px}}

@@ -1,6 +1,8 @@
-import { ease, riverCurves, riverFrame, gatewayRiverPath } from './river-shape';
+import { ease, riverFrame, gatewayRiverPath } from './river-shape';
 import { riverStoryState } from './river-story-state';
-interface StoryField { setStory(progress:number):void; }
+import { fieldCamera } from './field-camera';
+import { productCurrent, productPosition } from './product-current';
+interface StoryField { setStory(progress:number):void; setFrameObserver(observer:((phase:number)=>void)|null):void; }
 
 /** Scroll supplies a camera position; it never starts an independent scene animation. */
 export function mountRiverStory(host: HTMLElement, getField: () => StoryField | null) {
@@ -13,7 +15,7 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
  const thesis = story.querySelector<HTMLElement>('.river-thesis')!;
  const destination=thesis.querySelector<HTMLElement>('.current-destination')!;
  const thesisCopy=thesis.querySelector<HTMLElement>('.thesis-inner')!;
- const products = [...mechanism.querySelectorAll<HTMLElement>('.diagram-node:not(.project-node)')];
+ const products = [...mechanism.querySelectorAll<HTMLElement>('[data-product-current]')];
  const project = mechanism.querySelector<HTMLElement>('.project-node')!;
  const controls = mechanism.querySelector<HTMLElement>('.diagram-bottom')!;
  const cue = hero.querySelector<HTMLElement>('.river-scroll-cue');
@@ -21,8 +23,22 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
  let enabled = false, disposed = false, frame = 0, last = 0, position = 0, target = 0;
  stage.tabIndex=-1;
  let pendingFocus: HTMLElement | null=null;
- let stageWidth=stage.clientWidth;
+ let stageWidth=stage.clientWidth,stageHeight=host.clientHeight;
+ let camera=fieldCamera(0,stageWidth,stageHeight),productVisibility=0,phase=0;
+ const hiddenProducts=new Set<HTMLElement>();
+ function paintProducts(value:number){
+  phase=value;if(!enabled||productVisibility===0)return;
+  products.forEach((product,index)=>{
+   const node=productCurrent(index,value,camera,stageWidth,stageHeight),alpha=node.opacity*productVisibility;
+   if(alpha<.001){if(!hiddenProducts.has(product)){product.style.opacity='0';hiddenProducts.add(product);}return;}
+   hiddenProducts.delete(product);
+   product.style.transform=`translate3d(${node.x.toFixed(2)}px,${node.y.toFixed(2)}px,0) translate(-50%,-100%) scale(${node.scale.toFixed(4)})`;
+   product.style.opacity=alpha.toFixed(4);
+  });
+ }
+ getField()?.setFrameObserver(paintProducts);
  let layout = riverFrame(stageWidth, host.clientHeight);
+ let headerHeight=120,storyTop=0,travel=1;
  const opacity = (element: HTMLElement | SVGElement, value: number) => { element.style.opacity = value.toFixed(4); };
  const activate = (element: HTMLElement, active: boolean, next: HTMLElement) => {
   if (element.inert === !active) return;
@@ -45,11 +61,9 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
   activate(mechanism,arriving>.9&&state.departure<.9,state.departure>.5?thesis:hero);
   activate(thesis,state.thesis>.9,mechanism);
   if(pendingFocus&&!pendingFocus.inert){if(document.activeElement===stage)pendingFocus.querySelector<HTMLElement>('h1,h2')?.focus({preventScroll:true});pendingFocus=null;}
-  const labels=ease(.46,.64,opening);
-  products.forEach((product,branch)=>{
-   const [start]=riverCurves(branch,morph,layout)[1];
-   product.style.left=`${start[0]*100}%`;product.style.top=`${start[1]*100}%`;opacity(product,labels);
-  });
+  camera=fieldCamera(value,stageWidth,stageHeight);
+  productVisibility=ease(.46,.64,opening)*(1-state.departure);
+  paintProducts(phase);
   const junction=.79+(layout.junction-.79)*morph;
   project.style.top=`${junction*100}%`;opacity(project,ease(.42,.59,opening));
   destination.style.left=`${(0.5+.38*state.follow)*100}%`;
@@ -63,9 +77,7 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
  }
  function measureTarget() {
   if(!enabled)return;
-  const header=chrome?.getBoundingClientRect().height??120;
-  const distance=Math.max(1,story!.offsetHeight-stage!.offsetHeight);
-  target=Math.max(0,Math.min(1,(header-story!.getBoundingClientRect().top)/distance));
+  target=Math.max(0,Math.min(1,(window.scrollY+headerHeight-storyTop)/travel));
  }
  function tick(now:number) {
   frame=0;if(disposed||!enabled)return;
@@ -79,14 +91,24 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
  const resize=()=>{
   const height=host.clientHeight,width=stage!.clientWidth;
   if(!width||!height)return;
-  stageWidth=width;layout=riverFrame(width,height);
+  stageWidth=width;stageHeight=height;layout=riverFrame(width,height);
+  if(!enabled){
+   const stillCamera=fieldCamera(.4,width,height);
+   products.forEach((product,index)=>{
+    const point=productPosition(index,[.43,.56,.69,.45,.68,.57,.44][index],stillCamera,width,height);
+    product.style.left=`${point.x/width*100}%`;product.style.top=`${point.y/height*100}%`;
+   });
+  }
+  headerHeight=chrome?.getBoundingClientRect().height??120;
+  storyTop=story!.getBoundingClientRect().top+window.scrollY;
+  travel=Math.max(1,story!.offsetHeight-stage!.offsetHeight);
   story!.style.setProperty('--source-spread',`${layout.spread*100}%`);
   story!.style.setProperty('--source-y',`${layout.source*100}%`);
   story!.style.setProperty('--project-y',`${layout.junction*100}%`);
   mechanism.querySelectorAll<SVGPathElement>('[data-static-branch]').forEach(path=>path.setAttribute('d',gatewayRiverPath(Number(path.dataset.staticBranch),layout)));
   measureTarget();if(enabled)paint(position);
  };
- const sizing=new ResizeObserver(resize);sizing.observe(host);
+ const sizing=new ResizeObserver(resize);sizing.observe(host);if(chrome)sizing.observe(chrome);
  window.addEventListener('scroll',scroll,{passive:true});
  hero.querySelector('h1')?.setAttribute('tabindex','-1');copy.querySelector('h2')?.setAttribute('tabindex','-1');thesis.querySelector('h2')?.setAttribute('tabindex','-1');
  resize();
@@ -98,9 +120,10 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
     [hero,mechanism,thesis,thesisCopy,controls,copy,project,...products].forEach(element=>{element.style.removeProperty('opacity');element.style.removeProperty('transform');element.inert=false;});
     if(cue)cue.style.removeProperty('opacity');
     products.forEach(element=>{element.style.removeProperty('top');element.style.removeProperty('left');});
+    resize();
     project.style.removeProperty('top');destination.style.removeProperty('left');destination.style.removeProperty('top');getField()?.setStory(0);
    }
   },
-  dispose(){disposed=true;cancelAnimationFrame(frame);sizing.disconnect();window.removeEventListener('scroll',scroll);}
+  dispose(){getField()?.setFrameObserver(null);disposed=true;cancelAnimationFrame(frame);sizing.disconnect();window.removeEventListener('scroll',scroll);}
  };
 }

@@ -2,6 +2,8 @@
 import Icon from './Icon.astro';
 import { FLOW_INK, flowColor } from '../lib/flow-palette';
 import { gatewayRiverPath } from '../lib/river-shape';
+import { fieldCamera } from '../lib/field-camera';
+import { productPosition } from '../lib/product-current';
 interface Props { connected?: boolean; }
 const { connected = false } = Astro.props;
 const contours = Array.from({length:40},(_,i)=>i/40*980-140);
@@ -20,15 +22,16 @@ const arrows=[arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
 <div class="map-topline"><span class="eyebrow">THE PROPOSED FLOW</span><span class="map-index">FIG. 01</span></div>
 <div class="river-map">
 <svg class="gateway-diagram" viewBox={connected ? "0 0 1000 1000" : "0 0 1000 700"} preserveAspectRatio="none" role="img" aria-labelledby="river-title river-desc">
-<title id="river-title">Products connected to your project</title><desc id="river-desc">Products built with your code connect to your project. Switch between royalties returning to you and code flowing outward. This illustrates a proposed model.</desc>
+<title id="river-title">Products connected to your project</title><desc id="river-desc">{connected && 'Seven illustrative products, A through G, follow the incoming current toward your project. '}Products built with your code connect to your project. Switch between royalties returning to you and code flowing outward. This illustrates a proposed model.</desc>
 {!connected && <defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>}
 {!connected && <g fill="none" stroke={flowColor(FLOW_INK.filament)} stroke-width="1.2" stroke-dasharray="1 4" opacity=".3">{contours.map(y=><><path d={`M0 ${y}C250 ${y} 400 350 500 350`}/><path d={`M1000 ${y}C750 ${y} 600 350 500 350`}/></>)}</g>}
 {connected && <g class="static-diagram-current" fill="none" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" opacity=".25">{Array.from({length:80},(_,i)=><path data-static-branch={i} d={gatewayRiverPath(i,frame)} stroke-dasharray="1 4" vector-effect="non-scaling-stroke"/>)}</g>}
 {!connected && <g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map(d=><path d={d}/>)}</g>}
 </svg>
-<div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
-<div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
-<div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
+{connected ? Array.from({length:7},(_,index)=>{
+ const point=productPosition(index,[.43,.56,.69,.45,.68,.57,.44][index],fieldCamera(.4,1440,900),1440,900);
+ return <div class="diagram-node current-product" data-product-current={index} style={`left:${point.x/1440*100}%;top:${point.y/900*100}%`}><span class="node-dot"></span><span>Product {String.fromCharCode(65+index)}</span></div>;
+}) : ['A','B','C'].map(letter=><div class={`diagram-node product-${letter.toLowerCase()}`}><span class="node-dot"></span><span>Product {letter}</span><small>BUILT WITH YOUR CODE</small></div>)}
 <div class="diagram-node project-node"><strong>Your project</strong>{!connected && <small>THE ORIGINAL CONTRIBUTION</small>}</div>
 </div>
 <div class="diagram-bottom">{!connected && <div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>}
