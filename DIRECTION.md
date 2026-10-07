@@ -10,6 +10,8 @@ Black is the flow stage and identity ground; white is the reading surface. Neutr
 
 The requested variant and props render from the complete registered source, with all three hashes verified on every build. The public entry-point adapter follows the official package’s variant routing. Source code, shaders, scripts, asset paths, sandbox, and motion are unchanged. Host-level pause, reduced motion, and visibility suspension stop the iframe safely and reveal a geometry-derived static companion. The authored click pulse retains its original physics and duration. Source preservation overrides generic motion-duration recipes for that authored interaction.
 
+Adam’s follow-up asks for a vertical diagram in the hero that fans out into the next scene. The single field now begins as a narrow vertical current, stays vertical through the opening 40% of the scroll, and expands into the horizontal labeled diagram. Scroll progress drives a reversible smoothstep transform rather than a timed scene swap. Phone framing places the vertical stream beside the actions and brings its junction to the diagram center. The authored source files and props remain unchanged. Reduced motion keeps a static expanded diagram.
+
 The hero eyebrow is removed at Adam’s request. Native cross-document View Transitions add a 160/180ms page crossfade; reduced motion opts out. The continuous scrolling canvas remains mounted across its two scenes.
 
 The second scene’s semantic arrows reverse when code is selected; its ambient particles continue converging. The caption states that distinction and avoids implying working payments or numeric allocations. The preview remains a whitepaper asking for community feedback. See THREEUI-SOURCE.md and REVIEW.md for provenance and verification.

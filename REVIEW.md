@@ -1,5 +1,11 @@
 # Current review: monochrome Gateway Flow, 2026-10-07
 
+## Vertical-to-fan follow-up
+
+The hero’s single authored field starts at -90° with a transverse scale of 0.44. Browser measurement at 1440 × 900, scroll=0: transform matrix (0,-1,0.44,0), one source iframe. At scroll=520, progress=0.6675: angle=-52.279°, scale=0.6747, still one iframe. At the complete diagram frame: angle=0°, scale=1, label opacity=1, and field/map rectangles both x=576, y=121, width=864, height=779. Reverse scrolling to progress=0.5379 returns the angle to -77.928°. No source rebuild or component-prop changes occur during the transition. The controller batches scroll updates through one requested animation frame and removes listeners/cancels its frame on cleanup. Reduced motion bypasses the transform and uses the existing static companion.
+
+Phone framing shifts the vertical current beside the hero actions and interpolates to the centered diagram. Current source hashes are unchanged. Final type/build and deployed checks follow the same required commands as above.
+
 - `npm run check`: 27 files, zero errors, warnings, or hints. `npm run build`: six pages built successfully. All three registered source hashes verified locally and in the Vercel production build.
 - Rendered authored Gateway Flow iframe with the canonical canvas, all configured props, and original sandbox. Exercised its canvas click interaction in the browser. The preserved runtime renders fine white paths and streaming square particles, not the source’s residual login UI.
 - Desktop 1440 × 900: two 779px scenes beneath 121px chrome. At the complete diagram frame, shared field and annotation map are both x=576, y=121, width=864, height=779. After scrolling beyond the frame, their top coordinates both equal -239: the field releases with the diagram rather than spilling into the reading chapter.

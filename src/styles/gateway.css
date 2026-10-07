@@ -50,3 +50,10 @@ html{--chrome-height:121px}
 /* Solid grounds keep small hero copy readable over streaming particles. */
 .home-hero .button-outline{background:#000}.home-hero .button-outline:hover{background:#fff}
 .hero-note{background:#000;width:fit-content;padding:4px 8px 4px 0}
+
+/* A vertical opening current unfolds into the horizontal relationship map. */
+.gateway-host{overflow:clip}
+.gateway-current{position:absolute;inset:0;transform-origin:50% 50%;transform:translateX(var(--river-shift,0%)) rotate(var(--river-angle,-90deg)) scaleY(var(--river-fan,.44));will-change:transform}
+.connected-diagram .river-map,.connected-diagram .map-topline{opacity:var(--flow-label-opacity,0)}
+@media(max-width:768px){.gateway-current{inset:40% 0 24%}.shader-frame,.gateway-still{inset:0}}
+@media(prefers-reduced-motion:reduce){.gateway-current{transform:none;will-change:auto}}
