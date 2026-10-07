@@ -25,11 +25,11 @@ const arrows=connected ? [arrowSegment(560),arrowSegment(350),arrowSegment(140)]
 <div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span><small>BUILT WITH YOUR CODE</small></div>
 <div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span><small>BUILT WITH YOUR CODE</small></div>
 <div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span><small>BUILT WITH YOUR CODE</small></div>
-<div class="diagram-node project-node"><svg class="project-symbol" width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M5 12C18 12 22 30 32 30M59 12C46 12 42 30 32 30M5 44C18 44 22 30 32 30M59 44C46 44 42 30 32 30M32 30V58" stroke="currentColor" stroke-width="2.5"/><rect x="28" y="26" width="8" height="8" fill="currentColor"/></svg><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
+<div class="diagram-node project-node"><svg class="project-symbol" width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M5 12C18 12 22 30 32 30M59 12C46 12 42 30 32 30M5 44C18 44 22 30 32 30M59 44C46 44 42 30 32 30M32 30V58" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="30" r="3" fill="currentColor"/></svg><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
 </div>
 <div class="diagram-bottom"><div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>
 <div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16}/></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16}/></button></div>
-<figcaption>Sample relationships · Arrows show direction, not payment amounts. Ambient particles converge in both views.</figcaption></div>
+<figcaption>Sample relationships · Arrows show direction, not payment amounts. {connected && 'With motion on, particles follow the selected direction.'}</figcaption></div>
 </figure>
 <script>
 document.querySelectorAll<HTMLElement>('.river-figure').forEach(figure => {

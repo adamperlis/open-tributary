@@ -1,3 +1,23 @@
+# Current review: persistent WebGL field, 2026-10-07
+
+This supersedes the historical active ThreeUI runtime notes below. The registered ThreeUI files and exact configured usage remain preserved, while the current homepage uses an explicitly authorized original raw WebGL renderer. No WhyCavalry dependency is installed.
+
+`npm run check`: 30 files, zero errors, warnings, or hints. `npm run build`: six static pages built, with all three registered SHA-256 hashes verified. The field island is 8.79 kB / 4.17 kB gzip in this build, versus the previous 148 kB / 30.51 kB gzip island; shared React remains 215.57 kB / 67.09 kB gzip. These are bundle-size measurements, not device frame-rate guarantees.
+
+Browser verification on https://open-tributary.vercel.app confirmed the native WebGL canvas, filaments, fine round particles, subdued blue-violet material, and silver glints. A shader precision mismatch discovered in the first deployment selected the static fallback correctly; matching explicit uniform and varying precision fixed the GPU rendering. No errors/warnings appeared in the subsequent browser log.
+
+The same canvas remains mounted through scroll, direction reversal, pause, and resume. Pause returned `fieldRunning=false` with one canvas retained; resume returned `true` and the same reported phase. Code selection changed both pressed state and particle direction to outward; royalty selection restored return. Velocity reversal integrates into the existing phase, avoiding a particle position jump. The annotation and field share identical frame dimensions and transforms; at the complete 320px phone diagram both rectangles were x=40, y=476.70, width=240, height=351. Both centers are x=160. At 1440px both centers are x=720; at 390px, hero headline, description, actions, and current all center at x=195.
+
+Responsive rendering checked at 1440 × 900, 1280 × 720, 390 × 844, and 320 × 740; no horizontal overflow. Small phones retain additional reading height. Desktop initializes 20,500 particles; phone initialization uses 10,000. One line batch and two point batches draw from static GPU buffers. Pixel budgets and DPR caps bound raster work, and sustained slow frame intervals reduce particle density and resolution. The browser's observed callback interval is not a physical-device performance benchmark.
+
+Offscreen story and hidden-document checks stop the animation loop. Reduced-motion preference, unavailable WebGL, compile/link failure, and context loss retain the static filaments; lifecycle cleanup releases observers, listeners, buffers, programs, shaders, and animation frames. Reduced-motion/context-loss paths were reviewed in source; no browser preference emulation or physical phone profiling is claimed.
+
+Fine curves and round points extend into static panel/masthead artwork, the mark, and chapter seams. Hero eyebrow remains absent; both opening scenes remain vertical and centered. Proposal content, community feedback framing, transparent unresolved issues, native page transitions, desktop Lenis, and demo-only forms remain. The field is decorative and relationship arrows are illustrative, not measured Sankey/payment amounts.
+
+Public alias: https://open-tributary.vercel.app . Screenshot evidence is saved in the calling Codex task directory. Historical checks below describe earlier implementations.
+
+---
+
 # Centered vertical composition correction, 2026-10-07
 
 This review supersedes the earlier vertical-to-horizontal fan-out below. Both the hero and diagram stay vertical throughout the scroll. The scroll rotation/expansion controller was removed. One sticky source canvas remains mounted across the two scenes with a constant 90° host rotation; the annotation SVG shares the identical frame and transform. The headline, subhead, actions, and both visual centers share the horizontal midpoint.

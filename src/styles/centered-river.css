@@ -62,3 +62,18 @@
  .motion-toggle{bottom:12px}
  .gateway-caption{bottom:24px}
 }
+
+/* One native GPU canvas stays mounted from the identity into the explanation. */
+.tributary-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0}
+.gateway-host[data-available="true"]:not([data-reduced="true"]) .tributary-canvas{opacity:1}
+.gateway-host[data-available="true"]:not([data-reduced="true"]) .gateway-still{visibility:hidden}
+.gateway-host[data-reduced="true"] .tributary-canvas{visibility:hidden}
+.connected-diagram .direction-lines{stroke:#b6bdcf;stroke-width:1;opacity:.75}
+.node-dot{border-radius:50%;background:#ccd1e2}
+.project-node{border-color:#555b6d}
+.flow-bands{color:#747990!important}
+.flow-bands .filament-lines{stroke-dasharray:none;opacity:.35}
+.flow-bands .field-dust{opacity:.6}
+/* A quiet continuation crosses chapter boundaries on the same central axis. */
+.thesis-section,.participation-section,.challenge-section,.join-call{position:relative}
+.current-seam{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:80px;height:80px;color:#727789;opacity:.55;z-index:2;pointer-events:none;overflow:visible}

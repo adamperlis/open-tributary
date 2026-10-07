@@ -1,3 +1,19 @@
+# Current direction: one flowing field, 2026-10-07
+
+Adam authorized the original WebGL approach after the uploaded Holotx film study and the WhyCavalry performance discussion. This supersedes the active ThreeUI runtime described below; its registered source and configured usage remain preserved separately. WhyCavalry is a desktop authoring bridge, so it is not included as a browser dependency.
+
+Keep the accepted layout: both opening scenes and their annotations remain vertical and centered; headline, description, and buttons remain centered; no hero eyebrow. One persistent GPU field travels through the hero and explanation. Scrolling gently loosens its fine filaments into dust, then regathers them around the same junction. Linear particle advection communicates current; slow sinusoidal drift gives strands variation. No overshoot or theatrical entrance obscures the proposal. Direction and pause controls respond immediately; reversing velocity and resuming never reset particle positions.
+
+The material is mostly dark, with indigo/blue-gray filaments and rare silver points, informed by the actual clip frames rather than a broad neon gradient. UI and reading surfaces remain black/white. Thin curves, rounded contribution points, static dust, and small chapter seams carry this language into later panels, reading mastheads, signup, and identity studies. These echoes connect the narrative without running full-page particle scenes behind reading text. Native page transitions and desktop Lenis remain; phones use native scrolling.
+
+GPU geometry and seeds are uploaded once, three draw calls batch all lines/points, and resize caps resolution/pixel area. Smaller screens start with fewer particles; sustained slow frames lower density and resolution. Pause, reduced motion, offscreen/background suspension, disposal, and static fallbacks are explicit. Performance is not claimed across physical devices without profiling.
+
+The creator-first whitepaper framing, community invitation, unresolved allocation issues, clean-room/AI questions, and demo-only forms remain. No working payment collection is implied. See REFERENCE-STUDY-HOLOTX.md for observed footage and THREEUI-SOURCE.md for source separation.
+
+---
+
+# Historical direction before the WebGL field
+
 # Current direction: monochrome Gateway Flow, 2026-10-07
 
 Adam accepted the page layout and then explicitly requested a complete black-and-white style redesign around the exact ThreeUI Gateway Flow source. His follow-up asks for the hero’s tributary rivers to connect seamlessly to the first diagram while retaining two full-frame scenes. This direction supersedes the colors, gradient ribbons, previous mark, and introductory ribbon animation described in the historical record below.

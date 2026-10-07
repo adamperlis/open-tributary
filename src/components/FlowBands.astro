@@ -1,10 +1,10 @@
 ---
 interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; }
 const { class: className = '' } = Astro.props;
-const paths = Array.from({length:80},(_,i)=>{const left=i%2===0;const y=i/80*896-128;return `M${left?0:1440} ${y}C${left?360:1080} ${y} ${left?576:864} 320 720 320`;});
-const particles = Array.from({length:12},(_,i)=>{const left=i%2===0;const t=.35+i*.035;const y=i/12*896-128;return {x:(1-t)**3*(left?0:1440)+3*(1-t)**2*t*(left?360:1080)+3*(1-t)*t*t*(left?576:864)+t**3*720,y:(1-t)**3*y+3*(1-t)**2*t*y+3*(1-t)*t*t*320+t**3*320};});
+const paths = Array.from({length:180},(_,i)=>{const left=i%2===0;const y=i/180*896-128;return `M${left?0:1440} ${y}C${left?360:1080} ${y} ${left?576:864} 320 720 320`;});
+const particles = Array.from({length:180},(_,i)=>{const left=i%2===0;const t=.08+(i%41)/48;const y=i/180*896-128;return {x:(1-t)**3*(left?0:1440)+3*(1-t)**2*t*(left?360:1080)+3*(1-t)*t*t*(left?576:864)+t**3*720,y:(1-t)**3*y+3*(1-t)**2*t*y+3*(1-t)*t*t*320+t**3*320};});
 ---
 <svg class:list={['flow-bands',className]} viewBox="0 0 1440 640" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-<g stroke="currentColor" stroke-width="1" stroke-dasharray="1 4" opacity=".4">{paths.map(d=><path d={d}/>)}</g>
-<g fill="currentColor">{particles.map(p=><rect x={p.x} y={p.y} width="3" height="3"/>)}</g>
+<g class="filament-lines" stroke="currentColor" stroke-width=".7" opacity=".35">{paths.map(d=><path d={d}/>)}</g>
+<g class="field-dust" fill="currentColor">{particles.map(p=><circle cx={p.x} cy={p.y} r={.35+(p.x%3)*.12}/>)}</g>
 </svg>
