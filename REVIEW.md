@@ -1,3 +1,13 @@
+# Current review: visible reveal timing, 2026-10-07
+
+Later-page entrances now trigger farther inside the viewport: 18% of viewport height on desktop, 14% on mobile, expressed in pixels to avoid width-relative IntersectionObserver percentage margins. A 220ms desktop / 160ms mobile base pause gives each arrival a visible beat. Related elements stagger by 50ms / 40ms, capped at 200ms. Headlines settle over 900ms, body copy 780ms, details 650ms and ambient SVG artwork 1100ms, with 80% durations on phones and a less abrupt ease-out. Travel, layout, river camera choreography and GPU effects are preserved.
+
+Validation: Astro check passes for 47 files with zero errors/warnings/hints; the static build and all three canonical source hashes pass. The existing reveal lifecycle check now verifies height-based trigger offsets and the visible pause, as well as one-time staging, mobile travel/duration, focus/press interruption, reduced motion, animation failure, BFCache restore and cleanup. No dependency or continuous animation loop is added.
+
+Desktop browser at 1440 × 900: keyboard PageDown scrolling reaches pending participation entrances. Live computed-style samples show the creator paragraph holding at opacity 0.42 / 18px travel, then easing through opacity 0.44–0.74 as the transform approaches its resting position. All participation content subsequently settles to opacity 1 / transform none; horizontal overflow is zero. Rendered evidence: tributary-delayed-reveals-desktop.jpg alongside this task. Mobile timing is covered by the lifecycle check; a new mobile browser pass is not claimed. Reduced-motion and fast-scroll/readiness safeguards remain verified by that check.
+
+---
+
 # Current review: email submission integration, 2026-10-07
 
 Signup, license feedback and manifesto feedback now use a shared asynchronous submit flow and one standalone Vercel `/api/contact` function. Emails are addressed only to support@b150.ai; visitor addresses become Reply-To. Input validation, bounded bodies, same-origin checks, a honeypot, a best-effort warm-instance rate window and provider idempotency keys protect the endpoint. Plain text avoids HTML/header interpolation. No database or marketing subscription is introduced. Success requires a provider email ID; errors preserve the message and restore the submit button. The feedback action container remains and signup gains the same readable button contrast.

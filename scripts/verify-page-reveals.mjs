@@ -32,11 +32,12 @@ const {mountPageReveals}=await import(`data:text/javascript;base64,${Buffer.from
 const group={},loaded=new Target('lead',100),lead=new Target('lead',1000,group),body=new Target('body',1300,group),detail=new Target('detail',1550,group),art=new Target('flow',1700,group,'.65'),fast=new Target('body',2200),focused=new Target('detail',2400),broken=new Target('body',2600),phone=new Target('lead',2800),next=new Target('body',3000);
 const targets=[loaded,lead,body,detail,art,fast,focused,broken,phone,next];
 const stop=mountPageReveals({querySelectorAll:()=>targets}),observer=Observer.all.at(-1);
+assert.equal(observer.options.rootMargin,'0px 0px -162px 0px','Triggers are offset by viewport height rather than screen width');
 assert.equal(loaded.dataset.revealState,'settled');assert.equal(loaded.plays.length,0,'Never animate content already being read');
 observer.enter(lead,body,detail,art);
-assert.deepEqual([lead,body,detail,art].map(t=>t.plays[0].options.delay),[0,40,80,120],'Related arrivals have a short, bounded stagger');
+assert.deepEqual([lead,body,detail,art].map(t=>t.plays[0].options.delay),[220,270,320,370],'Visible entrances pause briefly, then use a bounded 50ms stagger');
 for(const target of [lead,body,detail,art]){
- const {frames,options}=target.plays[0];assert.equal(options.easing,'cubic-bezier(.22, 1, .36, 1)');
+ const {frames,options}=target.plays[0];assert.equal(options.easing,'cubic-bezier(.25, .8, .25, 1)');
  assert.ok(frames[0].opacity>0,'Content stays perceptible during arrival');assert.equal(frames[1].opacity,Number(target.opacity));
  assert.equal(frames[1].transform,'none');
 }
@@ -50,10 +51,12 @@ assert.equal(detail.plays[0].cancelled,true,'Interrupt an active entrance on foc
 broken.fail=true;observer.enter(broken);assert.equal(broken.dataset.revealState,'settled','Failed animation leaves ordinary visible content');
 reduced.change(true);assert.equal(observer.observed.size,0);assert.equal(body.plays[0].cancelled,true);assert.equal(next.dataset.revealState,'static');
 reduced.change(false);narrow.change(true);observer.enter(phone);
-assert.match(phone.plays[0].frames[0].transform,/15\.4/,'Phone entrances use shorter travel');assert.equal(phone.plays[0].options.duration,448);
+assert.match(phone.plays[0].frames[0].transform,/15\.4/,'Phone entrances use shorter travel');assert.equal(phone.plays[0].options.duration,720);
+assert.equal(phone.plays[0].options.delay,160,'Phone arrivals retain a visible beat');
 const press=new Event('pointerdown');Object.defineProperty(press,'target',{value:phone});doc.dispatchEvent(press);assert.equal(phone.plays[0].cancelled,true,'Press feedback takes over immediately');
 win.dispatchEvent(new Event('pagehide'));assert.equal(observer.observed.size,0);
 const restore=new Event('pageshow');Object.defineProperty(restore,'persisted',{value:true});win.dispatchEvent(restore);assert.ok(observer.observed.has(next),'Restore pending entrances after BFCache return');
 stop();assert.equal(observer.observed.size,0);observer.enter(next);assert.equal(next.plays.length,0,'Cleanup disconnects observation');
+narrow.change(true);const mobileTarget=new Target('body',1200);const stopMobile=mountPageReveals({querySelectorAll:()=>[mobileTarget]});assert.equal(Observer.all.at(-1).options.rootMargin,'0px 0px -126px 0px','Phone trigger uses a shorter inset');stopMobile();
 reduced.change(true);const still=new Target('lead',1200);const stopStatic=mountPageReveals({querySelectorAll:()=>[still]});assert.equal(still.dataset.revealState,'static');assert.equal(still.plays.length,0);stopStatic();
 console.log('Verified one-time staging, authored opacity, bounded stagger, mobile travel, focus/press interruption, reduced motion, animation failure, BFCache and cleanup.');

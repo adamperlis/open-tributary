@@ -1,11 +1,11 @@
 /** Quiet, one-time entrances after the river story. Content is visible by default. */
 const profiles = {
- lead: { distance: 28, duration: 560, opacity: .28 },
- body: { distance: 18, duration: 460, opacity: .42 },
- detail: { distance: 12, duration: 360, opacity: .58 },
- flow: { distance: 24, duration: 720, opacity: .72 },
+ lead: { distance: 28, duration: 900, opacity: .28 },
+ body: { distance: 18, duration: 780, opacity: .42 },
+ detail: { distance: 12, duration: 650, opacity: .58 },
+ flow: { distance: 24, duration: 1100, opacity: .72 },
 };
-const arrival = 'cubic-bezier(.22, 1, .36, 1)';
+const arrival = 'cubic-bezier(.25, .8, .25, 1)';
 
 export function mountPageReveals(root:ParentNode=document) {
  const targets=[...root.querySelectorAll<HTMLElement>('[data-reveal]')];
@@ -39,12 +39,13 @@ export function mountPageReveals(root:ParentNode=document) {
     const animation=element.animate([
      {opacity:opacity*profile.opacity,transform:`${resting} translate3d(0,${distance}px,0)`},
      {opacity,transform:resting||'none'},
-    ],{duration:profile.duration*(narrow.matches?.8:1),delay:Math.min(index*(narrow.matches?30:40),120),easing:arrival,fill:'backwards'});
+    ],{duration:profile.duration*(narrow.matches?.8:1),delay:(narrow.matches?160:220)+Math.min(index*(narrow.matches?40:50),200),easing:arrival,fill:'backwards'});
     running.set(element,animation);element.dataset.revealState='entering';
     animation.onfinish=()=>settle(element);animation.oncancel=()=>settle(element);
    }catch{settle(element);}
   }
- },{threshold:0,rootMargin:'0px 0px -4% 0px'});
+ // Use viewport height: IntersectionObserver percentage margins resolve against width.
+ },{threshold:0,rootMargin:`0px 0px -${Math.round(window.innerHeight*(narrow.matches?.14:.18))}px 0px`});
  const arm=()=>{
   observer.disconnect();settleAll();if(disposed)return;
   for(const element of targets){
