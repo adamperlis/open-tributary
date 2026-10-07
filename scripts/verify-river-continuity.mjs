@@ -4,7 +4,7 @@ import ts from 'typescript';
 // Exercise authored geometry directly without an additional runtime/test dependency.
 const source=await readFile(new URL('../src/lib/river-shape.ts',import.meta.url),'utf8');
 const compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
-const {riverFrame,riverCurves,riverPath,arrowPath}=await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
+const {riverFrame,riverCurves,riverPath,gatewayArrowPath,gatewayRiverPath}=await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
 let cases=0;
 for(const [width,height] of [[1440,779],[1280,599],[390,691],[320,587]]){
  const frame=riverFrame(width,height);
@@ -24,8 +24,17 @@ for(const [width,height] of [[1440,779],[1280,599],[390,691],[320,587]]){
   cases++;
  }
  for(let branch=0;branch<3;branch++){
-  const coords=arrowPath(branch,frame).match(/-?\d+(?:\.\d+)?/g).map(Number);
+  const coords=gatewayArrowPath(branch,frame).match(/-?\d+(?:\.\d+)?/g).map(Number);
   assert.ok(coords.every(v=>v>=0&&v<=1000),'Relationship arrows must remain inside the stage');
+ }
+}
+for(const [width,height] of [[1440,779],[1280,599],[390,691],[320,587]]){
+ const frame=riverFrame(width,height);
+ for(let i=0;i<80;i++){
+  const coordinates=gatewayRiverPath(i,frame).match(/-?\d+(?:\.\d+)?/g).map(Number);
+  assert.equal(coordinates.at(-2),500,'The authored junction must remain horizontally centered after rotation');
+  assert.equal(coordinates.at(-1),frame.junction*1000,'The authored junction must meet the project node');
+  assert.equal(coordinates[0],Number(((1-(i/80*1.4-.2))*1000).toFixed(2)),'Rotation must preserve the canonical source trajectory');
  }
 }
 console.log(`Verified ${cases} connected, tangent-continuous river states across desktop and phone frames.`);

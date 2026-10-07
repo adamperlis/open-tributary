@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { arrowPath, riverPath } from '../lib/river-shape';
+import { gatewayArrowPath as arrowPath, gatewayRiverPath } from '../lib/river-shape';
 interface Props { connected?: boolean; }
 const { connected = false } = Astro.props;
 const contours = Array.from({length:40},(_,i)=>i/40*980-140);
@@ -22,7 +22,7 @@ const arrows=connected ? [0,1,2].map(branch=>arrowPath(branch,frame)) : [arrowSe
 <title id="river-title">Products connected to your project</title><desc id="river-desc">Product A, Product B, and Product C build on your project. Arrows show proposed royalties returning to you. Select code to reverse the relationship arrows.</desc>
 <defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>
 {!connected && <g fill="none" stroke="white" stroke-width="1.2" stroke-dasharray="1 4" opacity=".3">{contours.map(y=><><path d={`M0 ${y}C250 ${y} 400 350 500 350`}/><path d={`M1000 ${y}C750 ${y} 600 350 500 350`}/></>)}</g>}
-{connected && <g class="static-diagram-current" fill="none" stroke="#7f87a6" stroke-width=".7" opacity=".25">{Array.from({length:90},(_,i)=><path data-static-branch={i%3} data-static-lane={i/90*2-1} d={riverPath(i%3,1,frame,i/90*2-1)}/>)}</g>}
+{connected && <g class="static-diagram-current" fill="none" stroke="#7f87a6" stroke-width=".7" opacity=".25">{Array.from({length:80},(_,i)=><path data-static-branch={i} d={gatewayRiverPath(i,frame)} stroke-dasharray="1 4" vector-effect="non-scaling-stroke"/>)}</g>}
 <g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map((d,i)=><path data-river-arrow={connected ? i : undefined} d={d}/>)}</g>
 </svg>
 <div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span><small>BUILT WITH YOUR CODE</small></div>
@@ -32,7 +32,7 @@ const arrows=connected ? [0,1,2].map(branch=>arrowPath(branch,frame)) : [arrowSe
 </div>
 <div class="diagram-bottom"><div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>
 <div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16}/></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16}/></button></div>
-<figcaption>Sample relationships · Arrows show direction, not payment amounts. {connected && 'With motion on, particles follow the selected direction.'}</figcaption></div>
+<figcaption>Sample relationships · Arrows show direction, not payment amounts. {connected && 'Ambient currents converge; the arrows show the selected relationship.'}</figcaption></div>
 </figure>
 <script>
 document.querySelectorAll<HTMLElement>('.river-figure').forEach(figure => {

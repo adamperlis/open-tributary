@@ -1,5 +1,5 @@
-// Preserved configured usage of the exact registered ThreeUI implementation.
-// The current homepage uses the separately authored Tributary WebGL field.
+// Active configured usage of the exact registered ThreeUI implementation.
+// Orientation, tint and scroll placement are applied by the outer page host.
 import { ConstellationField } from '@designcodeio/threeui';
 import '@designcodeio/threeui/style.css';
 export function Scene() {

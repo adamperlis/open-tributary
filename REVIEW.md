@@ -1,3 +1,19 @@
+# Current review: exact Gateway Flow restoration and arrow motion, 2026-10-07
+
+Fetched https://threeui.com/source-code/gateway-flow.json again and confirmed every downloaded registered file matches its supplied SHA-256 and the pinned local file. The active homepage mounts the exact configured component and preserves its scripts, geometry, dependencies and source CSS. Host-level rotation, placement, tint and fading connect the hero to the vertical chart.
+
+`npm run check`: 30 files, zero errors, warnings or hints. `npm run build`: six pages built, three canonical hashes verified. Active scene island: 153.16 kB / 32.57 kB gzip. Geometry checks include the legacy 252 connected states plus 320 source-derived rotated paths and bounded canonical relationship arrows across desktop/phone frames.
+
+Browser inspection at http://localhost:4325/ confirmed the registered Gateway Flow iframe, its `allow-scripts` sandbox, vertically oriented authored shape, streaming points, preserved wordmark-only layout, and absent divider motif. At 1440 × 900 the source junction and project card center both measure approximately y=603.98; the source remains one iframe through scroll. Pause removes the iframe, displays the companion, and resume restores one iframe. Code mode updates its pressed state and caption. No claim is made that chart mode reverses the authored particles.
+
+Hovering the hero CTA moved its arrow to `matrix(1, 0, 0, 1, 4, 0)` without changing the button rectangle. Keyboard navigation reaches links with `:focus-visible`; arrows use the same CSS motion. A 390 × 844 browser viewport retains the source shape, visible 36px pause control, no horizontal overflow, and a readable chart. Physical phone profiling and browser reduced-motion preference emulation are not claimed.
+
+The canonical Tailwind CDN emits its production-use warning; no application error was observed. Automated clicking within the rotated iframe was refused by the browser controller because it could not inspect fractional iframe input coordinates, so the source click pulse was reviewed in source and was not confirmed by an automated interaction. Host pointer interaction remains enabled and the canonical click handler is unchanged. Chart mode, pause/resume, scroll and hover were exercised in the browser.
+
+Animation review: `src/styles/centered-river.css` uses one 200ms eased arrow translation, no layout animation, no overshoot or stagger, and honors reduced motion. No new animation-rule findings. Earlier review entries below describe superseded implementations.
+
+---
+
 # Current local review: continuous stage and river mark, 2026-10-07
 
 The opening sequence uses a full-viewport canvas in one sticky stage, shared by the hero and vertical relationship diagram. Product labels and arrows retain the relationship coordinates while the visual river uses one broad centerline; the same particle phase survives the transition and direction switch. The identity uses the wordmark alone; standalone river marks have been removed. The four CurrentSeam divider instances, component, and styles have been removed.

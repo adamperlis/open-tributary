@@ -4,4 +4,4 @@ interface Props { name?: string; size?: number; }
 const { name = 'arrow-right-linear', size = 20 } = Astro.props;
 const icon = solar.icons[name as keyof typeof solar.icons];
 ---
-<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class="icon"><Fragment set:html={icon?.body ?? ''} /></svg>
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" class="icon" data-arrow={name.startsWith('arrow-') ? name : undefined}><Fragment set:html={icon?.body ?? ''} /></svg>

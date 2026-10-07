@@ -1,8 +1,8 @@
-import { arrowPath, ease, riverCurves, riverFrame, riverPath } from './river-shape';
-import type { TributaryField } from './tributary-field';
+import { gatewayArrowPath as arrowPath, ease, riverCurves, riverFrame, gatewayRiverPath } from './river-shape';
+interface StoryField { setStory(progress:number):void; }
 
 /** Scroll supplies a camera position; it never starts an independent scene animation. */
-export function mountRiverStory(host: HTMLElement, getField: () => TributaryField | null) {
+export function mountRiverStory(host: HTMLElement, getField: () => StoryField | null) {
  const story = host.closest<HTMLElement>('.river-story');
  const stage = story?.querySelector<HTMLElement>('.river-stage');
  if (!story || !stage) return null;
@@ -77,7 +77,7 @@ export function mountRiverStory(host: HTMLElement, getField: () => TributaryFiel
   story!.style.setProperty('--source-y',`${layout.source*100}%`);
   story!.style.setProperty('--project-y',`${layout.junction*100}%`);
   mechanism.querySelectorAll<SVGPathElement>('[data-river-arrow]').forEach((path,i)=>path.setAttribute('d',arrowPath(i,layout)));
-  mechanism.querySelectorAll<SVGPathElement>('[data-static-branch]').forEach(path=>path.setAttribute('d',riverPath(Number(path.dataset.staticBranch),1,layout,Number(path.dataset.staticLane))));
+  mechanism.querySelectorAll<SVGPathElement>('[data-static-branch]').forEach(path=>path.setAttribute('d',gatewayRiverPath(Number(path.dataset.staticBranch),layout)));
   measureTarget();if(enabled)paint(position);
  };
  const sizing=new ResizeObserver(resize);sizing.observe(host);

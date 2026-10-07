@@ -49,3 +49,26 @@ export function arrowPath(branch: number, frame: RiverFrame): string {
  const a=.16,b=.69,d=(b-a)/3,p=point(a),q=point(b),u=tangent(a),v=tangent(b);
  return curvePath([p,[p[0]+u[0]*d,p[1]+u[1]*d],[q[0]-v[0]*d,q[1]-v[1]*d],q]);
 }
+
+/** Exact registered cubic, rotated clockwise onto the page's vertical axis.
+ * Labels lie on cropped portions of the authored incoming trajectories. */
+export function gatewayArrowPath(branch:number,frame:RiverFrame):string {
+ const x=.5+(branch-1)*frame.spread;
+ const startY=frame.junction-.5;
+ const yAt=(t:number)=>startY+3*(1-t)**2*t*.25+3*(1-t)*t*t*.4+t**3*.5;
+ let low=0,high=1;
+ for(let i=0;i<40;i++){const t=(low+high)/2;if(yAt(t)<frame.source)low=t;else high=t;}
+ const t=(low+high)/2,q=1-t,retained=q*q*q+3*q*q*t;
+ const initialX=.5+(x-.5)/retained;
+ const curve:Curve=[[initialX,startY],[initialX,startY+.25],[.5,frame.junction-.10],[.5,frame.junction]];
+ const point=(u:number):Point=>{const v=1-u;return [v*v*v*curve[0][0]+3*v*v*u*curve[1][0]+3*v*u*u*curve[2][0]+u*u*u*curve[3][0],v*v*v*curve[0][1]+3*v*v*u*curve[1][1]+3*v*u*u*curve[2][1]+u*u*u*curve[3][1]];};
+ const tangent=(u:number):Point=>{const v=1-u;return [3*(v*v*(curve[1][0]-curve[0][0])+2*v*u*(curve[2][0]-curve[1][0])+u*u*(curve[3][0]-curve[2][0])),3*(v*v*(curve[1][1]-curve[0][1])+2*v*u*(curve[2][1]-curve[1][1])+u*u*(curve[3][1]-curve[2][1]))];};
+ const a=t+.07,b=.86,d=(b-a)/3,p=point(a),end=point(b),u=tangent(a),v=tangent(b);
+ return curvePath([p,[p[0]+u[0]*d,p[1]+u[1]*d],[end[0]-v[0]*d,end[1]-v[1]*d],end]);
+}
+
+/** Rotated canonical source paths for reduced-motion and script-free scenes. */
+export function gatewayRiverPath(index:number,frame:RiverFrame):string {
+ const x=1-(index/80*1.4-.2),top=index%2===0,sign=top?-1:1;
+ return curvePath([[x,frame.junction+sign*.5],[x,frame.junction+sign*.25],[.5,frame.junction+sign*.1],[.5,frame.junction]]);
+}

@@ -1,3 +1,17 @@
+# Current direction: restored exact Gateway Flow, 2026-10-07
+
+Adam identified the ThreeUI Gateway Flow shape as the intended hero geometry. The homepage again uses its registered component with the exact supplied variant and props. The complete source bundle was fetched and read before editing; all three supplied hashes match the local source. The former original single-current WebGL renderer is no longer the active scene.
+
+One persistent source scene sits in the sticky hero-to-chart stage. The page host turns its horizontal x axis vertical with a 90-degree rotation and moves the authored junction from 79% of the hero frame to the chart's project node at 60–62%, depending on stage height. The source curves and particle physics remain intact. Page-level tint, opacity and an evolving mask retain the existing blue-gray material and centered reading hierarchy. The diagram's annotations use segments of the rotated canonical cubic. Lower source trajectories keep their authored convergence, rather than being rewritten into a new flow.
+
+The brand stays wordmark-only. The removed divider motif stays absent. Arrow icons translate by four pixels (three per axis for diagonals) on hover and keyboard focus over 200 ms with gentle deceleration. Touch does not require hover; reduced motion removes arrow translation. Existing pressed states remain. Page typography, proposal content, creator-first framing, native page transitions and scrolling behavior remain.
+
+The source iframe remains mounted through the scene transition. Explicit pause, reduced motion, offscreen and hidden-tab suspension use a static companion; resuming remounts the authored scene. Particle phase preservation across suspension is not claimed. Relationship mode changes affect chart arrows and captions, while the authored ambient particles keep converging.
+
+---
+
+# Historical local direction before the exact-source restoration
+
 # Current local direction: connected river stage, 2026-10-07
 
 The hero and explanation now occupy one sticky full-screen stage. Scroll carries one broad centered current into the vertical diagram, while the headline leaves and diagram labels appear along the evolving currents. The same canvas and particle phase persist throughout. Position and tangent continuity connect the upstream, middle, and downstream curves. The animated material follows a single centerline; thin directional annotations identify the product relationships without splitting the river into three arms. Geometry follows scroll with an 80 ms exponential response; ambient particles use steady advection and small strand drift. Native phone scrolling and desktop Lenis remain.

@@ -81,3 +81,22 @@
  .river-story .motion-toggle{display:inline-flex;top:8px;bottom:auto;right:12px;min-width:36px;min-height:36px;padding:8px;justify-content:center;background:#000b;border-color:#333}
  .motion-label{display:none}
 }
+
+/* Registered source stays unchanged. This frame turns its x axis vertical. */
+.river-story .registered-current{inset:auto;top:var(--gateway-junction,79%);left:50%;width:var(--scene-height);height:var(--gateway-breadth,100vw);transform:translate(-50%,-50%) rotate(90deg);transform-origin:center;opacity:.7;filter:sepia(.6) saturate(1.2) hue-rotate(180deg);pointer-events:none}
+.registered-current .shader-frame{position:absolute;inset:0;pointer-events:auto}
+.registered-current iframe{display:block;width:100%;height:100%;pointer-events:auto}
+.registered-artwork{position:absolute;inset:0;overflow:hidden;pointer-events:none;mask-image:linear-gradient(180deg,#0000 var(--gateway-fade-start,34%),#000 var(--gateway-fade-end,52%));-webkit-mask-image:linear-gradient(180deg,#0000 var(--gateway-fade-start,34%),#000 var(--gateway-fade-end,52%))}
+.gateway-host[data-renderer="registered-threeui"] .motion-toggle,.gateway-host[data-renderer="registered-threeui"] .gateway-caption{filter:none}
+.gateway-host[data-renderer="registered-threeui"][data-available="true"] .gateway-still{visibility:hidden}
+.gateway-host[data-renderer="registered-threeui"][data-available="false"] .gateway-still{visibility:visible}
+/* The arrow follows its direction without shifting the button's layout. */
+:where(a,button) .icon[data-arrow]{--arrow-x:4px;--arrow-y:0px;transform:translate(0,0);transition:transform 200ms cubic-bezier(.22,1,.36,1)}
+.icon[data-arrow="arrow-down-linear"]{--arrow-x:0px;--arrow-y:4px}
+.icon[data-arrow="arrow-right-down-linear"]{--arrow-x:3px;--arrow-y:3px}
+.icon[data-arrow="arrow-left-up-linear"]{--arrow-x:-3px;--arrow-y:-3px}
+:where(a,button):focus-visible:not(:disabled) .icon[data-arrow]{transform:translate(var(--arrow-x),var(--arrow-y))}
+@media(hover:hover) and (pointer:fine){:where(a,button):hover:not(:disabled) .icon[data-arrow]{transform:translate(var(--arrow-x),var(--arrow-y))}}
+@media(prefers-reduced-motion:reduce){:where(a,button) .icon[data-arrow]{transition:none;transform:none!important}}
+
+.river-story .registered-current .shader-frame,.river-story .registered-current .gateway-still{inset:0;opacity:1}
