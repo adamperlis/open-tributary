@@ -1,5 +1,7 @@
 # Current direction: streaming material and a quieter diagram, 2026-10-07
 
+The hero and all supporting flow artwork now share blue filament, blue particle, and white highlight ink from one palette. Supporting SVG artwork keeps its quiet static treatment, with readable blue lines and distinct white glints.
+
 Keep the accepted centered layout and the vertical Gateway silhouette. Restore the blue-white filaments, particles and subtle texture from the Holotx video study because the river itself should explain the relationship between creators and downstream products. Adam explicitly requested less copy, more breathing room, no pause button, and no relationship arrows.
 
 The chosen composition uses a two-line 44px desktop / 32px mobile heading, product labels at 42% of the stage, the centered project at 65–66%, and a single 44px-high segmented control near the bottom. The repeated paragraph, eyebrow, per-product sublabels, project sublabel, numbered explanation and extra question link are removed. The caption only identifies an illustrative proposed model. The alternative of keeping the framed explanation panel was rejected because it repeated the heading and crowded the flow.

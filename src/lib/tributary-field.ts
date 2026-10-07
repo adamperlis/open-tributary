@@ -1,6 +1,8 @@
 /** Tributary material on the registered Gateway cubic, rotated onto a vertical axis.
  * The three canonical source files are retained byte-for-byte separately. */
 import { ease, riverFrame } from './river-shape';
+import { FLOW_INK } from './flow-palette';
+const shaderColor = (ink: readonly number[]) => ink.map(channel => channel.toFixed(4)).join(',');
 const vertex = `
 precision highp float;
 attribute vec4 a_seed;
@@ -40,9 +42,9 @@ void main(){
  float broken=.28+.72*smoothstep(-.5,.35,sin(t*151.0+seed*83.0-u_time*9.0));
  float glint=pow(max(0.0,sin(seed*173.0+u_time*.18)),28.0);
  float highlight=max(glint,step(.82,seed));
- vec3 dim=vec3(.50,.62,.82),silver=vec3(.94,.97,1.0);
+ vec3 dim=vec3(${shaderColor(FLOW_INK.filament)}),silver=vec3(${shaderColor(FLOW_INK.highlight)});
  float alpha=(.16+seed*.14)*broken*fade;
- if(u_kind>.5){alpha=(u_kind>1.5?.13:.72)*fade;dim=mix(vec3(.47,.62,.86),silver,highlight);}
+ if(u_kind>.5){alpha=(u_kind>1.5?.13:.72)*fade;dim=mix(vec3(${shaderColor(FLOW_INK.particle)}),silver,highlight);}
  v_ink=vec4(dim,alpha);
  gl_Position=vec4(p.x*2.0-1.0,1.0-p.y*2.0,0.0,1.0);
  gl_PointSize=(u_kind>1.5?1.0:1.3+highlight*.65)*u_pixel;

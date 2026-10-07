@@ -1,3 +1,11 @@
+# Current review: shared blue-white artwork palette, 2026-10-07
+
+The hero shader, shared FlowBands artwork, and static companions now use the same ink tokens: blue filaments (128,158,209), blue particles (120,158,219), and white glints (240,247,255). The gray currentColor override is removed, and shared artwork includes distinct white highlights. Invalid five-digit black alpha colors were corrected to valid eight-digit values, removing the gray fallback overlay on the closing invitation and restoring intended reading masks.
+
+`npm run check`: 31 files, zero errors/warnings/hints. `npm run build`: six pages; all canonical ThreeUI hashes verify. Browser computed colors confirm both blue and white particles in the homepage community panel and closing CTA, manifesto, license proposal, signup, and confirmation artwork. Desktop 1440 × 900 and mobile 390 × 844 artwork were visually reviewed; mobile signup has no horizontal overflow. Hero motion/geometry remain unchanged. Lower artwork retains its static treatment. Rendered evidence: `tributary-shared-palette-desktop.jpg` and `tributary-shared-palette-mobile.jpg` alongside this task.
+
+---
+
 # Current review: streaming lines, restored material, simplified flow, 2026-10-07
 
 The active renderer is the original Tributary WebGL material adapted to the rotated Gateway source cubic, rather than the registered iframe runtime. Source hashes remain unchanged and verify before every build. The diagram contains one headline, four labels, one segmented control and a short illustrative-model caption. There are zero pause controls and zero relationship-arrow overlays in the connected chart. The earlier review entries below refer to superseded revisions.

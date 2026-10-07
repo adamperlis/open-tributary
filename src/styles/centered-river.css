@@ -12,7 +12,7 @@
 .river-story .home-hero,.river-story .mechanism-section{position:relative;min-height:var(--scene-height);height:var(--scene-height);padding:0;background:transparent;pointer-events:none}
 .hero-inner{display:flex;flex-direction:column;align-items:center;text-align:center;min-height:var(--scene-height);height:100%;padding-top:48px;padding-bottom:48px;background:none;gap:0}
 .home-hero h1{font-size:clamp(48px,5vw,72px);line-height:1.02;max-width:1100px;margin:0;letter-spacing:-.065em;text-align:center}
-.hero-description{max-width:600px;font-size:16px;line-height:1.55;margin-top:24px;text-align:center;background:linear-gradient(90deg,#0000,#000e6 18%,#000e6 82%,#0000);padding-inline:12px}
+.hero-description{max-width:600px;font-size:16px;line-height:1.55;margin-top:24px;text-align:center;background:linear-gradient(90deg,#0000,#000000e6 18%,#000000e6 82%,#0000);padding-inline:12px}
 .home-hero .hero-actions{justify-content:center;align-items:center;flex-direction:row;margin-top:24px;gap:16px}
 .hero-note{justify-content:center;max-width:640px;margin-top:16px;font-size:11px;line-height:1.5;padding:4px 12px;text-align:center;background:#000c}.hero-note .status-dot{margin:0}
 .river-scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:#a6acbf;font:9px var(--mono);letter-spacing:.04em;pointer-events:auto}
@@ -32,9 +32,9 @@
 .connected-diagram .product-a{left:calc(50% - var(--source-spread));top:var(--source-y)}
 .connected-diagram .product-b{left:50%;top:var(--source-y)}
 .connected-diagram .product-c{left:calc(50% + var(--source-spread));top:var(--source-y)}
-.connected-diagram .project-node{left:50%;top:var(--project-y);transform:translate(-50%,-50%);padding:16px 24px;max-width:220px;background:#000e6;border-color:#555b6d}
+.connected-diagram .project-node{left:50%;top:var(--project-y);transform:translate(-50%,-50%);padding:16px 24px;max-width:220px;background:#000000e6;border-color:#555b6d}
 .connected-diagram .project-node strong{font-size:20px}
-.connected-diagram .diagram-bottom{position:absolute;left:50%;right:auto;bottom:64px;transform:translateX(-50%);width:min(460px,calc(100% - 48px));max-width:none;text-align:left;padding:12px;background:#000e6;pointer-events:auto}
+.connected-diagram .diagram-bottom{position:absolute;left:50%;right:auto;bottom:64px;transform:translateX(-50%);width:min(460px,calc(100% - 48px));max-width:none;text-align:left;padding:12px;background:#000000e6;pointer-events:auto}
 .connected-diagram .flow-caption{margin-bottom:12px}.connected-diagram .flow-caption p{font-size:12px;line-height:1.5}.connected-diagram figcaption{font-size:8px;line-height:1.5;margin-top:8px}
 .mechanism-afterword{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:min(760px,calc(100% - 48px));text-align:center;pointer-events:auto}
 .mechanism-afterword .mechanism-note{display:none}.mechanism-afterword .text-link{font-size:12px;min-height:32px}
@@ -48,7 +48,7 @@
 .river-story[data-story-ready="true"] .mechanism-grid,.river-story[data-story-ready="true"] .hero-inner{min-height:0}
 .river-story[data-story-ready="true"] .static-diagram-current{display:none}
 .river-story[data-story-ready="true"] .story-anchor{top:calc(var(--scene-height) * 1.45)}
-.flow-bands{color:#747990!important}.flow-bands .filament-lines{stroke-dasharray:none;opacity:.35}.flow-bands .field-dust{opacity:.6}
+.flow-bands .filament-lines{stroke-dasharray:none;opacity:.35}.flow-bands .field-dust{opacity:.9}
 .thesis-section,.participation-section,.challenge-section,.join-call{position:relative}
 .motion-toggle:active,.flow-switch button:active{transform:scale(.98)}
 @media(min-width:769px) and (max-height:800px){
@@ -93,10 +93,10 @@
 .mechanism-copy{max-width:900px;padding-inline:24px}
 .mechanism-copy h2{font-size:44px;line-height:1.08;margin:0}
 .connected-diagram .diagram-node{font-size:14px;padding-bottom:16px}
-.connected-diagram .project-node{border:0;padding:12px 20px;background:#000e6}
+.connected-diagram .project-node{border:0;padding:12px 20px;background:#000000e6}
 .connected-diagram .project-node strong{font-size:22px}
 .connected-diagram .diagram-bottom{bottom:40px;width:min(420px,calc(100% - 48px));padding:0;border:0;background:transparent;text-align:center}
-.connected-diagram .flow-switch{padding:4px;gap:4px;border-color:#3a4151;background:#000e6}
+.connected-diagram .flow-switch{padding:4px;gap:4px;border-color:#3a4151;background:#000000e6}
 .connected-diagram .flow-switch button{min-height:44px;font-size:12px;padding:8px 12px}
 .connected-diagram .flow-switch button:not([aria-pressed="true"]):is(:hover,:focus-visible){background:#19202c;color:#fff}
 .connected-diagram figcaption{font-size:9px;color:#a1a7b5;margin-top:12px}

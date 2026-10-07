@@ -2,11 +2,12 @@ import { useEffect, useRef } from 'react';
 import { mountRiverStory } from '../lib/river-story';
 import { mountTributaryField } from '../lib/tributary-field';
 import { gatewayRiverPath } from '../lib/river-shape';
+import { FLOW_INK, flowColor } from '../lib/flow-palette';
 
 /** Script-free and reduced-motion companion using the same source control points. */
 function StillField() {
  return <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">
-  <g fill="none" stroke="#8ba4d3" strokeWidth=".7" strokeDasharray="1 4" opacity=".25">
+  <g fill="none" stroke={flowColor(FLOW_INK.filament)} strokeWidth=".7" strokeDasharray="1 4" opacity=".25">
    {Array.from({length:80},(_,i)=><path key={i} d={gatewayRiverPath(i,{spread:.26,source:.42,junction:.79})} vectorEffect="non-scaling-stroke"/>)}
   </g>
  </svg>;
