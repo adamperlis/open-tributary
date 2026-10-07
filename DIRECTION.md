@@ -1,3 +1,13 @@
+# Current direction: distinct moving supporting constellations, 2026-10-07
+
+Animate all supporting FlowBands scenes through the existing two-pass blue-white WebGL material. Preserve the continuous hero/diagram/sideways-thesis camera and horizontal Gateway footer. Revisited all 14 saved Holotx video frames: opposing curtains around a cross-shaped gap, rounded orbital contours, fine filaments, white glints and dispersed dust supply the composition vocabulary. No reference footage is redistributed.
+
+Participation uses opposing confluence curtains; the invitation uses a sweeping S current; the proposal uses an opening fan; the manifesto uses rounded square orbits; signup uses a descending cascade; confirmation uses circular ripples. Curves keep their proportions through an SVG-compatible native crop. Section-sized artwork and full-height reading masks eliminate internal rectangular edges. Mobile participation uses a shorter art frame and stronger reading mask, preserving clear text.
+
+One shared controller imports the existing renderer lazily, prewarms within 300px, animates only visible scenes, pauses hidden tabs and caches at most two supporting contexts unless more are actually visible. Distant contexts release; reentry recreates the deterministic field at its exact saved particle phase. Reduced motion and unavailable/lost WebGL keep static geometry-derived versions. Native pixels up to 2x DPR, existing particle counts, glints and travelling dashes remain. Canonical registered ThreeUI source files stay unchanged. No dependency or React island is added.
+
+---
+
 # Current direction: stable scroll arrivals, 2026-10-07
 
 Retain the slower accepted reveal timing, but stage the initial opacity and travel while each target is offscreen. When the deeper viewport trigger fires, it continues from that same prepared state, avoiding a visible full-brightness-to-dim reset. Prepared inline styles are restored on completion, focus/press, fast scroll, tab hiding, page cleanup, animation failure and reduced motion. Already-visible content never stages. Footer utility copy stays static because it sits below the inset reveal trigger at the end of the document. Preload the existing footer field within 300px of arrival so its static-to-WebGL handoff happens before readers reach it. Full particle counts, materials, shaders and camera remain unchanged.

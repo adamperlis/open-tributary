@@ -4,6 +4,7 @@ import { fieldCamera } from './field-camera';
 import { fieldParticles } from './field-particles';
 import { FLOW_INK } from './flow-palette';
 import { fieldResolution } from './field-resolution';
+import { ambientCompositions, ambientFrame, ambientPositionShader, type AmbientComposition } from './ambient-shapes';
 const shaderColor = (ink: readonly number[]) => ink.map(channel => channel.toFixed(4)).join(',');
 const vertex = `
 precision highp float;
@@ -11,11 +12,14 @@ attribute vec4 a_seed;
 attribute float a_kind;
 uniform float u_time, u_story, u_follow, u_pixel, u_junction, u_stretch;
 uniform vec2 u_size, u_rotation, u_focus;
+uniform float u_composition;
+uniform vec4 u_compositionFrame;
 varying mediump vec4 v_ink;
 varying mediump float v_kind;
 vec2 cubic(vec2 a, vec2 b, vec2 c, vec2 d, float t){
  float q=1.0-t;return q*q*q*a+3.0*q*q*t*b+3.0*q*t*t*c+t*t*t*d;
 }
+${ambientPositionShader}
 void main(){
  float kind=a_kind;v_kind=kind;
  float lane=a_seed.x, seed=a_seed.w;
@@ -37,6 +41,10 @@ void main(){
  vec2 delta=(p-vec2(.5,junction))*u_size;
  p=u_focus+vec2(u_rotation.x*delta.x-u_rotation.y*delta.y,
                u_rotation.y*delta.x+u_rotation.x*delta.y)/u_size;
+ if(u_composition>.5){
+  t=kind>.5?fract(a_seed.z+u_time*(.04+seed*.032)):a_seed.z;
+  p=ambientPosition(u_composition,lane,a_seed.y,t)*u_compositionFrame.xy+u_compositionFrame.zw;
+ }
  // Subpixel weave gives the lines a material quality without changing the silhouette.
  float envelope=sin(clamp(t,0.0,1.0)*3.14159265);
  p.x+=envelope*sin(u_time*.14+t*8.0+seed*9.0)*.55/u_size.x;
@@ -49,8 +57,9 @@ void main(){
  float diagramFade=mix(.22,1.0,smoothstep(.18,.32,p.y));
  float readingFade=mix(mix(.80,1.0,smoothstep(0.0,.36,p.y)),diagramFade,m);
  fade*=mix(readingFade,smoothstep(u_size.x<769.0?.58:.38,u_size.x<769.0?.69:.52,p.y),u_follow);
+ if(u_composition>.5)fade=smoothstep(-.10,0.0,p.y)*(1.0-smoothstep(1.0,1.10,p.y));
  // Avoid a hot knot underneath the project wordmark.
- fade*=mix(.35,1.0,smoothstep(.005,.10,abs(1.0-t)));
+ if(u_composition<.5)fade*=mix(.35,1.0,smoothstep(.005,.10,abs(1.0-t)));
  // Only line vertices need travelling dashes; only points need glints.
  vec3 dim=vec3(${shaderColor(FLOW_INK.filament)}),silver=vec3(${shaderColor(FLOW_INK.highlight)});
  float outer=1.0-smoothstep(.08,.75,t),alpha,highlight=0.0;
@@ -82,10 +91,11 @@ export interface TributaryField {
  setStory(progress: number): void;
  setDirection(outward: boolean): void;
  setFrameObserver(observer:((phase:number)=>void)|null):void;
+ getPhase():number;
  dispose(): void;
 }
 
-export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement, options: { orientation?: 'horizontal' | 'vertical' } = {}): TributaryField | null {
+export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement, options: { orientation?: 'horizontal' | 'vertical'; composition?:AmbientComposition; phase?:number; releaseContextOnDispose?:boolean } = {}): TributaryField | null {
  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:'low-power',preserveDrawingBuffer:false});
  if(!gl){host.dataset.fieldError='WebGL context unavailable';return null;}
  const shaders: WebGLShader[]=[];
@@ -99,9 +109,12 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   program=gl.createProgram();if(!program)throw Error('Program unavailable');
   gl.attachShader(program,compile(gl.VERTEX_SHADER,vertex));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program)||'Program linking failed');
   gl.useProgram(program);
+  const compositionIndex=Math.max(0,ambientCompositions.indexOf(options.composition??'gateway'));
   const attribute=gl.getAttribLocation(program,'a_seed'),kindAttribute=gl.getAttribLocation(program,'a_kind');
   const uniform=(name:string)=>gl.getUniformLocation(program!,name);
   const time=uniform('u_time'),story=uniform('u_story'),follow=uniform('u_follow'),pixel=uniform('u_pixel'),size=uniform('u_size'),rotation=uniform('u_rotation'),focus=uniform('u_focus'),junction=uniform('u_junction'),stretch=uniform('u_stretch');
+  gl.uniform1f(uniform('u_composition'),compositionIndex);
+  const compositionFrame=uniform('u_compositionFrame');
   let randomState=731;
   const random=()=>{randomState=(Math.imul(randomState,1664525)+1013904223)>>>0;return randomState/4294967296;};
   const mobile=matchMedia('(max-width:768px)').matches;
@@ -113,7 +126,7 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
    const y=1-(l/lanes*1.4-.2),side=l%2,seed=random();
    for(let s=0;s<steps;s++)for(let end=0;end<2;end++){
     // Spend most samples on the curved canonical portion; the extension is straight.
-    const sample=s+end,parameter=sample<=80?-3+sample*3/80:(sample-80)/160;
+    const sample=s+end,parameter=compositionIndex?sample/steps:sample<=80?-3+sample*3/80:(sample-80)/160;
     curves[offset++]=y;curves[offset++]=side;curves[offset++]=parameter;curves[offset++]=seed;
    }
   }
@@ -135,7 +148,7 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   });
   arrays?.bindVertexArrayOES(null);
   gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);
-  let disposed=false,running=false,raf=0,last=0,elapsed=0,progress=0,outward=false,velocity=1,contextLost=false,frames=0,frameTotal=0;
+  let disposed=false,running=false,raf=0,last=0,elapsed=options.phase??0,progress=0,outward=false,velocity=1,contextLost=false,frames=0,frameTotal=0;
   let frameObserver:((phase:number)=>void)|null=null;
   let cameraDirty=true,viewportWidth=1,viewportHeight=1,nextDiagnostics=0,submitTotal=0,submissions=0;
   const resize=()=>{
@@ -145,6 +158,7 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
    gl.viewport(0,0,width,height);gl.uniform1f(pixel,scale);gl.uniform2f(size,w,h);
    viewportWidth=w;viewportHeight=h;cameraDirty=true;
+   const crop=ambientFrame(w,h);gl.uniform4f(compositionFrame,...crop);
   };
   const render=()=>{
    const started=performance.now();
@@ -181,14 +195,15 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   };
   const loseContext=(event:Event)=>{event.preventDefault();contextLost=true;running=false;cancelAnimationFrame(raf);host.dataset.available='false';host.dataset.fieldRunning='false';host.dataset.fieldError='WebGL context lost';};
   canvas.addEventListener('webglcontextlost',loseContext);
-  const observer=new ResizeObserver(()=>{if(!disposed&&!contextLost)resize();});observer.observe(canvas);
+  const observer=new ResizeObserver(()=>{if(!disposed&&!contextLost){resize();if(!running)render();}});observer.observe(canvas);
   resize();render();host.dataset.renderer='webgl';host.dataset.particleCount=String(streamCount+dustCount);host.dataset.fieldQuality='full';host.dataset.drawCalls='2';host.dataset.vertexInputs=vertexArrays.length===batches.length?'cached':'fallback';
   return {
    setRunning(value){if(disposed||contextLost||running===value)return;running=value;host.dataset.fieldRunning=String(value);if(value){last=0;raf=requestAnimationFrame(tick);}else{cancelAnimationFrame(raf);last=0;}},
    setStory(value){if(progress===value)return;progress=value;cameraDirty=true;},
    setDirection(value){outward=value;host.dataset.flowDirection=value?'outward':'return';},
    setFrameObserver(value){frameObserver=value;},
-   dispose(){frameObserver=null;disposed=true;running=false;cancelAnimationFrame(raf);observer.disconnect();canvas.removeEventListener('webglcontextlost',loseContext);cleanup();},
+   getPhase(){return elapsed;},
+   dispose(){frameObserver=null;disposed=true;running=false;cancelAnimationFrame(raf);observer.disconnect();canvas.removeEventListener('webglcontextlost',loseContext);cleanup();if(options.releaseContextOnDispose)gl.getExtension('WEBGL_lose_context')?.loseContext();},
   };
  }catch(error){host.dataset.fieldError=error instanceof Error?error.message:'Renderer unavailable';cleanup();return null;}
 }

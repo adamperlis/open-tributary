@@ -34,7 +34,9 @@ const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@grap
 <script>
 import Lenis from 'lenis';
 import { mountPageReveals } from '../lib/page-reveals';
+import { mountAmbientFlows } from '../lib/ambient-flows';
 mountPageReveals();
+mountAmbientFlows();
 const desktop = window.matchMedia('(pointer: fine) and (min-width: 769px)');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let scroller: Lenis | undefined;

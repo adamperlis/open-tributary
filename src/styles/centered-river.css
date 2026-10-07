@@ -197,3 +197,33 @@
 .form-result[data-state="error"]{border:1px solid #777}
 .join-form .form-submit{background:#111;border-color:#111;color:#fff}
 .join-form .form-submit:is(:hover,:focus-visible):not(:disabled){background:#fff;border-color:#111;color:#111}
+
+/* Supporting currents keep their existing art frames and render in native pixels. */
+.ambient-still{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.ambient-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0}
+.ambient-flow[data-available="true"]:not([data-reduced="true"]) .ambient-canvas{opacity:1}
+.ambient-flow[data-available="true"]:not([data-reduced="true"]) .ambient-still{visibility:hidden}
+.ambient-flow[data-reduced="true"] .ambient-canvas{visibility:hidden}
+/* Expand the invitation drawing surface into the section, retaining its original crop. */
+.join-call-art>.ambient-flow{bottom:0;height:100%;width:100%;left:0}
+
+/* Use the whole masthead as the art surface; no internal rectangular cut edge. */
+.document-masthead>.ambient-flow{inset:0;width:100%;height:100%;opacity:.85}
+@media(max-width:768px){
+ .document-masthead>.ambient-flow{width:200%;left:-75%;right:auto;height:100%;opacity:.6}
+}
+
+.document-masthead::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,#000 0%,#000000e0 38%,#0000 85%)}
+.document-masthead .document-header{background:transparent}
+
+.participation-grid .creator-panel{background:linear-gradient(#080808 0%,#080808e6 52%,#08080800 85%)}
+.people-flow.ambient-flow{bottom:0;height:100%;mask-image:linear-gradient(transparent,#000 35%)}
+
+.join-story>.ambient-flow{top:0;bottom:0;height:100%;mask-image:linear-gradient(transparent,#000 38%)}
+.thanks-page>.ambient-flow{top:0;bottom:0;height:100%;mask-image:linear-gradient(transparent,#000 30%)}
+
+.participation-grid .builder-panel{background:linear-gradient(#050505e6 0%,#050505b0 52%,#05050500 85%)}
+@media(max-width:768px){
+ .people-flow.ambient-flow{height:600px}
+ .participation-grid .builder-panel{background:linear-gradient(#050505 0%,#050505e6 52%,#05050500 85%)}
+}
