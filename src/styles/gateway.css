@@ -47,3 +47,6 @@ html{scroll-padding-top:var(--chrome-height,121px)}
 html{--chrome-height:121px}
 @media(max-width:768px){html{--chrome-height:113px}}
 @media(max-width:420px){html{--chrome-height:153px}}
+/* Solid grounds keep small hero copy readable over streaming particles. */
+.home-hero .button-outline{background:#000}.home-hero .button-outline:hover{background:#fff}
+.hero-note{background:#000;width:fit-content;padding:4px 8px 4px 0}
