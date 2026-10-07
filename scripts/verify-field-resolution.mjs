@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import ts from 'typescript';
+const source=await readFile(new URL('../src/lib/field-resolution.ts',import.meta.url),'utf8');
+const compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText;
+const {fieldResolution}=await import(`data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`);
+assert.deepEqual(fieldResolution(3840,2039,1,[16384,16384]),{width:3840,height:2039,scale:1},'4K canvases must not upscale a low-resolution backing store');
+assert.deepEqual(fieldResolution(1920,959,2,[16384,16384]),{width:3840,height:1918,scale:2},'Retina canvases must resolve native display pixels');
+assert.deepEqual(fieldResolution(390,691,3,[16384,16384]),{width:780,height:1382,scale:2},'Phone backing resolution is bounded at 2×');
+const limited=fieldResolution(5000,2500,2,[4096,4096]);
+assert.equal(limited.width,4096);assert.equal(limited.height,2048);
+assert.ok(limited.width<=4096&&limited.height<=4096,'Respect hardware viewport bounds');
+console.log('Verified 4K, Retina, phone and hardware-limited canvas resolutions.');

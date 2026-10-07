@@ -3,6 +3,7 @@
 import { riverFrame } from './river-shape';
 import { riverStoryState } from './river-story-state';
 import { FLOW_INK } from './flow-palette';
+import { fieldResolution } from './field-resolution';
 const shaderColor = (ink: readonly number[]) => ink.map(channel => channel.toFixed(4)).join(',');
 const vertex = `
 precision highp float;
@@ -47,10 +48,10 @@ void main(){
   float dust=u_kind>1.5?3.0:.65;
   p+=vec2(sin(seed*93.1+t*9.0),cos(seed*71.7+t*7.0))*dust/u_size;
  }
- float fade=smoothstep(-.05,.05,p.y)*(1.0-smoothstep(.98,1.10,p.y));
+ float fade=smoothstep(-.10,-.01,p.y)*(1.0-smoothstep(.98,1.10,p.y));
  // Leave a quiet zone behind the headline; expose the field in the diagram.
- float diagramFade=smoothstep(.18,.32,p.y);
- float readingFade=mix(mix(.42,1.0,smoothstep(0.0,.36,p.y)),diagramFade,m);
+ float diagramFade=mix(.22,1.0,smoothstep(.18,.32,p.y));
+ float readingFade=mix(mix(.80,1.0,smoothstep(0.0,.36,p.y)),diagramFade,m);
  fade*=mix(readingFade,smoothstep(u_size.x<769.0?.58:.38,u_size.x<769.0?.69:.52,p.y),u_follow);
  // Avoid a hot knot underneath the project wordmark.
  fade*=mix(.35,1.0,smoothstep(.005,.10,abs(1.0-t)));
@@ -59,8 +60,10 @@ void main(){
  float glint=pow(max(0.0,sin(seed*173.0+u_time*.18)),28.0);
  float highlight=max(glint,step(.82,seed));
  vec3 dim=vec3(${shaderColor(FLOW_INK.filament)}),silver=vec3(${shaderColor(FLOW_INK.highlight)});
- float alpha=(.16+seed*.14)*broken*fade;
- if(u_kind>.5){alpha=(u_kind>1.5?.13:.72)*fade;dim=mix(vec3(${shaderColor(FLOW_INK.particle)}),silver,highlight);}
+ // Lift the distant strands without brightening the dense confluence.
+ float outer=1.0-smoothstep(.08,.75,t);
+ float alpha=(.16+seed*.14)*broken*fade*mix(1.0,1.45,outer);
+ if(u_kind>.5){alpha=(u_kind>1.5?.13:.72)*fade*mix(1.0,1.20,outer);dim=mix(vec3(${shaderColor(FLOW_INK.particle)}),silver,highlight);}
  v_ink=vec4(dim,alpha);
  gl_Position=vec4(p.x*2.0-1.0,1.0-p.y*2.0,0.0,1.0);
  gl_PointSize=(u_kind>1.5?1.0:1.3+highlight*.65)*u_pixel;
@@ -100,13 +103,16 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   let randomState=731;
   const random=()=>{randomState=(Math.imul(randomState,1664525)+1013904223)>>>0;return randomState/4294967296;};
   const mobile=matchMedia('(max-width:768px)').matches;
+  const viewportLimits=gl.getParameter(gl.MAX_VIEWPORT_DIMS) as Int32Array;
   const lanes=mobile?96:160,steps=240,streamCount=mobile?3500:6500,dustCount=mobile?6500:14000;
   const curves=new Float32Array(lanes*steps*2*4);
   let offset=0;
   for(let l=0;l<lanes;l++){
    const y=1-(l/lanes*1.4-.2),side=l%2,seed=random();
    for(let s=0;s<steps;s++)for(let end=0;end<2;end++){
-    curves[offset++]=y;curves[offset++]=side;curves[offset++]=-3+4*(s+end)/steps;curves[offset++]=seed;
+    // Spend most samples on the curved canonical portion; the extension is straight.
+    const sample=s+end,parameter=sample<=80?-3+sample*3/80:(sample-80)/160;
+    curves[offset++]=y;curves[offset++]=side;curves[offset++]=parameter;curves[offset++]=seed;
    }
   }
   const particles=(count:number)=>{const data=new Float32Array(count*4);for(let i=0;i<count;i++){data[i*4]=1-(random()*1.4-.2);data[i*4+1]=i%2;data[i*4+2]=random();data[i*4+3]=random();}return data;};
@@ -117,10 +123,9 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   let dirty=true;
   const resize=()=>{
    const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);
-   const ratio=Math.min(devicePixelRatio||1,1.5)*quality;
-   const budget=mobile?420000:900000;
-   const scale=Math.min(ratio,Math.sqrt(budget/(w*h)));
-   const width=Math.round(w*scale),height=Math.round(h*scale);
+   // Preserve sharpness on large/Retina displays. Economy mode reduces
+   // particle density, never the canvas backing resolution.
+   const {width,height,scale}=fieldResolution(w,h,devicePixelRatio,viewportLimits);
    if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}
    gl.viewport(0,0,width,height);gl.uniform1f(pixel,scale);gl.uniform2f(size,w,h);
    const layout=riverFrame(w,h);gl.uniform3f(frame,layout.spread,layout.source,layout.junction);dirty=true;

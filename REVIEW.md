@@ -1,3 +1,13 @@
+# Current review: crisp large-screen rendering and brighter extremes, 2026-10-07
+
+The fixed 900,000/420,000-pixel backing-store budgets and quality-dependent resolution scale are removed. The renderer uses display pixel density up to 2× DPR, respecting GPU viewport dimensions. Adaptive economy mode reduces particle density without blurring the canvas. Sampling retains 160 segments for the curved source paths and 80 for their straight extensions. Outer filaments have 45% more opacity and outer particles 20% more; the hero's top fade floor increases from 0.42 to 0.80. Existing text masks and confluence attenuation remain.
+
+`npm run check`: 35 files, no errors/warnings/hints. Final build: six pages, three canonical hashes verified; active island 14.87 kB / 6.62 kB gzip. `node scripts/verify-field-resolution.mjs` passes native 4K, 2× Retina, phone and hardware-limited cases. At a 3840 × 2160 browser viewport, the canvas CSS area and backing store both measure 3840 × 2039 at DPR 1, replacing the earlier 1302 × 691 backing store. At the normal 1440 × 900 viewport with DPR 2, it measures 2880 × 1558 for a 1440 × 779 CSS area. The 4K DOM has no horizontal overflow and the hero remains centered.
+
+Browser rendering confirms WebGL availability and brighter blue-white strands at the top. A 390 × 844 mobile viewport retains a native 390 × 691 backing store at DPR 1, readable hero/diagram text and no horizontal overflow. Browser error/warning logs are empty. Screenshots: `tributary-crisp-4k.jpg` and the updated `tributary-full-height-hero.jpg` alongside this task. These are browser viewport/resolution checks, not physical monitor performance profiling. Earlier pixel-budget notes below describe the superseded renderer.
+
+---
+
 # Current review: full-height hero and continuous camera, 2026-10-07
 
 The hero reaches the top of its frame, and the diagram continues into a black third chapter. The camera rotates, pushes 16% closer and tracks along tangent extensions of the same source-derived current. Particles retain their lanes, seeded buffers and integrated phase; no dispersal/regrouping or contour replacement remains. The third scene identifies creators and maintainers as the proposed destination of value. Its destination label follows the same camera position. Existing diagram layout and original physical opening-scroll timing remain.

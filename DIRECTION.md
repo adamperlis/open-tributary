@@ -1,6 +1,6 @@
 # Current direction: follow the existing current, 2026-10-07
 
-The hero current reaches the top of its frame, behind the centered title. A 1.65 vertical host stretch, fine blue-white material, text shadows and localized paragraph/button masks preserve readable copy. The stretch returns to normal for the accepted vertical diagram.
+The hero current reaches the top of its frame, behind the centered title. Distant filaments have 45% more opacity, particles have 20% more opacity, and the top reading fade retains more of the field. The canvas renders native display pixels up to 2× DPR, constrained only by GPU viewport dimensions; economy mode reduces particles without downscaling the canvas. A 1.65 vertical host stretch, fine blue-white material, text shadows and localized paragraph/button masks preserve readable copy. The stretch returns to normal for the accepted vertical diagram.
 
 One canvas carries three chapters. The first two keep their existing physical scroll timing; after the diagram's reading hold, the camera turns a quarter turn, tracks along the same source-derived trajectories, and pushes 16% closer. Tangent extensions exist outside the opening camera and become visible as it follows the current. Particles keep their lanes and integrated phase; they do not disperse, regroup or become a substitute shape. This follows Adam's correction to the proposed contour transformation.
 
