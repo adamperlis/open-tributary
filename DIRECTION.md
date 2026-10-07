@@ -1,3 +1,13 @@
+# Current direction: follow the existing current, 2026-10-07
+
+The hero current reaches the top of its frame, behind the centered title. A 1.65 vertical host stretch, fine blue-white material, text shadows and localized paragraph/button masks preserve readable copy. The stretch returns to normal for the accepted vertical diagram.
+
+One canvas carries three chapters. The first two keep their existing physical scroll timing; after the diagram's reading hold, the camera turns a quarter turn, tracks along the same source-derived trajectories, and pushes 16% closer. Tangent extensions exist outside the opening camera and become visible as it follows the current. Particles keep their lanes and integrated phase; they do not disperse, regroup or become a substitute shape. This follows Adam's correction to the proposed contour transformation.
+
+The third chapter stays black and shows where proposed value returns: creators and maintainers. Its destination label follows the same camera as the current. Proposal details sit below the scene so the artwork and reading frame can breathe. Direction selection still reverses both particles and travelling dashes. Native phone scrolling, desktop Lenis, reduced-motion/static fallbacks, wordmark-only identity, and creator-first whitepaper framing remain.
+
+---
+
 # Current direction: streaming material and a quieter diagram, 2026-10-07
 
 The hero and all supporting flow artwork now share blue filament, blue particle, and white highlight ink from one palette. Supporting SVG artwork keeps its quiet static treatment, with readable blue lines and distinct white glints.

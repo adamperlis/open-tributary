@@ -1,3 +1,17 @@
+# Current review: full-height hero and continuous camera, 2026-10-07
+
+The hero reaches the top of its frame, and the diagram continues into a black third chapter. The camera rotates, pushes 16% closer and tracks along tangent extensions of the same source-derived current. Particles retain their lanes, seeded buffers and integrated phase; no dispersal/regrouping or contour replacement remains. The third scene identifies creators and maintainers as the proposed destination of value. Its destination label follows the same camera position. Existing diagram layout and original physical opening-scroll timing remain.
+
+Validation: `npm run check` reports 33 files and zero errors, warnings or hints. `npm run build` builds six pages and verifies the three preserved canonical SHA-256 hashes. Active scene island is approximately 14.5 kB / 6.5 kB gzip. `node scripts/verify-river-story.mjs` verifies opening timing across four frames, settled reading holds and 1,000 bounded continuous camera states. The existing geometry verifier passes 252 joined/tangent-continuous states and 320 canonical-path assertions.
+
+Browser review at http://localhost:4325/ used 1440 × 900 and 390 × 844. Both show the taller hero, unchanged vertical diagram, camera turn and final continuation with readable copy. Mobile has no horizontal overflow. Direction controls reverse settled velocity and phase without resetting the field; negative phase continues through the turn. Focus moves from the departing direction control to the arriving third-scene heading. Reverse scrolling was exercised. Browser errors/warnings are empty after the final build. These are browser viewport checks, not physical-device performance measurements.
+
+Three draw calls and the existing pixel/DPR/particle budgets remain. Tangent extensions are uploaded once with the field, not generated during scroll. Reduced-motion, no-WebGL and script-free static scenes were reviewed in source; browser preference emulation/context-loss tests are not claimed. The registered ThreeUI runtime remains preserved separately; the active scene is the authorized custom material/camera adaptation.
+
+Rendered evidence alongside this task: `tributary-full-height-hero.jpg`, `tributary-connected-desktop.jpg`, and `tributary-connected-mobile.jpg` in `/Users/adamperlis/Documents/Codex/2026-10-07/i-want-you-to-clone-a/`.
+
+---
+
 # Current review: shared blue-white artwork palette, 2026-10-07
 
 The hero shader, shared FlowBands artwork, and static companions now use the same ink tokens: blue filaments (128,158,209), blue particles (120,158,219), and white glints (240,247,255). The gray currentColor override is removed, and shared artwork includes distinct white highlights. Invalid five-digit black alpha colors were corrected to valid eight-digit values, removing the gray fallback overlay on the closing invitation and restoring intended reading masks.
