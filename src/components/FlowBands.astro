@@ -1,0 +1,13 @@
+---
+interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; }
+const { id, tone = 'blue', class: className = '' } = Astro.props;
+const palettes = { blue: ['#2c71ee','#719aff','#f1b3ba','#efd18d','#d4f08e'], green:['#174e42','#42c29b','#a8ecc6','#e1f594','#eabb87'], warm:['#773a57','#e58982','#efcba0','#d5e689','#79b7be'] };
+const colors = palettes[tone];
+const curves = Array.from({length:8},(_,i)=>({i, y:i*26}));
+---
+<svg class:list={['flow-bands',className]} viewBox="0 0 1440 640" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<defs>{curves.map(({i})=><linearGradient id={`${id}-${i}`} x1="100" y1="540" x2="1370" y2="180" gradientUnits="userSpaceOnUse"><stop stop-color={colors[0]} stop-opacity=".2"/><stop offset=".22" stop-color={colors[1]}/><stop offset=".52" stop-color={colors[2]}/><stop offset=".72" stop-color={colors[3]}/><stop offset="1" stop-color={colors[0]} stop-opacity=".1"/></linearGradient>)}<linearGradient id={`${id}-tributary`} x1="650" y1="440" x2="1400" y2="600" gradientUnits="userSpaceOnUse"><stop stop-color={colors[1]} stop-opacity=".1"/><stop offset=".5" stop-color={colors[4]}/><stop offset="1" stop-color={colors[1]}/></linearGradient></defs>
+<g class="flow-bank" stroke="currentColor" stroke-width=".7" stroke-dasharray="2 5" opacity=".3">{Array.from({length:12},(_,i)=><path d={`M-100 ${450+i*26}C320 ${565+i*22} 495 ${420+i*18} 810 ${310+i*12}S1220 ${110+i*22} 1550 ${50+i*28}`}/>)}</g>
+<g class="flow-color">{curves.map(({i,y})=><path fill={`url(#${id}-${i})`} d={`M-100 ${410+y}C290 ${540+y} 520 ${405+y} 810 ${255+y}S1210 ${40+y*1.5} 1540 ${-80+y*1.7}L1540 ${-45+y*1.7}C1210 ${75+y*1.5} 1140 ${130+y} 810 ${283+y}S290 ${568+y} -100 ${442+y}Z`}/>)}</g>
+<path fill={`url(#${id}-tributary)`} opacity=".78" d="M1530 670C1250 640 1260 365 980 345C880 338 755 425 650 437C830 399 880 373 980 377C1200 390 1220 690 1530 730Z"/>
+</svg>

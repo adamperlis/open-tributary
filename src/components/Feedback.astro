@@ -1,0 +1,8 @@
+---
+const { heading = 'Help us make the principles workable.' } = Astro.props;
+---
+<section class="feedback-section" id="feedback"><span class="eyebrow">AN OPEN CONVERSATION</span><h2>{heading}</h2><form data-feedback-form class="feedback-form"><div class="form-pair"><label class="field">Name <span class="optional">Optional</span><input name="name" autocomplete="name" maxlength="100" /></label><label class="field">Email <span class="optional">Optional, for a reply</span><input name="email" type="email" autocomplete="email" maxlength="254" /></label></div><label class="field">Your perspective<select name="role" required><option value="">Choose a role</option><option>Creator / maintainer</option><option>Builder</option><option>Company</option><option>Other</option></select></label><label class="field">Your feedback<textarea name="feedback" rows="5" required maxlength="5000" placeholder="What should we think through?" /></label><button class="button" type="submit" disabled>Preview feedback</button><p class="form-note">Preview mode. Nothing is sent or stored.</p><p class="form-result" role="status" tabindex="-1" hidden></p></form></section>
+<script>
+document.querySelectorAll<HTMLButtonElement>('[data-feedback-form] button[type="submit"]').forEach(button => button.disabled = false);
+document.querySelectorAll<HTMLFormElement>('[data-feedback-form]').forEach(form => form.addEventListener('submit', e => { e.preventDefault(); if (!form.reportValidity()) return; const result = form.querySelector<HTMLElement>('.form-result'); if (result) { result.hidden = false; result.textContent = 'Feedback preview complete. Your message has not been sent; submissions will open when the site launches.'; result.focus(); } }));
+</script>

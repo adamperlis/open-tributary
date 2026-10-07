@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Feedback from '../components/Feedback.astro';
+import Icon from '../components/Icon.astro';
+import FlowBands from '../components/FlowBands.astro';
+import { getEntry, render } from 'astro:content';
+const entry = await getEntry('writing','manifesto');
+if (!entry) throw new Error('Manifesto content is missing');
+const { Content, headings } = await render(entry);
+---
+<Layout title="The era of personal software — Tributary" description="Adam Perlis makes the case for personal software and Tributary: a proposal to return value to the creators whose shared code makes new products possible.">
+<section class="document-masthead manifesto-masthead"><FlowBands id="essay-flow" tone="warm"/><div class="document-header wrap"><span class="eyebrow">TRIBUTARY / THE MANIFESTO</span><h1>The era of<br />personal software.</h1><div class="article-byline"><span>By {entry.data.byline}</span><span>THE CASE FOR TRIBUTARY</span></div></div></section>
+<div class="reading-page wrap manifesto-page"><div class="document-grid"><aside class="document-nav" aria-label="In this essay"><span class="eyebrow">IN THIS ESSAY</span>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}<div class="draft-aside">A whitepaper proposal.<br />An invitation to challenge it.</div></aside><div class="manifesto-content reading-body"><article class="prose"><Content/></article><div class="article-cta"><span class="eyebrow">HELP SHAPE THE NEXT CHAPTER</span><h2>Value should flow back.</h2><p>Tributary is a whitepaper proposal. If you publish shared software or build on it, help us make the idea stand up to scrutiny.</p><a class="button" href="/license#limitations">Read where this could break <Icon/></a></div><Feedback heading="This is a proposal. Tell us what we got wrong."/></div></div></div>
+</Layout>

@@ -1,0 +1,107 @@
+---
+const flaws = [
+  {
+    id: 'clean-room', title: 'A clean-room rewrite can replace the code.',
+    paragraphs: [
+      'A clean-room approach separates studying a product’s behavior from writing a fresh implementation. Copyright protects a program’s expression, not its general ideas or functionality. Our proposal should not claim royalties over independently written software just because it does the same job.',
+      'That creates a real economic limit. If rebuilding becomes cheaper than sharing revenue, builders may choose to rebuild. AI could lower that cost further. Using AI does not, by itself, prove independent creation: generated code may still reproduce protected material. Contracts, patents, copied documentation, and the facts of a particular implementation also need separate consideration.'
+    ],
+    question: 'Can using and supporting the maintained original remain more valuable than replacing it?',
+    sources: [{ label: 'U.S. Copyright Office: computer programs', href: 'https://www.copyright.gov/register/tx-programs.html' }, { label: 'CJEU: SAS Institute v. World Programming', href: 'https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:62010CJ0406' }]
+  },
+  {
+    id: 'ai-rewrites', title: 'Credit can survive a rewrite without creating a royalty claim.',
+    paragraphs: [
+      'When a builder deliberately uses a known project as a reference, we propose recording that relationship, even if the resulting implementation is independent. Reused, adapted, and referenced would be different kinds of credit. A reference credit should describe the influence honestly without implying that the original creator wrote or endorses the new code.',
+      'If an AI reads the original source and then produces a replacement, we should describe that as a source-informed rewrite. Calling it clean-room does not establish independence. Under U.S. copyright law, protected expression is distinct from ideas and functionality; an output may still adapt protected material even when its wording changes. That assessment depends on the facts, not the tool used.',
+      'For direct reuse or adaptation, applicable permissions, notices, and license terms still matter. Under any future Tributary terms, an upstream share could be smaller when the retained contribution is smaller, if the agreed allocation rules support that result. We should not grant an automatic financial discount merely because AI rewrote the code, or use a percentage of changed lines as proof of independence.',
+      'For a materially independent implementation that uses only the general idea or behavior, a voluntary reference credit could remain without an automatic royalty for the output. An optional thank-you contribution or a separately agreed payment would be a different arrangement. This does not resolve separate rights or terms governing how the source was accessed or copied.',
+      'Attribution should not silently turn into billing. A proposed source record could identify the project, version, and whether it was reused, adapted, or referenced. Any payment claim would need its own evidence and applicable terms. We cannot infer complete provenance from model output or invent attribution for unknown training sources.',
+      'The risk cuts both ways: a rewrite discount could reward superficial changes that conceal reuse, while billing every acknowledged influence could discourage honest credit and independent development. These are candidate distinctions for review, not final legal terms or a working classification system.'
+    ],
+    question: 'Can we preserve honest credit and proportionate compensation without making learning from code itself an automatic royalty event?',
+    sources: [{ label: 'U.S. Copyright Office: protected expression in computer programs', href: 'https://www.copyright.gov/register/tx-programs.html' }, { label: 'U.S. copyright law: derivative works and exclusive rights, sections 101–106', href: 'https://www.copyright.gov/title17/92chap1.html' }, { label: 'Cornell Legal Information Institute: clean-room development', href: 'https://www.law.cornell.edu/wex/clean_room' }]
+  },
+  {
+    id: 'adoption', title: 'Builders can choose a different dependency.',
+    paragraphs: [
+      'A royalty obligation may discourage adoption before a project has users or income. Builders can choose a permissive alternative, stay on an older version where its license permits that use, or build a replacement. A library with fewer adopters could end up earning less.',
+      'The hypothesis is that maintained code, reliable updates, and simple payment terms are worth contributing to. We have not demonstrated that. We need feedback from builders who would decline the model as well as those who support it.'
+    ],
+    question: 'Would maintainers earn more after accounting for lost adoption and the work of administering the model?'
+  },
+  {
+    id: 'license-boundaries', title: 'ORL cannot simply add a bill to existing open source.',
+    paragraphs: [
+      'Tributary should not treat installing a package as evidence that its user owes a royalty. Obligations would need a valid legal basis in the applicable terms. A package used under MIT, for example, already grants commercial permissions subject to its stated conditions; this proposal does not change those terms.',
+      'Rights to offer new terms, existing contributors’ rights, and compatibility with other licenses need review. The OSI definition also prohibits royalties for redistribution. Calling this proposal open does not establish that ORL is an OSI-approved open-source license.'
+    ],
+    question: 'Can we define a clear scope without claiming rights that maintainers or Tributary do not hold?',
+    sources: [{ label: 'MIT license terms', href: 'https://choosealicense.com/licenses/mit/' }, { label: 'The Open Source Definition', href: 'https://opensource.org/osd' }]
+  },
+  {
+    id: 'attribution', title: 'A dependency graph is not proof of authorship.',
+    paragraphs: [
+      'Manifests and lockfiles identify many packages and versions, but they do not prove who owns each contribution or how much value it created. Vendored code, copied snippets, forks, removed dependencies, and AI-generated output make that harder.',
+      'We do not have a complete attribution system. Any allocation method needs to show its evidence, acknowledge missing information, and let people challenge a claim. More packages, downloads, or lines of code should not automatically mean a larger payout.'
+    ],
+    question: 'What evidence is sufficient to pay someone, and how do we correct a mistaken claim?'
+  },
+  {
+    id: 'relative-value', title: 'A button and an entire system should not automatically earn the same share.',
+    paragraphs: [
+      'A dependency list can put a reusable button beside the engine that powers an entire product. Splitting royalties equally across packages would treat very different contributions as equivalent. A package is a unit of distribution, not a reliable unit of value.',
+      'Code size alone does not solve this. A small component may contain substantial accessibility, security, or maintenance work; a large system may be only partly used. Downloads, runtime, and development hours also measure different things. None proves how much revenue a contribution caused.',
+      'One direction to test is a single capped royalty pool with unequal, disclosed shares. Allocation rules would need to be agreed before adoption. The scope actually used, its importance to the product, replacement effort, and ongoing maintenance could inform the weights. These are proposed factors, not an implemented scoring system or settled terms. Builders should not be able to erase an agreed obligation by assigning a creator a zero weight, and maintainers should be able to challenge an allocation.',
+      'The same contribution should not be counted repeatedly because it appears through several packages. Splitting a project into smaller packages should not increase its combined share. A larger system could allocate part of its own share upstream under disclosed rules, instead of giving the same upstream contribution another full claim. That model also needs to be tested.',
+      'Tidelift provides one precedent: its published payment model gives packages different weights and considers subscriber usage. Its weighting relies primarily on code size with adjustments. That shows a practical allocation choice, not proof that the result is fair. Tributary still needs to demonstrate an approach creators and builders can accept.'
+    ],
+    question: 'Can we agree on unequal shares without rewarding package splitting, ignoring small critical components, or turning every payout into a dispute?',
+    sources: [{ label: 'Tidelift: how package weights and subscriber usage affect payments', href: 'https://support.tidelift.com/hc/en-us/articles/4406294816916-How-we-pay-lifters' }]
+  },
+  {
+    id: 'royalty-stacking', title: 'Small royalties can add up to a large burden.',
+    paragraphs: [
+      'Charging separately for every dependency could make a product’s total obligation unpredictable. Equal splits, usage counts, and code size each reward different behavior. Cycles, duplicate packages, and artificial dependencies could distort the result.',
+      'A single capped pool is one possible direction, not a settled rule. We still need to define the revenue basis, thresholds, refunds, and distribution weights, and test whether small projects receive meaningful amounts after fees.'
+    ],
+    question: 'Can builders know their total cost in advance while maintainers receive a fair share?'
+  },
+  {
+    id: 'payment-limits', title: 'Connecting a payment account is not universal enforcement.',
+    paragraphs: [
+      'Stripe Connect supports fees on payments created through an appropriate integration. Connecting an account alone does not make every unrelated payment contribute automatically. Sales through another processor, invoices, app stores, or offline contracts could sit outside the payment flow.',
+      'We need explicit authorization and a defined collection mechanism. Revenue reporting, reconciliation, refunds, disputes, and missed payments remain unresolved. A working payment rail would not settle whether a royalty is legally owed.'
+    ],
+    question: 'Can collection stay useful and accurate without demanding excessive access to a builder’s finances?',
+    sources: [{ label: 'Stripe Connect: direct charges and application fees', href: 'https://docs.stripe.com/connect/direct-charges?platform=web&ui=stripe-hosted' }]
+  },
+  {
+    id: 'governance', title: 'The system could create new gatekeepers.',
+    paragraphs: [
+      'Who can claim a project, change its payout split, resolve a fork dispute, or set the protocol fee? Identity checks, payment-provider coverage, taxes, and transaction costs may exclude some maintainers. Unclaimed funds need a policy too.',
+      'An open standard should make allocations inspectable and participation portable. Those safeguards are design goals today. We need to establish who governs the system and how participants can appeal decisions or leave it.'
+    ],
+    question: 'Who is accountable when attribution or payouts go wrong?'
+  }
+];
+---
+<section id="limitations" class="document-questions limitations" aria-labelledby="limitations-title">
+  <span class="eyebrow">WHERE THIS COULD BREAK</span>
+  <h2 id="limitations-title">The flaws belong in the proposal.</h2>
+  <p>Fair compensation is the goal. A royalty license and payment protocol may still be the wrong way to reach it. These are reasons the model could fail, and questions we need to answer before asking people to adopt it.</p>
+  <div class="limitation-list">
+    {flaws.map(flaw => <article id={flaw.id}>
+      <h3>{flaw.title}</h3>
+      {flaw.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+      <p class="limitation-question"><strong>The open question</strong>{flaw.question}</p>
+      {flaw.sources && <div class="limitation-sources"><span>Source context</span>{flaw.sources.map(source => <a href={source.href}>{source.label}</a>)}</div>}
+    </article>)}
+  </div>
+  <div class="proposal-test">
+    <h3>What would change our minds?</h3>
+    <p>If builders consistently avoid the terms, reliable attribution costs more than it pays, maintainers receive less after lost adoption and fees, or allocation disputes cost more to resolve than the royalties provide, we should revise the model or stop pursuing it. A pilot would need to measure those outcomes, not just money collected.</p>
+    <p>We welcome alternatives, including voluntary revenue sharing, existing funding platforms, and collaboration with related proposals. Tell us which assumptions fail for your project.</p>
+    <a href="#feedback" class="text-link">Challenge an assumption</a>
+  </div>
+</section>
