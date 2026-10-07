@@ -1,16 +1,23 @@
 /** Supporting scenes share a current material, with their own trajectories. */
-export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple'] as const;
+export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple','braid'] as const;
 export type AmbientComposition = typeof ambientCompositions[number];
 const cubic=(a:number,b:number,c:number,d:number,t:number)=>{const q=1-t;return q*q*q*a+3*q*q*t*b+3*q*t*t*c+t*t*t*d;};
 export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:number){
  const q=(lane+.2)/1.4;
+ if(shape==='braid'){
+  const width=.09+.07*Math.sin(t*Math.PI)**2;
+  return {x:-.12+t*1.24,y:.54+(side?1:-1)*.24*Math.sin((t-.12)*Math.PI*2)+(q-.5)*width};
+ }
  if(shape==='orbit'||shape==='ripple'){
   const angle=(t===1?0:t)*Math.PI*2,co=Math.cos(angle),si=Math.sin(angle),power=shape==='orbit'?.58:1;
   return {x:(shape==='orbit'?.72:.64)+Math.sign(co)*Math.abs(co)**power*(.10+q*.26),y:.52+Math.sign(si)*Math.abs(si)**power*(.20+q*.52)};
  }
  let x:number[],y:number[];
  if(shape==='confluence'){
-  x=[side,side===0?.32:.68,side===0?.12:.88,side===0?.46:.54];
+  // Join the two halves with a shared position and tangent, then exit the other bank.
+  const edge=t<=.5?side:1-side;
+  t=t<=.5?t*2:(1-t)*2;
+  x=[edge,edge===0?.32:.68,edge===0?.12:.88,.5];
   y=[q,q,q<.5?.43:.65,q<.5?.43:.65];
  }else if(shape==='meander'){
   x=[-.12,.18,.76,1.12];y=[.12+q*.35,1.02+q*.08,-.22+q*.65,.50+q*.40];
@@ -27,6 +34,10 @@ export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:
 export const ambientPositionShader=`
 vec2 ambientPosition(float shape,float lane,float side,float t){
  float q=(lane+.2)/1.4;
+ if(shape>6.5){
+  float spread=.09+.07*pow(sin(t*3.14159265359),2.0);
+  return vec2(-.12+t*1.24,.54+mix(-1.0,1.0,side)*.24*sin((t-.12)*6.28318530718)+(q-.5)*spread);
+ }
  if(shape>3.5&&shape<4.5||shape>5.5){
   float angle=fract(t)*6.28318530718,power=shape<4.5?.58:1.0;
   vec2 arc=vec2(cos(angle),sin(angle));
@@ -34,7 +45,9 @@ vec2 ambientPosition(float shape,float lane,float side,float t){
  }
  if(shape<1.5){
   float endY=q<.5?.43:.65;
-  return cubic(vec2(side,q),vec2(mix(.32,.68,side),q),vec2(mix(.12,.88,side),endY),vec2(mix(.46,.54,side),endY),t);
+  float edge=t<=.5?side:1.0-side;
+  float local=t<=.5?t*2.0:(1.0-t)*2.0;
+  return cubic(vec2(edge,q),vec2(mix(.32,.68,edge),q),vec2(mix(.12,.88,edge),endY),vec2(.5,endY),local);
  }
  if(shape<2.5)return cubic(vec2(-.12,.12+q*.35),vec2(.18,1.02+q*.08),vec2(.76,-.22+q*.65),vec2(1.12,.50+q*.40),t);
  if(shape<3.5)return cubic(vec2(.40,.82),vec2(.70,.82),vec2(.86,.18+q*.90),vec2(1.12,-.18+q*1.35),t);

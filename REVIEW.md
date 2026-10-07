@@ -1,3 +1,13 @@
+# Current review: builder gap fixed and distinct footer, 2026-10-07
+
+The rectangular gap in participation came from separated curve endpoints at x=.46 and x=.54. The curves now share x=.5 and a continuous tangent, then extend across the other bank. Static and WebGL geometry both change. A regression check covers continuity, tangent matching and particles reaching the opposite bank. The footer uses a new braided-current preset with two crossing filament ribbons, replacing its repeated Gateway silhouette. Its canvas fills the complete section on desktop and mobile to avoid an internal rectangular crop.
+
+Astro check: 50 files, zero errors/warnings/hints. Static build and canonical ThreeUI hashes pass. Ambient verification covers 41,600 finite fallback positions plus junction continuity, closed orbital paths, native aspect crops and existing lifecycle guards. Desktop 1440x900 and phone 390x844 browser checks show the closed participation gap and distinctive woven footer, with no horizontal overflow. Footer diagnostics show 20,500 desktop / 10,000 phone particles, two draw calls and cached inputs. Browser error/warning logs are empty. These are rendering checks, not physical-device FPS benchmarks.
+
+Evidence in the task workspace: tributary-builder-gap-fixed-mobile.jpg, tributary-woven-footer-desktop.jpg and tributary-woven-footer-mobile.jpg. Full-detail materials, source provenance, main story and reveal timing remain intact.
+
+---
+
 # Current review: unique moving supporting fields, 2026-10-07
 
 The supporting scenes now use confluence curtains, a meandering sweep, a fan, rounded square orbits, a descending cascade and circular ripples. The unchanged opening story and sideways Gateway footer share the same palette and two-pass renderer. Static fallbacks are sampled from the same supporting paths. All 14 previously extracted Holotx frames were visually revisited for shape, thin-line and dust references.

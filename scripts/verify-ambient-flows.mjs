@@ -17,6 +17,18 @@ for(const [w,h] of [[1440,640],[3840,2160],[390,460],[819,600]]){
  assert.ok(Math.abs(x*w/(y*h)-1440/640)<1e-10,'Preserve native shape proportions');
 }
 for(const shape of ['orbit','ripple']){const a=ambientPoint(shape,.4,0,0),b=ambientPoint(shape,.4,0,1);assert.ok(Math.abs(a.x-b.x)+Math.abs(a.y-b.y)<1e-12,'Orbital paths close without a jump');}
+// A central gap previously made the four curtains look like a black rectangle.
+for(const lane of [-.1,.15,.6,1.1])for(const side of [0,1]){
+ const a=ambientPoint('confluence',lane,side,.5-1e-6),b=ambientPoint('confluence',lane,side,.5+1e-6);
+ const center=ambientPoint('confluence',lane,side,.5);
+ assert.equal(center.x,.5,'Both banks meet at a shared junction');
+ assert.ok(Math.hypot(a.x-b.x,a.y-b.y)<1e-5,'No position jump across the junction');
+ const begin=ambientPoint('confluence',lane,side,0),end=ambientPoint('confluence',lane,side,1);
+ assert.equal(begin.x,side);assert.equal(end.x,1-side,'Particles continue to the opposite bank');
+ const before={x:(center.x-a.x)/1e-6,y:(center.y-a.y)/1e-6};
+ const after={x:(b.x-center.x)/1e-6,y:(b.y-center.y)/1e-6};
+ assert.ok(Math.hypot(before.x-after.x,before.y-after.y)<1e-4,'The joined curves share a smooth tangent');
+}
 class Canvas extends EventTarget {cloneNode(){return new Canvas();}replaceWith(next){this.replaced=next;}}
 class Host {constructor(id,top){this.id=id;this.top=top;this.dataset={composition:'meander'};this.canvas=new Canvas();}querySelector(){return this.canvas;}getBoundingClientRect(){return {top:this.top};}}
 class Observer {static all=[];constructor(cb,options){this.cb=cb;this.options=options;this.hosts=new Set();Observer.all.push(this);}observe(h){this.hosts.add(h);}disconnect(){this.hosts.clear();}enter(h,value=true){this.cb([{target:h,isIntersecting:value,intersectionRect:{width:value?100:0,height:value?100:0}}]);}}

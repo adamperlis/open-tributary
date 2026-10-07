@@ -1,3 +1,11 @@
+# Current direction: continuous confluence and woven footer, 2026-10-07
+
+The four participation curtains now join at a shared central position and tangent. Particles cross the junction and exit the opposite bank, removing the rectangular gap made by four disconnected endpoints. Both the shader and static paths use the same construction.
+
+The footer gets its own woven composition: two broad blue-white filament currents cross beside the closing statement. A full-section drawing surface on desktop and phone removes internal crop edges; the existing reading gradient keeps text clear. Preserve the same renderer, particle counts, native resolution, offscreen suspension and reduced-motion/static fallback. No dependency, extra draw pass or animation loop.
+
+---
+
 # Current direction: distinct moving supporting constellations, 2026-10-07
 
 Animate all supporting FlowBands scenes through the existing two-pass blue-white WebGL material. Preserve the continuous hero/diagram/sideways-thesis camera and horizontal Gateway footer. Revisited all 14 saved Holotx video frames: opposing curtains around a cross-shaped gap, rounded orbital contours, fine filaments, white glints and dispersed dust supply the composition vocabulary. No reference footage is redistributed.

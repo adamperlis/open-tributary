@@ -1,12 +1,4 @@
 ---
-import { gatewayRiverPath } from '../lib/river-shape';
-import { FLOW_INK, flowColor } from '../lib/flow-palette';
+import FlowBands from './FlowBands.astro';
 ---
-<div class="gateway-host footer-constellation" data-footer-constellation data-ambient-flow data-composition="gateway" data-orientation="horizontal" data-available="false" aria-hidden="true">
- <div class="gateway-still"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-  <g transform="translate(550 540) rotate(-90) scale(1 1.65) translate(-500 -790)" fill="none" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" stroke-dasharray="1 4" opacity=".25">
-   {Array.from({length:80},(_,i)=><path d={gatewayRiverPath(i,{spread:.26,source:.42,junction:.79})} vector-effect="non-scaling-stroke"/>)}
-  </g>
- </svg></div>
- <canvas class="tributary-canvas"></canvas>
-</div>
+<FlowBands id="footer-flow" composition="braid" class="footer-constellation"/>
