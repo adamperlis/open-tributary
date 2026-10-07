@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import { arrowPath, riverPath } from '../lib/river-shape';
 interface Props { connected?: boolean; }
 const { connected = false } = Astro.props;
 const contours = Array.from({length:40},(_,i)=>i/40*980-140);
@@ -11,21 +12,23 @@ function arrowSegment(y: number, right = false) {
  const x = (value: number) => right ? 1000-value : value;
  return `M${x(p.x)} ${p.y}C${x(p.x+u.x*d)} ${p.y+u.y*d} ${x(q.x-v.x*d)} ${q.y-v.y*d} ${x(q.x)} ${q.y}`;
 }
-const arrows=connected ? [arrowSegment(560),arrowSegment(350),arrowSegment(140)] : [arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
+const frame={spread:.26,source:.38,junction:.62};
+const arrows=connected ? [0,1,2].map(branch=>arrowPath(branch,frame)) : [arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
 ---
 <figure id="flow-map" class:list={['river-figure', { 'connected-diagram': connected }]} data-mode="royalty">
 <div class="map-topline"><span class="eyebrow">THE PROPOSED FLOW</span><span class="map-index">FIG. 01</span></div>
 <div class="river-map">
-<svg class="gateway-diagram" viewBox="0 0 1000 700" preserveAspectRatio="none" role="img" aria-labelledby="river-title river-desc">
+<svg class="gateway-diagram" viewBox={connected ? "0 0 1000 1000" : "0 0 1000 700"} preserveAspectRatio="none" role="img" aria-labelledby="river-title river-desc">
 <title id="river-title">Products connected to your project</title><desc id="river-desc">Product A, Product B, and Product C build on your project. Arrows show proposed royalties returning to you. Select code to reverse the relationship arrows.</desc>
 <defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>
 {!connected && <g fill="none" stroke="white" stroke-width="1.2" stroke-dasharray="1 4" opacity=".3">{contours.map(y=><><path d={`M0 ${y}C250 ${y} 400 350 500 350`}/><path d={`M1000 ${y}C750 ${y} 600 350 500 350`}/></>)}</g>}
-<g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map(d=><path d={d}/>)}</g>
+{connected && <g class="static-diagram-current" fill="none" stroke="#7f87a6" stroke-width=".7" opacity=".25">{Array.from({length:90},(_,i)=><path data-static-branch={i%3} data-static-lane={i/90*2-1} d={riverPath(i%3,1,frame,i/90*2-1)}/>)}</g>}
+<g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map((d,i)=><path data-river-arrow={connected ? i : undefined} d={d}/>)}</g>
 </svg>
 <div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span><small>BUILT WITH YOUR CODE</small></div>
 <div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span><small>BUILT WITH YOUR CODE</small></div>
 <div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span><small>BUILT WITH YOUR CODE</small></div>
-<div class="diagram-node project-node"><svg class="project-symbol" width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M5 12C18 12 22 30 32 30M59 12C46 12 42 30 32 30M5 44C18 44 22 30 32 30M59 44C46 44 42 30 32 30M32 30V58" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="30" r="3" fill="currentColor"/></svg><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
+<div class="diagram-node project-node"><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
 </div>
 <div class="diagram-bottom"><div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>
 <div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16}/></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16}/></button></div>

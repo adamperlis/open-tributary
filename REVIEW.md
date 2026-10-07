@@ -1,3 +1,15 @@
+# Current local review: continuous stage and river mark, 2026-10-07
+
+The opening sequence uses a full-viewport canvas in one sticky stage, shared by the hero and vertical relationship diagram. Product labels and arrows retain the relationship coordinates while the visual river uses one broad centerline; the same particle phase survives the transition and direction switch. The identity uses the wordmark alone; standalone river marks have been removed. The four CurrentSeam divider instances, component, and styles have been removed.
+
+Browser checks at http://localhost:4325/ confirmed active WebGL, the hero and settled diagram, working direction controls, and no horizontal overflow at 390 × 844. Desktop 1440 × 900 was also inspected. The 390px diagram controls and project card remain separate and visible within the viewport. Browser logs returned no errors or warnings. The DOM contains zero miniature flowchart dividers, brand SVGs, or project icons and retains section padding. The built HTML and CSS also contain no instances of the removed divider motif. The final single-current field was inspected in the desktop hero and mobile hero/diagram; direction switching and pause/resume were checked on desktop. These are desktop-browser viewport checks, not physical phone profiling.
+
+The geometry verification script checks 252 states across four desktop/phone frames, including both curve joins, tangent continuity, the centered confluence, and bounded arrows. `npm run check` reports 30 files with zero errors, warnings, or hints. `npm run build` builds six pages; the three registered ThreeUI source hashes still verify during build. Static/reduced-motion fallbacks and focus transfer were reviewed in source; preference emulation and keyboard transition testing are not claimed for this revision.
+
+This revision is available on the local preview. Adam requested one large river instead of three arms; the active field and static companion use one centerline. Earlier checks below refer to previous revisions and deployments.
+
+---
+
 # Current review: persistent WebGL field, 2026-10-07
 
 This supersedes the historical active ThreeUI runtime notes below. The registered ThreeUI files and exact configured usage remain preserved, while the current homepage uses an explicitly authorized original raw WebGL renderer. No WhyCavalry dependency is installed.

@@ -1,3 +1,13 @@
+# Current local direction: connected river stage, 2026-10-07
+
+The hero and explanation now occupy one sticky full-screen stage. Scroll carries one broad centered current into the vertical diagram, while the headline leaves and diagram labels appear along the evolving currents. The same canvas and particle phase persist throughout. Position and tangent continuity connect the upstream, middle, and downstream curves. The animated material follows a single centerline; thin directional annotations identify the product relationships without splitting the river into three arms. Geometry follows scroll with an 80 ms exponential response; ambient particles use steady advection and small strand drift. Native phone scrolling and desktop Lenis remain.
+
+The identity now uses the Tributary wordmark alone. The standalone river mark has been removed from navigation, footer, diagrams, favicon, and identity specimens. All four miniature flowchart dividers have been removed; section spacing provides the separation. The centered copy, absent hero eyebrow, creator-first whitepaper framing, and community feedback content remain.
+
+Reduced motion and unavailable WebGL use two readable static scenes without the pinned transition. Mobile retains an accessible pause control. Shader source provenance remains distinct from the unchanged registered ThreeUI bundle. Adam clarified that the visual river should be one large current rather than three separate arms. The local field and static companion now use a single centerline. The preserved ThreeUI bundle remains unchanged; the active renderer is original Tributary code.
+
+---
+
 # Current direction: one flowing field, 2026-10-07
 
 Adam authorized the original WebGL approach after the uploaded Holotx film study and the WhyCavalry performance discussion. This supersedes the active ThreeUI runtime described below; its registered source and configured usage remain preserved separately. WhyCavalry is a desktop authoring bridge, so it is not included as a browser dependency.

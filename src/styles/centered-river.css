@@ -1,79 +1,83 @@
-/* Both opening scenes share a vertical current and a single centerline. */
-.river-story{--scene-height:max(760px,calc(100svh - var(--chrome-height)));--river-length:calc(var(--scene-height) * .5);--river-width:min(500px,100vw);--junction:63%}
-.gateway-host{width:100%;margin-left:0;background:#000;overflow:clip;opacity:1}
-.gateway-current{position:absolute;left:50%;top:var(--junction);width:var(--river-length);height:var(--river-width);max-width:none;transform:translate(-50%,-50%) rotate(90deg) scaleY(.75);transform-origin:50% 50%}
-.shader-frame,.gateway-still{inset:0;opacity:1}.motion-toggle{top:auto;bottom:16px;right:24px}.gateway-caption{bottom:28px;left:24px;right:auto;font-size:8px}
-.hero-inner{display:flex;flex-direction:column;align-items:center;min-height:var(--scene-height);text-align:center;padding-top:40px;padding-bottom:48px;background:none;gap:0}
-.home-hero h1{font-size:clamp(48px,5vw,72px);line-height:1.02;max-width:1100px;margin:0;text-align:center}
-.hero-description{max-width:600px;font-size:16px;line-height:1.55;margin-top:24px;text-align:center;background:linear-gradient(90deg,#0000,#000 18%,#000 82%,#0000);padding-inline:12px}
-.home-hero .hero-actions{justify-content:center;align-items:center;flex-direction:row;margin-top:24px;gap:16px}
-.hero-note{justify-content:center;max-width:640px;margin-top:16px;font-size:11px;line-height:1.5;padding:4px 12px;text-align:center}.hero-note .status-dot{margin:0}
-.mechanism-grid{min-height:var(--scene-height);padding-top:40px;text-align:center}
-.mechanism-copy{width:100%;max-width:760px;margin-inline:auto;padding:0;background:none;text-align:center}
-.mechanism-copy h2{font-size:48px;line-height:1.06;margin-top:16px}.mechanism-copy>p{max-width:620px;margin:20px auto 0;font-size:15px;line-height:1.55;background:#000;padding-inline:8px}
-.mechanism-grid>.connected-diagram{inset:0;margin:0;width:100%;max-width:none;pointer-events:none}
-.connected-diagram .map-topline{display:none}.connected-diagram .river-map{position:absolute;inset:0;margin:0;width:100%;height:100%;opacity:1}
-.connected-diagram .gateway-diagram{position:absolute;left:50%;top:var(--junction);width:var(--river-length);height:var(--river-width);max-width:none;transform:translate(-50%,-50%) rotate(90deg) scaleY(.75);transform-origin:50% 50%;opacity:1}
-.connected-diagram .direction-lines{opacity:.75}
-.connected-diagram .diagram-node{align-items:center;text-align:center;right:auto;max-width:190px;gap:6px;transform:translate(-50%,-100%);padding-bottom:12px;font-size:14px;white-space:nowrap}
-.connected-diagram .diagram-node>small{font-size:7px;max-width:none}.connected-diagram .node-dot{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:6px;height:6px}
-.connected-diagram .product-a{left:calc(50% - var(--river-width) * .225);top:calc(var(--junction) - var(--river-length) * .5)}
-.connected-diagram .product-b{left:50%;top:calc(var(--junction) - var(--river-length) * .5)}
-.connected-diagram .product-c{left:calc(50% + var(--river-width) * .225);top:calc(var(--junction) - var(--river-length) * .5)}
-.connected-diagram .project-node{left:50%;top:var(--junction);transform:translate(-50%,-50%);padding:16px 24px;max-width:220px}.connected-diagram .project-node strong{font-size:20px}
-.connected-diagram .diagram-bottom{position:absolute;left:50%;right:auto;bottom:72px;transform:translateX(-50%);width:min(460px,calc(100% - 48px));max-width:none;text-align:left;padding:12px;pointer-events:auto}
-.connected-diagram .flow-caption{margin-bottom:12px}.connected-diagram .flow-caption p{font-size:12px;line-height:1.5}.connected-diagram figcaption{font-size:8px;line-height:1.5;margin-top:8px}
-.mechanism-afterword{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:min(760px,calc(100% - 48px));text-align:center;pointer-events:auto}.mechanism-afterword .mechanism-note{display:none}.mechanism-afterword .text-link{font-size:12px;min-height:32px}
-@media(min-width:769px) and (max-height:800px){.home-hero h1{font-size:60px}.hero-inner{padding-top:32px}.mechanism-grid{padding-top:32px}}
-@media(max-width:768px){
-.river-story{--scene-height:max(740px,calc(100svh - var(--chrome-height)));--river-width:min(540px,100vw);--river-length:calc(var(--scene-height) * .45);--junction:64%}
-.hero-inner{padding:28px 24px 48px;min-height:var(--scene-height);background:none}.home-hero h1{font-size:clamp(35px,7.8vw,56px);line-height:1.06;max-width:600px}
-.hero-description{max-width:500px;margin-top:20px;font-size:14px;line-height:1.55;padding-inline:0;background:#000}.home-hero .hero-actions{justify-content:center;align-items:stretch;flex-direction:row;width:min(420px,100%);gap:8px;margin-top:20px}.home-hero .button{flex:1;min-width:0;justify-content:center;gap:8px;padding:12px;font-size:12px;min-height:48px}
-.hero-note{max-width:420px;margin-top:16px;font-size:9px;padding-inline:8px;align-items:center}
-.mechanism-grid{padding-top:28px}.mechanism-copy{max-width:600px;width:100%;padding:0}.mechanism-copy h2{font-size:34px;margin-top:16px}.mechanism-copy>p{max-width:500px;font-size:13px;line-height:1.55;margin-top:16px;padding:0}
-.mechanism-grid>.connected-diagram{inset:0;margin:0;width:100%;height:100%}.connected-diagram .river-map{inset:0;width:100%;height:100%;margin:0}
-.connected-diagram .diagram-node{font-size:11px;gap:4px;max-width:100px;padding-bottom:10px}.connected-diagram .diagram-node>small{font-size:5px;max-width:100px;white-space:normal}.connected-diagram .project-node{padding:14px 16px;gap:6px;max-width:180px}.connected-diagram .project-node strong{font-size:17px}.connected-diagram .project-symbol{width:24px;height:24px}
-.connected-diagram .diagram-bottom{left:50%;right:auto;bottom:72px;width:calc(100% - 48px);margin:0;padding:12px}.connected-diagram .flow-switch button{font-size:10px;gap:6px}.connected-diagram .flow-caption p{font-size:11px}.connected-diagram figcaption{font-size:7px}
-.mechanism-afterword{bottom:40px;width:calc(100% - 48px)}.mechanism-afterword .text-link{font-size:11px}.gateway-caption{left:16px;font-size:6px;max-width:none}.motion-toggle{right:16px;bottom:16px;top:auto;font-size:8px;min-height:36px}
-}
-@media(max-width:350px){
- .river-story{--scene-height:max(780px,calc(100svh - var(--chrome-height)))}.hero-inner{padding-inline:16px}.home-hero h1{font-size:34px}.home-hero .button{font-size:11px;padding:10px;gap:6px}.hero-description{font-size:13px}.mechanism-copy h2{font-size:32px}.mechanism-copy>p{font-size:12px}.connected-diagram .diagram-bottom{width:calc(100% - 32px)}.connected-diagram .flow-switch button{font-size:9px}.mechanism-afterword{width:calc(100% - 32px)}}
-@media(prefers-reduced-motion:reduce){.gateway-host{opacity:.7}.gateway-current{transform:translate(-50%,-50%) rotate(90deg) scaleY(.75)}}
-
-/* Keep both complete scenes visible on shorter desktop screens. */
-@media(min-width:769px) and (max-height:800px){
- .river-story{--scene-height:max(590px,calc(100svh - var(--chrome-height)));--river-length:calc(var(--scene-height) * .42);--river-width:320px;--junction:62%}
- .hero-inner{padding-top:24px}
- .home-hero h1{font-size:44px}
- .hero-description{margin-top:16px;font-size:14px;max-width:560px}
- .home-hero .hero-actions{margin-top:16px}
- .home-hero .button{min-height:48px;padding-block:12px;font-size:14px}
- .hero-note{margin-top:12px;font-size:10px;background:#000}
- .mechanism-grid{padding-top:24px}
- .mechanism-copy h2{font-size:36px}
- .mechanism-copy>p{margin-top:16px;font-size:13px}
- .connected-diagram .diagram-node{font-size:11px;gap:4px;padding-bottom:10px;max-width:68px}
- .connected-diagram .diagram-node>small{font-size:5px}
- .connected-diagram .project-node{padding:8px 12px;gap:4px;max-width:180px}
- .connected-diagram .project-node strong{font-size:16px}
- .connected-diagram .project-symbol{width:20px;height:20px}
- .connected-diagram .diagram-bottom{bottom:44px}
- .mechanism-afterword{bottom:8px}
- .motion-toggle{bottom:12px}
- .gateway-caption{bottom:24px}
-}
-
-/* One native GPU canvas stays mounted from the identity into the explanation. */
-.tributary-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0}
+/* One vertical river, one camera, two readable states. */
+.river-story{--scene-height:max(580px,calc(100svh - var(--chrome-height)));--source-spread:26%;--source-y:38%;--project-y:62%;position:relative;isolation:isolate;background:#000;color:#fff}
+.river-stage{position:relative;height:auto;isolation:isolate}
+.river-story .story-field{position:absolute;inset:0;margin:0;height:auto;pointer-events:none;z-index:0}
+.river-story .gateway-host{position:absolute;inset:0;top:0;width:100%;height:var(--scene-height);margin:0;background:transparent;overflow:hidden;opacity:1;pointer-events:none}
+.river-story .gateway-current{position:absolute;inset:0;width:100%;height:100%;max-width:none;transform:none}
+.river-story .gateway-still{position:absolute;inset:0;opacity:1}
+.tributary-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;opacity:0}
 .gateway-host[data-available="true"]:not([data-reduced="true"]) .tributary-canvas{opacity:1}
 .gateway-host[data-available="true"]:not([data-reduced="true"]) .gateway-still{visibility:hidden}
 .gateway-host[data-reduced="true"] .tributary-canvas{visibility:hidden}
-.connected-diagram .direction-lines{stroke:#b6bdcf;stroke-width:1;opacity:.75}
-.node-dot{border-radius:50%;background:#ccd1e2}
-.project-node{border-color:#555b6d}
-.flow-bands{color:#747990!important}
-.flow-bands .filament-lines{stroke-dasharray:none;opacity:.35}
-.flow-bands .field-dust{opacity:.6}
-/* A quiet continuation crosses chapter boundaries on the same central axis. */
+.river-story .home-hero,.river-story .mechanism-section{position:relative;min-height:var(--scene-height);height:var(--scene-height);padding:0;background:transparent;pointer-events:none}
+.hero-inner{display:flex;flex-direction:column;align-items:center;text-align:center;min-height:var(--scene-height);height:100%;padding-top:48px;padding-bottom:48px;background:none;gap:0}
+.home-hero h1{font-size:clamp(48px,5vw,72px);line-height:1.02;max-width:1100px;margin:0;letter-spacing:-.065em;text-align:center}
+.hero-description{max-width:600px;font-size:16px;line-height:1.55;margin-top:24px;text-align:center;background:linear-gradient(90deg,#0000,#000e6 18%,#000e6 82%,#0000);padding-inline:12px}
+.home-hero .hero-actions{justify-content:center;align-items:center;flex-direction:row;margin-top:24px;gap:16px}
+.hero-note{justify-content:center;max-width:640px;margin-top:16px;font-size:11px;line-height:1.5;padding:4px 12px;text-align:center;background:#000c}.hero-note .status-dot{margin:0}
+.river-scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:#a6acbf;font:9px var(--mono);letter-spacing:.04em;pointer-events:auto}
+.river-scroll-cue svg{opacity:.7}.river-scroll-cue:hover{color:#fff}
+.mechanism-grid{height:100%;min-height:var(--scene-height);padding-top:40px;text-align:center;position:relative}
+.mechanism-copy{width:100%;max-width:760px;margin-inline:auto;padding:0;background:none;text-align:center}
+.mechanism-copy h2{font-size:48px;line-height:1.06;margin-top:16px}
+.mechanism-copy>p{max-width:620px;margin:20px auto 0;font-size:15px;line-height:1.55;background:none;padding-inline:8px}
+.mechanism-grid>.connected-diagram{position:absolute;inset:0;margin:0;width:100%;height:100%;max-width:none;pointer-events:none}
+.connected-diagram .map-topline{display:none}
+.connected-diagram .river-map{position:absolute;inset:0;margin:0;width:100%;height:100%;opacity:1}
+.connected-diagram .gateway-diagram{position:absolute;inset:0;left:0;top:0;width:100%;height:100%;max-width:none;transform:none;opacity:1}
+.connected-diagram .direction-lines{stroke:#b6bdcf;stroke-width:.65;opacity:.7}
+.connected-diagram .diagram-node{align-items:center;text-align:center;right:auto;max-width:190px;gap:6px;transform:translate(-50%,-100%);padding-bottom:14px;font-size:14px;white-space:nowrap}
+.connected-diagram .diagram-node>small{font-size:7px;max-width:none}
+.connected-diagram .node-dot{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:#ccd1e2}
+.connected-diagram .product-a{left:calc(50% - var(--source-spread));top:var(--source-y)}
+.connected-diagram .product-b{left:50%;top:var(--source-y)}
+.connected-diagram .product-c{left:calc(50% + var(--source-spread));top:var(--source-y)}
+.connected-diagram .project-node{left:50%;top:var(--project-y);transform:translate(-50%,-50%);padding:16px 24px;max-width:220px;background:#000e6;border-color:#555b6d}
+.connected-diagram .project-node strong{font-size:20px}
+.connected-diagram .diagram-bottom{position:absolute;left:50%;right:auto;bottom:64px;transform:translateX(-50%);width:min(460px,calc(100% - 48px));max-width:none;text-align:left;padding:12px;background:#000e6;pointer-events:auto}
+.connected-diagram .flow-caption{margin-bottom:12px}.connected-diagram .flow-caption p{font-size:12px;line-height:1.5}.connected-diagram figcaption{font-size:8px;line-height:1.5;margin-top:8px}
+.mechanism-afterword{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);width:min(760px,calc(100% - 48px));text-align:center;pointer-events:auto}
+.mechanism-afterword .mechanism-note{display:none}.mechanism-afterword .text-link{font-size:12px;min-height:32px}
+.river-story .motion-toggle{top:auto;bottom:16px;right:24px;pointer-events:auto;font-size:9px;min-height:36px;z-index:4}
+.river-story .gateway-caption{bottom:28px;left:24px;right:auto;font-size:8px}
+.story-anchor{position:absolute;top:var(--scene-height);left:0;width:1px;height:1px;scroll-margin-top:var(--chrome-height)}
+/* Motion is progressive enhancement. Without it both complete scenes are readable. */
+.river-story[data-story-ready="true"]{height:calc(var(--scene-height) * 3)}
+.river-story[data-story-ready="true"] .river-stage{position:sticky;top:var(--chrome-height);height:var(--scene-height)}
+.river-story[data-story-ready="true"] .home-hero,.river-story[data-story-ready="true"] .mechanism-section{position:absolute;inset:0;height:100%;min-height:0}
+.river-story[data-story-ready="true"] .mechanism-grid,.river-story[data-story-ready="true"] .hero-inner{min-height:0}
+.river-story[data-story-ready="true"] .static-diagram-current{display:none}
+.river-story[data-story-ready="true"] .story-anchor{top:calc(var(--scene-height) * 1.45)}
+.flow-bands{color:#747990!important}.flow-bands .filament-lines{stroke-dasharray:none;opacity:.35}.flow-bands .field-dust{opacity:.6}
 .thesis-section,.participation-section,.challenge-section,.join-call{position:relative}
-.current-seam{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:80px;height:80px;color:#727789;opacity:.55;z-index:2;pointer-events:none;overflow:visible}
+.motion-toggle:active,.flow-switch button:active{transform:scale(.98)}
+@media(min-width:769px) and (max-height:800px){
+ .hero-inner{padding-top:24px}.home-hero h1{font-size:44px}.hero-description{margin-top:16px;font-size:14px;max-width:560px}.home-hero .hero-actions{margin-top:16px}.home-hero .button{min-height:48px;padding-block:12px;font-size:14px}.hero-note{margin-top:12px;font-size:10px}
+ .mechanism-grid{padding-top:24px}.mechanism-copy h2{font-size:36px}.mechanism-copy>p{margin-top:16px;font-size:13px}
+ .connected-diagram .diagram-node{font-size:12px;gap:4px;padding-bottom:10px;max-width:120px}.connected-diagram .diagram-node>small{font-size:6px}
+ .connected-diagram .project-node{padding:10px 16px;gap:4px;max-width:180px}.connected-diagram .project-node strong{font-size:17px}
+ .connected-diagram .diagram-bottom{bottom:52px}.mechanism-afterword{bottom:12px}.river-scroll-cue{bottom:24px}.river-story .gateway-caption{font-size:7px}
+}
+@media(max-width:768px){
+ .hero-inner{padding:28px 24px 48px;background:none}.home-hero h1{font-size:clamp(35px,7.8vw,56px);line-height:1.06;max-width:600px}
+ .hero-description{max-width:500px;margin-top:20px;font-size:14px;line-height:1.55;padding-inline:0;background:#000c}
+ .home-hero .hero-actions{justify-content:center;align-items:stretch;flex-direction:row;width:min(420px,100%);gap:8px;margin-top:20px}.home-hero .button{flex:1;min-width:0;justify-content:center;gap:8px;padding:12px;font-size:12px;min-height:48px}
+ .hero-note{max-width:420px;margin-top:16px;font-size:9px;padding-inline:8px;align-items:center}
+ .mechanism-grid{padding-top:24px}.mechanism-copy{max-width:600px;width:100%;padding:0}.mechanism-copy h2{font-size:34px;margin-top:12px}.mechanism-copy>p{max-width:500px;font-size:13px;line-height:1.55;margin-top:16px;padding:0}
+ .mechanism-grid>.connected-diagram{inset:0;margin:0;width:100%;height:100%}.connected-diagram .river-map{inset:0;width:100%;height:100%;margin:0}
+ .connected-diagram .diagram-node{font-size:11px;gap:4px;max-width:100px;padding-bottom:10px}.connected-diagram .diagram-node>small{font-size:5px;max-width:100px;white-space:normal}
+ .connected-diagram .project-node{padding:10px 16px;gap:4px;max-width:180px}.connected-diagram .project-node strong{font-size:17px}
+ .connected-diagram .diagram-bottom{left:50%;right:auto;bottom:52px;width:calc(100% - 48px);margin:0;padding:10px}.connected-diagram .flow-switch button{font-size:10px;gap:6px}.connected-diagram .flow-caption{margin-bottom:8px}.connected-diagram .flow-caption p{font-size:11px}.connected-diagram figcaption{font-size:7px;margin-top:6px}
+ .mechanism-afterword{bottom:12px;width:calc(100% - 48px)}.mechanism-afterword .text-link{font-size:11px;min-height:28px}
+ .river-story .gateway-caption,.river-story .motion-toggle{display:none}.river-scroll-cue{bottom:24px;font-size:8px}
+}
+@media(max-width:350px){
+ .hero-inner{padding:24px 16px 48px}.home-hero h1{font-size:34px}.home-hero .button{font-size:11px;padding:10px;gap:6px}.hero-description{font-size:13px;margin-top:16px}.hero-note{margin-top:12px}
+ .mechanism-copy h2{font-size:30px}.mechanism-copy>p{font-size:12px;margin-top:12px}.connected-diagram .diagram-bottom{width:calc(100% - 32px)}.connected-diagram .flow-switch button{font-size:9px}.mechanism-afterword{width:calc(100% - 32px)}.connected-diagram .project-node{padding:8px 12px}.connected-diagram .project-node strong{font-size:16px}
+}
+/* Native labels and curve coordinates share the full stage, including wide screens. */
+.mechanism-grid{width:100%;max-width:none}
+@media(max-width:768px){
+ .river-story .motion-toggle{display:inline-flex;top:8px;bottom:auto;right:12px;min-width:36px;min-height:36px;padding:8px;justify-content:center;background:#000b;border-color:#333}
+ .motion-label{display:none}
+}
