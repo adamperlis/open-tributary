@@ -1,3 +1,15 @@
+# Current review: email submission integration, 2026-10-07
+
+Signup, license feedback and manifesto feedback now use a shared asynchronous submit flow and one standalone Vercel `/api/contact` function. Emails are addressed only to support@b150.ai; visitor addresses become Reply-To. Input validation, bounded bodies, same-origin checks, a honeypot, a best-effort warm-instance rate window and provider idempotency keys protect the endpoint. Plain text avoids HTML/header interpolation. No database or marketing subscription is introduced. Success requires a provider email ID; errors preserve the message and restore the submit button. The feedback action container remains and signup gains the same readable button contrast.
+
+Astro check: 47 files, zero errors/warnings/hints. Static build: six pages and all three canonical hashes pass. `npm run verify:forms` covers both forms, fixed recipient and optional Reply-To, header injection/invalid input, page and role validation, malformed/oversized bodies, honeypot, idempotency, missing credentials, provider rejection/timeouts/unconfirmed acceptance and rate-window expiry; it sends no real emails. `vercel build` compiles a standalone Node 24 function successfully. Invoking its packaged entry returns the expected 503 with credentials absent. Actual local HTTP requests return 200 for the homepage, 503 for unconfigured delivery, 400 for invalid email and 413 for oversized bodies.
+
+Desktop feedback and 390 × 844 mobile signup were exercised in the browser. Both report the actual missing-credentials error, retain entered text, allow retry and avoid a false success or signup redirect. Builder role selection from the URL remains intact and mobile has no horizontal overflow. Direct email links and noscript fallback remain. The local server was replaced with a fresh full preview on the same localhost:4325 URL; terminal session 26573 was not reused. Rendered evidence: tributary-email-feedback-desktop.jpg and tributary-email-signup-mobile.jpg alongside this task.
+
+Activation is outstanding: Vercel reports no environment variables, and there is no local email key. Configure a Resend sending key and verify b150.ai (or another chosen sender domain), then deploy and verify actual delivery to the inbox. No real email or live deployment for this integration has occurred. Existing root dependency warnings predate this integration; the email function adds no runtime SDK or Astro server adapter. README and .env.example document setup and operational limits.
+
+---
+
 # Current review: contained preview feedback action, 2026-10-07
 
 The shared feedback form now groups its action and preview-only note in a lightly shaded, bordered container. The submit button has a black fill and white text, with the existing arrow motion and white/black hover and focus treatment. On mobile the action and note stack; the button spans the available space. This fixes the formerly white button disappearing against the white reading surface on the license and manifesto pages.

@@ -1,0 +1,57 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import ts from 'typescript';
+import { randomUUID } from 'node:crypto';
+const source = await readFile(new URL('../src/server/form-email.ts', import.meta.url), 'utf8');
+const js = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } }).outputText;
+const { createFormEmailHandler } = await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const env = { RESEND_API_KEY: 'test-only-key', FORM_EMAIL_FROM: 'Tributary <forms@b150.ai>' };
+const feedback = { kind: 'feedback', name: 'Community member', email: 'creator@example.com', role: 'Creator / maintainer', feedback: '<script>plain text only</script>', source: '/license', submissionId: randomUUID(), website: '' };
+const join = { kind: 'join', email: 'builder@example.com', role: 'builder', project: 'https://github.com/example/project', note: 'Interested in the proposal.', source: '/join', submissionId: randomUUID(), website: '' };
+const request = (data, headers = {}, method = 'POST') => new Request('https://open-tributary.vercel.app/api/contact', { method, headers: { Origin: 'https://open-tributary.vercel.app', 'Content-Type': 'application/json', ...headers }, ...(method === 'POST' ? { body: JSON.stringify(data) } : {}) });
+const sent = [];
+const send = async (url, init) => { sent.push({ url, body: JSON.parse(init.body), headers: init.headers }); return Response.json({ id: randomUUID() }); };
+const handle = createFormEmailHandler({ env, send });
+assert.equal((await handle(request(feedback), 'one')).status, 202);
+assert.deepEqual(sent[0].body.to, ['support@b150.ai']);
+assert.equal(sent[0].body.reply_to, feedback.email);
+assert.equal(sent[0].body.from, env.FORM_EMAIL_FROM);
+assert.equal(sent[0].body.html, undefined);
+assert.ok(sent[0].body.text.includes(feedback.feedback));
+assert.equal((await handle(request(feedback), 'one')).status, 202);
+assert.equal(sent[0].headers['Idempotency-Key'], sent[1].headers['Idempotency-Key'], 'Retry retains provider deduplication key');
+assert.equal((await handle(request({ ...feedback, feedback: 'Edited message' }), 'one')).status, 202);
+assert.notEqual(sent[1].headers['Idempotency-Key'], sent[2].headers['Idempotency-Key']);
+assert.equal((await handle(request(join), 'two')).status, 202);
+assert.ok(sent.at(-1).body.text.includes(join.project));
+assert.ok(sent.at(-1).body.subject.includes('Builder'));
+assert.equal((await handle(request({ ...feedback, email: '', name: '', to: 'attacker@example.com', from: 'attacker@example.com' }), 'three')).status, 202);
+assert.deepEqual(sent.at(-1).body.to, ['support@b150.ai']);
+assert.equal(sent.at(-1).body.reply_to, undefined);
+const before = sent.length;
+assert.equal((await handle(request({ ...feedback, website: 'spam' }), 'bot')).status, 202);
+assert.equal(sent.length, before, 'Honeypot never reaches the provider');
+for (const change of [{ role: 'unknown' }, { kind: 'other' }, { email: 'bad\r\nBcc: x@x.test' }, { feedback: '' }, { feedback: 'x'.repeat(5001) }, { name: ['not a string'] }, { source: '/unknown' }, { submissionId: 'not-a-uuid' }]) {
+ assert.equal((await handle(request({ ...feedback, ...change }), 'invalid')).status, 400);
+}
+for (const change of [{ email: '' }, { project: 'javascript:alert(1)' }, { project: 'https://user:pass@example.com' }, { role: 'Creator / maintainer' }]) {
+ assert.equal((await handle(request({ ...join, ...change }), 'invalid-join')).status, 400);
+}
+assert.equal((await handle(request(feedback, { Origin: 'https://another.site' }))).status, 403);
+assert.equal((await handle(request(feedback, { 'Sec-Fetch-Site': 'cross-site' }))).status, 403);
+assert.equal((await handle(request(feedback, { 'Content-Type': 'text/plain' }))).status, 415);
+assert.equal((await handle(request({}, {}, 'GET'))).status, 405);
+assert.equal((await handle(new Request('https://open-tributary.vercel.app/api/contact', { method: 'POST', headers: { Origin: 'https://open-tributary.vercel.app', 'Content-Type': 'application/json' }, body: '{broken' }))).status, 400);
+assert.equal((await handle(request({ ...feedback, feedback: 'x'.repeat(20_000) }))).status, 413);
+assert.equal((await createFormEmailHandler({ env: {}, send })(request(feedback))).status, 503);
+assert.equal((await createFormEmailHandler({ env, send: async () => new Response('', { status: 429 }) })(request(feedback))).status, 502);
+assert.equal((await createFormEmailHandler({ env, send: async () => { throw new DOMException('Timeout', 'TimeoutError'); } })(request(feedback))).status, 502);
+assert.equal((await createFormEmailHandler({ env, send: async () => Response.json({}) })(request(feedback))).status, 502);
+let now = 0;
+const limited = createFormEmailHandler({ env, send, now: () => now });
+for (let i = 0; i < 5; i++) assert.equal((await limited(request(feedback), 'limited')).status, 202);
+const blocked = await limited(request(feedback), 'limited');
+assert.equal(blocked.status, 429); assert.equal(blocked.headers.get('Retry-After'), '600');
+now = 600_001;
+assert.equal((await limited(request(feedback), 'limited')).status, 202);
+console.log('Verified both email forms, fixed recipient/Reply-To, validation, bounded bodies, same-origin checks, honeypot, idempotency, rate window, missing credentials and provider failures. No real emails were sent.');

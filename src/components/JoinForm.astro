@@ -1,18 +1,17 @@
 ---
 import Icon from './Icon.astro';
 ---
-<form class="join-form" data-preview-form="join" aria-describedby="join-note">
+<form class="join-form" data-email-form="join" aria-describedby="join-note">
 <fieldset><legend>I’m here as a</legend><div class="role-picker">{[{label:'Creator',value:'maintainer'}, {label:'Builder',value:'builder'}, {label:'Both',value:'both'}].map((role, i) => <label><input type="radio" name="role" value={role.value} checked={i === 0} required /><span>{role.label}</span></label>)}</div></fieldset>
 <label class="field">Email address<input type="email" name="email" required autocomplete="email" placeholder="you@example.com" maxlength="254" /></label>
 <label class="field">Project or GitHub URL <span class="optional">Optional</span><input type="url" name="project" placeholder="https://github.com/you/project" maxlength="500" /></label>
 <label class="field">Anything you want us to know? <span class="optional">Optional</span><textarea name="note" rows="3" maxlength="2000" placeholder="Your project, your questions, your perspective." /></label>
-<button type="submit" disabled class="button form-submit">Join the waitlist <Icon /></button>
-<p class="form-note" id="join-note">Preview mode. This form demonstrates signup; nothing is sent or stored.</p><noscript><p class="form-note">Enable JavaScript to try the form preview. Submissions are not connected.</p></noscript>
+<label class="email-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+<button type="submit" disabled class="button form-submit"><span data-submit-label>Join the conversation</span> <Icon /></button>
+<p class="form-note" id="join-note">Contact the team at <a href="mailto:support@b150.ai">support@b150.ai</a>.</p><noscript><p class="form-note">Please email <a href="mailto:support@b150.ai">support@b150.ai</a> directly.</p></noscript>
+<p class="form-result" role="status" tabindex="-1" hidden></p>
 </form>
 <script>
-document.querySelectorAll<HTMLButtonElement>('[data-preview-form="join"] button[type="submit"]').forEach(button => button.disabled = false);
-const form = document.querySelector<HTMLFormElement>('[data-preview-form="join"]');
-const role = new URLSearchParams(location.search).get('role');
-if (role && ['maintainer', 'builder', 'both'].includes(role)) { const input = form?.querySelector<HTMLInputElement>(`input[value="${role}"]`); if (input) input.checked = true; }
-form?.addEventListener('submit', event => { event.preventDefault(); if (form.reportValidity()) location.assign('/join/thanks?preview=1'); });
+import { mountEmailForms } from '../lib/email-forms';
+mountEmailForms();
 </script>

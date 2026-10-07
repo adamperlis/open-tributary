@@ -190,3 +190,10 @@
 /* Let the invitation's curves extend beyond their SVG viewport, then fade at the section boundary. */
 .join-call-art{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;mask-image:linear-gradient(to bottom,transparent,#000 96px)}
 .join-call-art>.flow-bands{overflow:visible}
+
+/* Keep the email trap outside the reading and keyboard flow. */
+.email-honeypot{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.form-note a{text-decoration:underline;text-underline-offset:3px}
+.form-result[data-state="error"]{border:1px solid #777}
+.join-form .form-submit{background:#111;border-color:#111;color:#fff}
+.join-form .form-submit:is(:hover,:focus-visible):not(:disabled){background:#fff;border-color:#111;color:#111}
