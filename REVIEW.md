@@ -1,3 +1,11 @@
+# Current review: contained preview feedback action, 2026-10-07
+
+The shared feedback form now groups its action and preview-only note in a lightly shaded, bordered container. The submit button has a black fill and white text, with the existing arrow motion and white/black hover and focus treatment. On mobile the action and note stack; the button spans the available space. This fixes the formerly white button disappearing against the white reading surface on the license and manifesto pages.
+
+Astro check reports 42 files, zero errors/warnings/hints. The build passes and verifies the canonical ThreeUI hashes. Desktop license review at 1440 × 900 and mobile manifesto review at 390 × 844 show the action container and readable button with no horizontal overflow. A valid local preview reveals the existing confirmation and focuses its status message; no submission endpoint is introduced. Browser error/warning logs are empty. Evidence: tributary-feedback-container-desktop.jpg and tributary-feedback-container-mobile.jpg alongside this task.
+
+---
+
 # Current review: continuous invitation edge and sideways footer, 2026-10-07
 
 The invitation's SVG viewport used to crop its upper curves at an internal horizontal edge. A section-sized artwork layer now allows those curves to overflow the SVG and applies a 96px fade at the section top. Existing shape, placement, material and entrance timing remain. The footer turns the constellation sideways through a native WebGL camera option, with an aspect-aware horizontal span and the existing reading gradient. Its static fallback also turns horizontally. The homepage story still uses its original camera; source hashes and particle materials are unchanged.
