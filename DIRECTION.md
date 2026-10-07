@@ -1,3 +1,17 @@
+# Current direction: one motion rhythm beyond the river, 2026-10-07
+
+Preserve the accepted layout, current brand, creator-first whitepaper framing, fonts, and all existing river effects. This is a motion refinement rather than a UI redesign. Primary archetype: research/editorial proposal, with developer-platform evidence. The audience remains open-source creators, maintainers and builders; the goal is community feedback and participation.
+
+Concept: the page should feel like one current of thought because readers need to understand the proposal, inspect its weaknesses, and join the discussion. Choose small, staged entrances over whole-section slides: sliding entire tall sections would animate copy before readers reach it and compete with the river. Existing heading sizes, grids, crops and mobile ordering stay authoritative.
+
+Purpose and triggers: after the three river scenes, proposal facts arrive as a related group; participation headings lead their supporting copy; individual hard questions enter in reading order; the invitation and closing statement resolve the sequence. Supporting SVG flow artwork gets one quiet arrival that retains its authored opacity. Native IntersectionObserver plus Web Animations perform one-time entrances using transform and opacity, with an ease-out settle, 12–28px travel and 40ms stagger capped at 120ms. Phone travel is 55% of desktop, durations are 80%, and stagger is 30ms. Ambient artwork may settle over 720ms; direct feedback remains 180–200ms. There is no additional continuous frame loop, shader, dependency, blur, tilt or permanent layer promotion.
+
+Content is always visible in ordinary HTML/CSS. Already-visible content, deep links and fast-scrolled content settle immediately. Focus and presses interrupt entrances so controls remain usable. Reduced motion cancels current animations and leaves every section static; animation failure has the same visible fallback. Page hide and BFCache restoration cleanly suspend/rearm pending observations. Entrance effects are released when finished and never replay on upward scrolling.
+
+Frontend Design Director's motion and quality-gate guidance supplies the progressive enhancement and review requirements; its MotionPatterns example supplies one-time staging as a behavior ingredient, adapted to Astro and native browser APIs rather than adding its React animation library. The 12-principles audit informs eased arrivals, restrained travel, consistent timing, short stagger and immediate press/focus feedback. The earlier inspected river/video material remains the visual reference. No new external visual study is claimed.
+
+---
+
 # Current direction: moving products, full-detail efficiency and constant river height, 2026-10-07
 
 The hero current reaches the top of its frame, behind the centered title. Distant filaments have 45% more opacity, particles have 20% more opacity, and the top reading fade retains more of the field. The canvas renders native display pixels up to 2× DPR, constrained only by GPU viewport dimensions; particle density and resolution stay fixed while batching and cached inputs reduce rendering work. A 1.65 vertical host stretch, fine blue-white material, text shadows and localized paragraph/button masks preserve readable copy. The same 1.65 vertical stretch continues through the diagram, removing the visible compression Adam identified.

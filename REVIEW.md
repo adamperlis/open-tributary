@@ -1,3 +1,30 @@
+# Current review: coordinated page entrances, 2026-10-07
+
+The accepted layout, proposal copy, fonts, palette, river geometry and particle effects are preserved. Thirty later-page targets now use one native IntersectionObserver and short Web Animations entrances: facts, participation, questions, invitation, supporting flow artwork, and footer. Related targets use 40ms stagger capped at 120ms; mobile uses 30ms stagger, 55% travel and 80% duration. Headlines carry the emphasis; body/detail movement is quieter. No animation dependency, continuous frame loop, permanent will-change layer, blur or decorative tilt is added. Effects release after completion and do not replay on backward scrolling.
+
+Validation: `npm run check` reports 40 files with zero errors/warnings/hints; the build produces six pages and verifies all three canonical ThreeUI hashes. The shared Layout bundle is 21.80 kB / 6.58 kB gzip (previously 19.28 / 5.64); the river island stays 16.43 / 7.19. `node scripts/verify-page-reveals.mjs` exercises one-time staging, authored opacity, bounded stagger, mobile travel, focus and press interruption, reduced motion, animation failure, BFCache restore and cleanup.
+
+Desktop browser: 1440 × 900. Facts and participation transition from ready to settled at opacity 1, without residual transforms. Tab from the builder CTA focuses the first question with a visible outline and immediate settled state while the four neighboring rows remain entering. All rows then settle to opacity 1 / transform none. Invitation and footer complete their sequence; offscreen river rendering remains suspended. Screenshots alongside this task: `tributary-facts-reveal-desktop.jpg`, `tributary-participation-motion-desktop.jpg`, and `tributary-questions-motion-desktop.jpg`.
+
+Mobile browser: 390 × 844, zero horizontal overflow. Live computed opacity captures show the heading, label, copy and CTA actively entering; below-screen builder targets remain ready until reached. The stacked builder section and SVG flow subsequently enter independently. All content settles to opacity 1 / transform none. The closing SVG animates from opacity 0.468 to its authored 0.65, preserving its mobile treatment. A direct tap on the first question navigates to `/license#clean-room`; that reading page has zero reveal targets. Returning through the wordmark restores the homepage. Footer entrances also run. Error/warning logs are empty. Screenshots: `tributary-motion-hero-mobile.jpg`, `tributary-reveal-transition-mobile.jpg`, `tributary-participation-motion-mobile.jpg`, and `tributary-questions-motion-mobile.jpg`. These are browser viewport and rendered-state checks, not a physical-device FPS benchmark.
+
+Fallback evidence: ordinary server HTML/CSS keeps all content visible; there are no initial hidden reveal classes. Reduced-motion, failed-animation and BFCache cases are exercised by the lifecycle check and reviewed in source; browser preference toggling and JavaScript-disabled browser mode were not forced. Focus/press handling and native navigation were exercised in the real browser.
+
+Animation-principle audit and revisions:
+
+- `src/styles/gateway.css:39` — [easing-exit-ease-in] Root page exit used ease-out; corrected to 160ms ease-in, retaining the 180ms ease-out entrance.
+- `src/styles/centered-river.css:173` — [physics-active-state] Footer links lacked press feedback; added the existing 0.98 scale convention with 180ms transitions.
+- `src/lib/page-reveals.ts:23` — [staging-one-focal-point] New entrances use a lead/body/detail hierarchy, small eased travel and bounded stagger; interaction never waits for an entrance.
+
+| Rule | Corrected findings | Severity |
+| --- | --- | --- |
+| easing-exit-ease-in | 1 | LOW |
+| physics-active-state | 1 | MEDIUM |
+
+No outstanding findings in this motion scope. Scroll entrances are passive reading choreography; direct interaction feedback remains under 300ms. Earlier review entries below describe prior work.
+
+---
+
 # Current review: moving product nodes, full-detail performance and constant river height, 2026-10-07
 
 The river retains its 1.65 vertical scale throughout the hero and diagram, removing the earlier 1.65-to-1 compression. The static diagram gets the same scale. Native resolution, line samples, brightness, colors, texture, dust, glints, moving dashes and camera zoom remain. Automatic under-load particle reduction is removed: the accepted 20,500 desktop / 10,000 phone particles remain at full density.

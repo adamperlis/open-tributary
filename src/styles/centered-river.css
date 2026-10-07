@@ -168,3 +168,7 @@
 .connected-diagram .current-product .node-dot{background:#f0f7ff;box-shadow:0 0 6px #789edb80}
 .river-story[data-story-ready="true"] .current-product{left:0!important;top:0!important;opacity:0}
 @media(max-width:768px){.connected-diagram .current-product{font-size:13px}}
+
+/* Quiet utility feedback remains immediate while scroll entrances settle. */
+.footer-links a{transition:color 180ms ease-out,transform 180ms ease-out}
+.footer-links a:active{transform:scale(.98)}

@@ -29,9 +29,11 @@ const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@grap
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site-chrome"><div class="announcement"><span>TRIBUTARY IS A WHITEPAPER PROPOSAL</span><a href="/license#feedback">Help shape it <Icon size={12}/></a></div><header class="site-header wrap"><a href="/" class="brand" aria-label="Tributary home">tributary</a><nav aria-label="Main navigation"><a class:list={['nav-link',{current:path === '/manifesto'}]} href="/manifesto">Manifesto</a><a class:list={['nav-link',{current:path === '/license'}]} href="/license">The proposal</a><a href="/join" class="button button-small">Join the conversation <Icon size={16}/></a></nav></header></div>
 <main id="main"><slot /></main>
-<footer class="site-footer"><div class="wrap"><div class="footer-top"><a href="/" class="brand" aria-label="Tributary home">tributary</a><div class="footer-links"><a href="/manifesto">Manifesto</a><a href="/license">The proposal</a><a href="https://github.com/adamperlis/open-tributary">GitHub <Icon size={16}/></a></div></div><p class="footer-statement">Value should<br />flow back.</p><div class="footer-bottom"><p>A <a href="https://b150.ai">B150</a> project. Built in the open.</p><span>A PROPOSAL. AN OPEN CONVERSATION.</span></div></div></footer>
+<footer class="site-footer" data-reveal-group={path === '/' ? 'footer' : undefined}><div class="wrap"><div class="footer-top" data-reveal={path === '/' ? 'detail' : undefined}><a href="/" class="brand" aria-label="Tributary home">tributary</a><div class="footer-links"><a href="/manifesto">Manifesto</a><a href="/license">The proposal</a><a href="https://github.com/adamperlis/open-tributary">GitHub <Icon size={16}/></a></div></div><p class="footer-statement" data-reveal={path === '/' ? 'lead' : undefined}>Value should<br />flow back.</p><div class="footer-bottom" data-reveal={path === '/' ? 'detail' : undefined}><p>A <a href="https://b150.ai">B150</a> project. Built in the open.</p><span>A PROPOSAL. AN OPEN CONVERSATION.</span></div></div></footer>
 <script>
 import Lenis from 'lenis';
+import { mountPageReveals } from '../lib/page-reveals';
+mountPageReveals();
 const desktop = window.matchMedia('(pointer: fine) and (min-width: 769px)');
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 let scroller: Lenis | undefined;

@@ -1,11 +1,11 @@
 ---
 import { FLOW_INK, flowColor } from '../lib/flow-palette';
-interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; }
-const { id, class: className = '' } = Astro.props;
+interface Props { id: string; tone?: 'blue' | 'green' | 'warm'; class?: string; reveal?: 'flow'; }
+const { id, class: className = '', reveal } = Astro.props;
 const paths = Array.from({length:180},(_,i)=>{const left=i%2===0;const y=i/180*896-128;return `M${left?0:1440} ${y}C${left?360:1080} ${y} ${left?576:864} 320 720 320`;});
 const particles = Array.from({length:180},(_,i)=>{const left=i%2===0;const t=.08+(i%41)/48;const y=i/180*896-128;return {x:(1-t)**3*(left?0:1440)+3*(1-t)**2*t*(left?360:1080)+3*(1-t)*t*t*(left?576:864)+t**3*720,y:(1-t)**3*y+3*(1-t)**2*t*y+3*(1-t)*t*t*320+t**3*320};});
 ---
-<svg id={id} class:list={['flow-bands',className]} viewBox="0 0 1440 640" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<svg id={id} class:list={['flow-bands',className]} data-reveal={reveal} viewBox="0 0 1440 640" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <g class="filament-lines" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" opacity=".35">{paths.map(d=><path d={d}/>)}</g>
 <g class="field-dust">{particles.map((p,i)=><circle cx={p.x} cy={p.y} fill={flowColor(i%11<2 ? FLOW_INK.highlight : FLOW_INK.particle)} r={i%11<2 ? .85 : .55+(p.x%3)*.12}/>)}</g>
 </svg>
