@@ -15,7 +15,7 @@ Open http://localhost:4321. Use `npm run check` and `npm run build` to verify.
 
 ## Preview scope
 
-Home, draft license, full manifesto, signup, and signup confirmation. The dependency diagram has keyboard-accessible code/royalty modes. Light and dark page chapters, desktop Lenis scrolling, and reduced-motion styles are included.
+Home, draft license, full manifesto, signup, and signup confirmation. The entire site uses black, white, and neutral gray. The hero and first diagram are two full-frame scenes sharing one continuous, exact-source Gateway Flow canvas. The diagram has keyboard-accessible code/royalty modes. Pause, a static reduced-motion companion, desktop Lenis scrolling, native phone scrolling, and native same-origin View Transitions between pages are included. See THREEUI-SOURCE.md for provenance, pinned-source integration, and the preserved external dependencies.
 
 Forms validate locally and demonstrate their next states. They do not store or transmit input. Supabase, Resend, unsubscribe handling, and production analytics remain to be connected before launch. Indexing is disabled while this is a proposal preview. Page metadata, publisher and article schema, sitemap, and a PNG social image are included.
 

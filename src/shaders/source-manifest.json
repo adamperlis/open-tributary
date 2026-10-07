@@ -1,0 +1,22 @@
+{
+  "source": "https://threeui.com/source-code/gateway-flow.json",
+  "revision": "1920ad4fe34f",
+  "dependencySource": "@designcodeio/threeui@1.2.0",
+  "files": [
+    {
+      "path": "src/shaders/neuform-isolated/NeuformBatchEffects.tsx",
+      "sha256": "dc68c51bea26b922965de44b4fb8d6c432607508fb2b61e16ed60d245da1a69f",
+      "role": "component"
+    },
+    {
+      "path": "src/shaders/neuform-isolated/sources/gateway-flow.html",
+      "sha256": "c5a1de43138ffba96b9f0ecdcf3c054ae251ec94344e88c6ad502bae362b17d0",
+      "role": "canonical-source"
+    },
+    {
+      "path": "src/shaders/threeui.css",
+      "sha256": "efe4447139f1358dd8e9be68edf6fa46cbefbd1de423a4d6c439ca61d2c8eccf",
+      "role": "shared-style"
+    }
+  ]
+}

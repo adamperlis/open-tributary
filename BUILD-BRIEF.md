@@ -1,3 +1,5 @@
+> Current implementation: the accepted layout now uses the monochrome, exact-source Gateway Flow direction in DIRECTION.md and THREEUI-SOURCE.md. Earlier palette and ribbon notes below are historical. The hero and first diagram are adjacent full-frame scenes with one continuous field.
+
 # Tributary: revised launch build brief
 
 Status: static design preview built, checked on desktop/mobile, and deployed to https://open-tributary.vercel.app. Forms and payments remain illustrative.

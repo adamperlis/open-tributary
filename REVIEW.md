@@ -1,3 +1,25 @@
+# Current review: monochrome Gateway Flow, 2026-10-07
+
+- `npm run check`: 27 files, zero errors, warnings, or hints. `npm run build`: six pages built successfully. All three registered source hashes verified locally and in the Vercel production build.
+- Rendered authored Gateway Flow iframe with the canonical canvas, all configured props, and original sandbox. Exercised its canvas click interaction in the browser. The preserved runtime renders fine white paths and streaming square particles, not the source’s residual login UI.
+- Desktop 1440 × 900: two 779px scenes beneath 121px chrome. At the complete diagram frame, shared field and annotation map are both x=576, y=121, width=864, height=779. After scrolling beyond the frame, their top coordinates both equal -239: the field releases with the diagram rather than spilling into the reading chapter.
+- Responsive browser checks at 1280 × 720, 390 × 844, and 320 × 740. No horizontal overflow. Phone diagram uses the same source canvas coordinate region as its annotation map. At 390px both are x=0, y≈428, width=390, height≈249. Endpoint labels remain clear of controls. The shortest phone uses a 640px reading scene minimum rather than clipping content to its shorter viewport.
+- Source canvas remains mounted across the hero/diagram scroll transition. Wheel input over the iframe scrolls the parent document. Only one authored field runs for the connected story.
+- Code selection updates caption, figure number, pressed state, and reverses arrow markers. Keyboard tab operation reaches the next actionable element. The caption states that ambient source particles continue converging in both views.
+- Pause removes the iframe and displays the static cubic-path companion; resume recreates the source runtime. Live reduced-motion and visibility accommodations verified in source. No browser preference emulation or physical-device performance profiling is claimed.
+- Hero eyebrow removed. Native same-origin page View Transitions opt-in confirmed in the rendered stylesheet. Navigation to the proposal works. CSS uses a 160/180ms root crossfade and opts out under reduced motion. Browsers without the native feature retain ordinary navigation. Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@view-transition .
+- Mobile signup has no overflow. Demo email submission reaches the explicit preview confirmation stating that nothing was sent or saved. No live collection, payments, or royalty allocation added.
+- Favicon, social SVG/PNG, diagram, mark, static current artwork, reading pages, and forms follow the black/white/neutral identity. The registered shared source stylesheet remains unchanged even where it includes unused color styles for other effects.
+- Existing Astro 5 dependency audit reports inherited vulnerabilities. This deployment is static, without server image optimization, server islands, or untrusted content rendering. No framework major migration was mixed into this visual change.
+
+Local phone evidence: `/Users/adamperlis/Documents/Codex/2026-10-07/i-want-you-to-clone-a/tributary-gateway-phone.jpg`.
+
+Production deployment: https://open-tributary-r7moicez3-adamperlis-projects.vercel.app . Public alias: https://open-tributary.vercel.app . Vercel reported the production build complete and alias assigned.
+
+---
+
+# Historical verification before the monochrome direction
+
 # Current review: complete redesign, 2026-10-07
 
 This section supersedes the historical visual reviews below. Adam rejected the palette-only revision and explicitly authorized a full rebuild. Direction, alternatives, reference evidence, and motion decisions are in DIRECTION.md. The homepage film’s detailed study is in VIDEO-STUDY.md.

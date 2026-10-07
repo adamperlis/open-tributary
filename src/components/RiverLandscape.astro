@@ -1,14 +1,4 @@
 ---
-const banks = Array.from({length:12},(_,i)=>i*7);
+import FlowBands from './FlowBands.astro';
 ---
-<svg class="landscape-flow" viewBox="0 0 1200 210" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-<defs>
-<linearGradient id="land-sediment" x1="0" y1="0" x2="1200" y2="210" gradientUnits="userSpaceOnUse"><stop stop-color="#bf6c4d"/><stop offset=".45" stop-color="#dfbe7e"/><stop offset="1" stop-color="#809267"/></linearGradient>
-<linearGradient id="land-water" x1="0" y1="120" x2="1200" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#477b9c"/><stop offset=".5" stop-color="#86a9bd"/><stop offset="1" stop-color="#a7b184"/></linearGradient>
-<linearGradient id="land-canopy" x1="0" y1="210" x2="1200" y2="100" gradientUnits="userSpaceOnUse"><stop stop-color="#a5b074"/><stop offset=".5" stop-color="#a8b987"/><stop offset="1" stop-color="#d8bc7e"/></linearGradient>
-</defs>
-<g stroke="currentColor" stroke-width=".6" opacity=".18">{banks.map(i=><><path d={`M0 ${10-i}C220 ${-60-i} 350 ${135-i} 610 ${70-i}S990 ${-40-i} 1200 ${60-i}`}/><path d={`M0 ${210+i}C270 ${270+i} 400 ${110+i} 670 ${140+i}S950 ${250+i} 1200 ${155+i}`}/></>)}</g>
-<path fill="url(#land-sediment)" d="M0 24C250-25 310 175 605 97S990 25 1200 67V86C970 43 866 90 610 116S270 7 0 42Z"/>
-<path fill="url(#land-water)" d="M0 96C230 71 351 142 610 116S969 43 1200 86V109C971 66 867 114 610 137S225 95 0 116Z"/>
-<path fill="url(#land-canopy)" d="M0 186C235 228 373 116 610 137S973 66 1200 109V128C949 104 851 179 610 154S242 251 0 210Z"/>
-</svg>
+<div class="landscape-flow"><FlowBands id="landscape-current"/></div>

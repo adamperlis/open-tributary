@@ -1,36 +1,40 @@
 ---
 import Icon from './Icon.astro';
-const contour = Array.from({ length: 16 }, (_, i) => ({ x: 84 + i * 7, middle: 198 + i * 7, end: 352 + i * 7 }));
+interface Props { connected?: boolean; }
+const { connected = false } = Astro.props;
+const contours = Array.from({length:40},(_,i)=>i/40*980-140);
+// Relationship arrows are segments of the canonical Gateway Flow cubic.
+function arrowSegment(y: number, right = false) {
+ const point = (t: number) => ({x:3*(1-t)**2*t*250+3*(1-t)*t*t*400+t**3*500,y:(1-t)**3*y+3*(1-t)**2*t*y+3*(1-t)*t*t*350+t**3*350});
+ const tangent = (t: number) => ({x:3*((1-t)**2*250+2*(1-t)*t*150+t*t*100),y:6*(1-t)*t*(350-y)});
+ const a=.28,b=.60,d=(b-a)/3,p=point(a),q=point(b),u=tangent(a),v=tangent(b);
+ const x = (value: number) => right ? 1000-value : value;
+ return `M${x(p.x)} ${p.y}C${x(p.x+u.x*d)} ${p.y+u.y*d} ${x(q.x-v.x*d)} ${q.y-v.y*d} ${x(q.x)} ${q.y}`;
+}
+const arrows=[arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
 ---
-<figure id="flow-map" class="river-figure" data-mode="royalty">
+<figure id="flow-map" class:list={['river-figure', { 'connected-diagram': connected }]} data-mode="royalty">
 <div class="map-topline"><span class="eyebrow">THE PROPOSED FLOW</span><span class="map-index">FIG. 01</span></div>
 <div class="river-map">
-<svg class="river-art" viewBox="0 0 600 560" role="img" aria-labelledby="river-title river-desc"><title id="river-title">Royalties returning to your project</title><desc id="river-desc">Three sample products build on your project. The proposed royalty flow returns from those earning products to you. Code flows in the opposite direction.</desc>
-<defs><linearGradient id="river-sediment" x1="120" y1="90" x2="414" y2="458" gradientUnits="userSpaceOnUse"><stop stop-color="#edb185"/><stop offset=".45" stop-color="#d7d482"/><stop offset="1" stop-color="#4b927d"/></linearGradient><linearGradient id="river-current" x1="320" y1="70" x2="414" y2="458" gradientUnits="userSpaceOnUse"><stop stop-color="#5a91df"/><stop offset=".45" stop-color="#83b6d8"/><stop offset="1" stop-color="#4b927d"/></linearGradient><linearGradient id="river-canopy" x1="490" y1="155" x2="414" y2="458" gradientUnits="userSpaceOnUse"><stop stop-color="#d2e794"/><stop offset=".5" stop-color="#88c7a7"/><stop offset="1" stop-color="#4b927d"/></linearGradient><marker id="flow-down" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--paper)" stroke-width="1.5" /></marker></defs>
-<g class="contours" fill="none" stroke="currentColor" stroke-width=".65">{contour.map((c, i) => <><path d={`M${c.x} 70 C${c.x - 24} 166 ${c.middle + 10} 185 ${c.middle} 286 S${c.end - 40} 361 ${c.end} 503`} /><path d={`M${470 + i * 5} 70 C${540 + i * 5} 167 ${390 + i * 5} 187 ${384 + i * 5} 295 S${430 + i * 5} 398 ${425 + i * 5} 503`} /></>)}</g>
-<g class="river-channels river-ribbons"><path fill="url(#river-sediment)" d="M116 118C98 198 249 177 265 285C282 370 365 343 382 458L404 458C387 329 308 365 294 285C276 161 128 186 142 118Z"/><path fill="url(#river-current)" d="M310 71C327 143 258 195 274 283C291 342 380 351 404 458L423 458C396 337 311 326 297 282C279 201 350 154 332 71Z"/><path fill="url(#river-canopy)" d="M479 158C461 243 337 204 299 302C322 369 404 374 423 458L442 458C421 354 349 365 320 305C347 243 481 264 499 158Z"/></g>
-<g class="direction-lines" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M133 139C136 197 272 182 286 278" pathLength="100" /><path d="M325 90C334 163 272 205 284 276" pathLength="100" /><path d="M485 176C453 255 337 225 306 302" pathLength="100" /><path d="M304 332C333 368 390 370 406 437" pathLength="100" /></g>
-<g fill="var(--paper)" stroke="var(--blue)" stroke-width="2"><circle cx="129" cy="118" r="7" /><circle cx="322" cy="71" r="7" /><circle cx="489" cy="158" r="7" /><circle cx="414" cy="458" r="9" /></g>
-<g class="map-labels" fill="currentColor"><text x="79" y="93">Product A</text><text x="273" y="43">Product B</text><text x="449" y="129">Product C</text><text x="430" y="468" class="app-label">Your project</text></g>
-<g class="map-coordinate" fill="currentColor"><text x="24" y="332">SHARED CODE</text><text x="24" y="350">SHARED VALUE</text><path d="M24 371h48" stroke="currentColor" stroke-width="1" /></g>
+<svg class="gateway-diagram" viewBox="0 0 1000 700" preserveAspectRatio="none" role="img" aria-labelledby="river-title river-desc">
+<title id="river-title">Products connected to your project</title><desc id="river-desc">Product A, Product B, and Product C build on your project. Arrows show proposed royalties returning to you. Select code to reverse the relationship arrows.</desc>
+<defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>
+{!connected && <g fill="none" stroke="white" stroke-width="1.2" stroke-dasharray="1 4" opacity=".3">{contours.map(y=><><path d={`M0 ${y}C250 ${y} 400 350 500 350`}/><path d={`M1000 ${y}C750 ${y} 600 350 500 350`}/></>)}</g>}
+<g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map(d=><path d={d}/>)}</g>
 </svg>
-<svg class="mobile-river-art" viewBox="0 0 360 380" role="img" aria-label="Product A, Product B, and Product C build on your project. Royalties would return from these products to you. Code flows outward from your project.">
-<g fill="none" stroke="var(--contour)" stroke-width=".6" opacity=".5">{Array.from({length:9},(_,i)=><><path d={`M${30+i*6} 75C${30+i*6} 160 ${150+i*6} 150 ${150+i*6} 310`}/><path d={`M${280+i*6} 75C${280+i*6} 160 ${160+i*6} 150 ${160+i*6} 310`}/></>)}</g>
-<defs><marker id="flow-mobile" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="var(--paper)" stroke-width="1.5" /></marker></defs>
-<defs><linearGradient id="mobile-sediment" x1="48" y1="78" x2="180" y2="310" gradientUnits="userSpaceOnUse"><stop stop-color="#edb185"/><stop offset=".55" stop-color="#d7d482"/><stop offset="1" stop-color="#4b927d"/></linearGradient><linearGradient id="mobile-current" x1="180" y1="78" x2="180" y2="310" gradientUnits="userSpaceOnUse"><stop stop-color="#5a91df"/><stop offset=".55" stop-color="#83b6d8"/><stop offset="1" stop-color="#4b927d"/></linearGradient><linearGradient id="mobile-canopy" x1="312" y1="78" x2="180" y2="310" gradientUnits="userSpaceOnUse"><stop stop-color="#d2e794"/><stop offset=".55" stop-color="#88c7a7"/><stop offset="1" stop-color="#4b927d"/></linearGradient></defs><g class="river-ribbons"><path fill="url(#mobile-sediment)" d="M35 78C35 171 140 143 154 246C158 273 154 291 153 310L171 310C172 281 172 269 173 245C157 129 61 184 61 78Z"/><path fill="url(#mobile-current)" d="M170 78V247C170 274 171 279 171 310L189 310C189 279 190 272 190 247V78Z"/><path fill="url(#mobile-canopy)" d="M299 78C299 169 224 152 204 246C200 273 190 286 189 310L207 310C209 285 218 270 223 246C234 170 325 186 325 78Z"/></g>
-<g class="direction-lines" fill="none" stroke="var(--paper)" stroke-width="1.5"><path d="M48 95C54 169 159 155 164 235"/><path d="M180 96V235"/><path d="M312 95C306 169 224 155 213 235"/><path d="M180 271V294"/></g>
-<g fill="var(--paper)" stroke="var(--blue)" stroke-width="2"><circle cx="48" cy="78" r="6"/><circle cx="180" cy="78" r="6"/><circle cx="312" cy="78" r="6"/><circle cx="180" cy="310" r="8"/></g>
-<g fill="currentColor" font-size="16" text-anchor="middle"><text x="48" y="51">Product A</text><text x="180" y="51">Product B</text><text x="303" y="51">Product C</text><text x="180" y="346">Your project</text></g>
-</svg>
-<div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>Their products earn.<br />Royalties return to you.</p></div>
+<div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span><small>BUILT WITH YOUR CODE</small></div>
+<div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span><small>BUILT WITH YOUR CODE</small></div>
+<div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span><small>BUILT WITH YOUR CODE</small></div>
+<div class="diagram-node project-node"><svg class="project-symbol" width="28" height="28" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M5 12C18 12 22 30 32 30M59 12C46 12 42 30 32 30M5 44C18 44 22 30 32 30M59 44C46 44 42 30 32 30M32 30V58" stroke="currentColor" stroke-width="2.5"/><rect x="28" y="26" width="8" height="8" fill="currentColor"/></svg><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
 </div>
-<div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16} /></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16} /></button></div>
-<figcaption>Sample products · Widths are illustrative, not payment amounts.</figcaption>
+<div class="diagram-bottom"><div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>
+<div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16}/></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16}/></button></div>
+<figcaption>Sample relationships · Arrows show direction, not payment amounts. Ambient particles converge in both views.</figcaption></div>
 </figure>
 <script>
 document.querySelectorAll<HTMLElement>('.river-figure').forEach(figure => {
-figure?.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(b => b.disabled = false);
-figure?.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(button => button.addEventListener('click', () => {
+figure.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(b => b.disabled = false);
+figure.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(button => button.addEventListener('click', () => {
 const mode = button.dataset.flow ?? 'royalty'; figure.dataset.mode = mode;
 figure.querySelectorAll('[data-flow]').forEach(b => b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.flow === mode)));
 const caption = figure.querySelector('[data-flow-copy]'); if (caption) caption.textContent = mode === 'code' ? 'Your code becomes part of products other people build.' : 'When their products earn, royalties would return to you.';

@@ -1,3 +1,23 @@
+# Current direction: monochrome Gateway Flow, 2026-10-07
+
+Adam accepted the page layout and then explicitly requested a complete black-and-white style redesign around the exact ThreeUI Gateway Flow source. His follow-up asks for the hero’s tributary rivers to connect seamlessly to the first diagram while retaining two full-frame scenes. This direction supersedes the colors, gradient ribbons, previous mark, and introductory ribbon animation described in the historical record below.
+
+Composition A, selected: one shared sticky authored canvas behind adjacent hero and mechanism scenes. The identity becomes the explanatory diagram through annotation, with continuous particles and the same junction. The thesis moves below this pair to preserve the connection. Existing creator-first copy, audience panels, flaws, reading pages, and demo forms remain.
+
+Composition B, rejected: separate independently mounted canvases for the hero and mechanism. Their particles would restart at the section boundary and the relationship would become two disconnected decorations.
+
+Black is the flow stage and identity ground; white is the reading surface. Neutral grays organize hierarchy and hairline dividers. The navigation and project mark use thin converging cubic tributaries and a square gateway. Static companion artwork uses the same curve vocabulary rather than broad ribbons or painted gradients. DM Sans and DM Mono remain the two application type families; original fonts inside the isolated source document are preserved as required by Adam’s exact-source instruction.
+
+The requested variant and props render from the complete registered source, with all three hashes verified on every build. The public entry-point adapter follows the official package’s variant routing. Source code, shaders, scripts, asset paths, sandbox, and motion are unchanged. Host-level pause, reduced motion, and visibility suspension stop the iframe safely and reveal a geometry-derived static companion. The authored click pulse retains its original physics and duration. Source preservation overrides generic motion-duration recipes for that authored interaction.
+
+The hero eyebrow is removed at Adam’s request. Native cross-document View Transitions add a 160/180ms page crossfade; reduced motion opts out. The continuous scrolling canvas remains mounted across its two scenes.
+
+The second scene’s semantic arrows reverse when code is selected; its ambient particles continue converging. The caption states that distinction and avoids implying working payments or numeric allocations. The preview remains a whitepaper asking for community feedback. See THREEUI-SOURCE.md and REVIEW.md for provenance and verification.
+
+---
+
+# Historical direction before the accepted layout / style change
+
 # Tributary: complete redesign, 2026-10-07
 
 ## Brief and authorization
