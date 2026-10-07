@@ -1,3 +1,9 @@
+# Current direction: stable scroll arrivals, 2026-10-07
+
+Retain the slower accepted reveal timing, but stage the initial opacity and travel while each target is offscreen. When the deeper viewport trigger fires, it continues from that same prepared state, avoiding a visible full-brightness-to-dim reset. Prepared inline styles are restored on completion, focus/press, fast scroll, tab hiding, page cleanup, animation failure and reduced motion. Already-visible content never stages. Footer utility copy stays static because it sits below the inset reveal trigger at the end of the document. Preload the existing footer field within 300px of arrival so its static-to-WebGL handoff happens before readers reach it. Full particle counts, materials, shaders and camera remain unchanged.
+
+---
+
 # Current direction: constellation closing scene, 2026-10-07
 
 The shared footer brings back the accepted blue-white constellation as a full-sized backdrop to “Value should flow back.” Its horizontal Gateway-derived silhouette converges beside the statement, with a left reading gradient keeping the statement and links clear. The quarter turn happens in the native GPU camera, with aspect-aware span so the canvas stays crisp; the static fallback also turns sideways. Mobile shifts the current to the right without changing the accepted footer layout. This is closing artwork, not a standalone icon or miniature divider.

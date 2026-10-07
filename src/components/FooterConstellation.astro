@@ -33,7 +33,7 @@ for(const host of document.querySelectorAll<HTMLElement>('[data-footer-constella
  const preference=()=>{update();if(inView)void load();};
  const observer=new IntersectionObserver(([entry])=>{
   inView=entry.isIntersecting;update();if(inView)void load();
- });
+ },{rootMargin:'300px 0px'});
  observer.observe(host.closest('.site-footer')??host);
  document.addEventListener('visibilitychange',update);
  reduced.addEventListener('change',preference);

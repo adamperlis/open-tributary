@@ -13,13 +13,28 @@ export function mountPageReveals(root:ParentNode=document) {
  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
  const narrow=window.matchMedia('(max-width: 768px)');
  const seen=new Set<HTMLElement>(),running=new Map<HTMLElement,Animation>();
+ const prepared=new Map<HTMLElement,{opacity:number;resting:string;inlineOpacity:string;inlineTransform:string}>();
+ const prepare=(element:HTMLElement)=>{
+  if(prepared.has(element))return;
+  const style=getComputedStyle(element),profile=profiles[element.dataset.reveal as keyof typeof profiles]??profiles.body;
+  const state={opacity:Number(style.opacity),resting:style.transform==='none'?'':style.transform,inlineOpacity:element.style.opacity,inlineTransform:element.style.transform};
+  prepared.set(element,state);
+  // Stage outside the viewport, so the later trigger never dims already-visible content.
+  element.style.opacity=String(state.opacity*profile.opacity);
+  element.style.transform=`${state.resting} translate3d(0,${profile.distance*(narrow.matches?.55:1)}px,0)`;
+ };
+ const restore=(element:HTMLElement)=>{
+  const state=prepared.get(element);if(!state)return;
+  element.style.opacity=state.inlineOpacity;element.style.transform=state.inlineTransform;prepared.delete(element);
+ };
  let disposed=false;
  const settle=(element:HTMLElement)=>{
   const animation=running.get(element);
   if(animation){animation.onfinish=null;animation.oncancel=null;animation.cancel();running.delete(element);}
+  restore(element);
   element.dataset.revealState=reduced.matches?'static':'settled';
  };
- const settleAll=()=>[...running.keys()].forEach(settle);
+ const settleAll=()=>new Set([...running.keys(),...prepared.keys()]).forEach(settle);
  const observer=new IntersectionObserver(entries=>{
   if(disposed||reduced.matches)return;
   const batches=new Map<Element,number>();
@@ -32,14 +47,16 @@ export function mountPageReveals(root:ParentNode=document) {
    const group=element.closest('[data-reveal-group]')??element;
    const index=batches.get(group)??0;batches.set(group,index+1);
    const profile=profiles[element.dataset.reveal as keyof typeof profiles]??profiles.body;
-   const style=getComputedStyle(element),opacity=Number(style.opacity);
-   const resting=style.transform==='none'?'':style.transform;
+   const state=prepared.get(element);
+   const style=getComputedStyle(element),opacity=state?.opacity??Number(style.opacity);
+   const resting=state?.resting??(style.transform==='none'?'':style.transform);
    const distance=profile.distance*(narrow.matches?.55:1);
    try{
     const animation=element.animate([
      {opacity:opacity*profile.opacity,transform:`${resting} translate3d(0,${distance}px,0)`},
      {opacity,transform:resting||'none'},
     ],{duration:profile.duration*(narrow.matches?.8:1),delay:(narrow.matches?160:220)+Math.min(index*(narrow.matches?40:50),200),easing:arrival,fill:'backwards'});
+    restore(element);
     running.set(element,animation);element.dataset.revealState='entering';
     animation.onfinish=()=>settle(element);animation.oncancel=()=>settle(element);
    }catch{settle(element);}
@@ -52,8 +69,8 @@ export function mountPageReveals(root:ParentNode=document) {
    if(reduced.matches){element.dataset.revealState='static';continue;}
    if(seen.has(element)){settle(element);continue;}
    // Already visible on load/BFCache restore: don't make readers reread a moving page.
-   if(element.getBoundingClientRect().top<window.innerHeight*.96){seen.add(element);settle(element);}
-   else{element.dataset.revealState='ready';observer.observe(element);}
+   if(element.getBoundingClientRect().top<window.innerHeight){seen.add(element);settle(element);}
+   else{element.dataset.revealState='ready';prepare(element);observer.observe(element);}
   }
  };
  const interact=(event:Event)=>{
@@ -64,7 +81,7 @@ export function mountPageReveals(root:ParentNode=document) {
  };
  const hide=()=>{observer.disconnect();settleAll();};
  const show=(event:PageTransitionEvent)=>{if(event.persisted)arm();};
- const visibility=()=>{if(document.hidden)settleAll();};
+ const visibility=()=>{if(document.hidden)settleAll();else arm();};
  reduced.addEventListener('change',arm);
  document.addEventListener('focusin',interact,true);
  document.addEventListener('pointerdown',interact,true);

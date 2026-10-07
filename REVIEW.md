@@ -1,3 +1,11 @@
+# Current review: scroll brightness reset fixed, 2026-10-07
+
+The offset entrance previously let content enter view at full authored brightness before the reveal trigger suddenly dimmed it. The initial opacity and transform now stage offscreen, then the same frames take over at the delayed trigger. The author’s inline styles restore when entrances finish or are interrupted. All offscreen preparation releases under reduced motion, hidden tabs, page cleanup and animation failure; returning tabs rearm pending entrances. Already-visible content remains still. Footer utility copy no longer has a reveal because the bottom inset cannot reach it at the end of the document. The footer renderer loads within a 300px observer margin rather than at the visible edge.
+
+Validation: Astro check reports 47 files, zero errors/warnings/hints. Static build and canonical ThreeUI hashes pass. The reveal lifecycle test now covers pre-staged brightness, authored opacity restoration, skipped entrances, hidden-tab rearming and cleanup, as well as the existing timing/accessibility safeguards. No new dependencies or animation loop. Desktop browser at 1440 × 900 confirms pre-staged pending invitation/footer targets, full-opacity settled footer text, and no replay on reverse scroll. Footer WebGL remains available across the boundary with 20,500 particles, two draw calls, cached inputs and full quality; horizontal overflow is zero. Screenshot: tributary-footer-no-flicker.jpg alongside this task. Mobile lifecycle behavior is exercised by the automated check, not a new physical-device benchmark.
+
+---
+
 # Current review: visible reveal timing, 2026-10-07
 
 Later-page entrances now trigger farther inside the viewport: 18% of viewport height on desktop, 14% on mobile, expressed in pixels to avoid width-relative IntersectionObserver percentage margins. A 220ms desktop / 160ms mobile base pause gives each arrival a visible beat. Related elements stagger by 50ms / 40ms, capped at 200ms. Headlines settle over 900ms, body copy 780ms, details 650ms and ambient SVG artwork 1100ms, with 80% durations on phones and a less abrupt ease-out. Travel, layout, river camera choreography and GPU effects are preserved.
