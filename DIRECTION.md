@@ -1,3 +1,9 @@
+# Current direction: expansive builder eddy and river favicon, 2026-10-07
+
+Give creators and builders separate full-width audience scenes. The builder receives a 720px desktop / 850px phone reading-and-art stage, with a 56px / 40px headline and a dedicated inward-winding eddy. Copy stays concise and creator-first proposal framing remains. The broad blue-white particle spiral sits beside desktop copy and below phone copy, with local reading gradients and a faded mobile drawing edge. Preserve the shared two-pass renderer, existing particle budgets and visibility lifecycle. Replace the rejected crossed favicon with one tilted, asymmetric river bend, using SVG and generated ICO/PNG/touch fallbacks.
+
+---
+
 # Current direction: continuous confluence and woven footer, 2026-10-07
 
 The four participation curtains now join at a shared central position and tangent. Particles cross the junction and exit the opposite bank, removing the rectangular gap made by four disconnected endpoints. Both the shader and static paths use the same construction.

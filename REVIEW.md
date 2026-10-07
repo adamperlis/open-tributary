@@ -1,3 +1,9 @@
+# Current review: full-width builder scene and revised favicon, 2026-10-07
+
+Astro check passes for 51 files with zero errors/warnings/hints. Build and canonical ThreeUI hashes pass. Ambient verification covers 46,800 finite positions, native crop behavior and the existing context/phase/accessibility lifecycle. Desktop 1440x900 and phone 390x844 browser review show a larger builder stage and a dedicated eddy, with zero horizontal overflow, 20,500 desktop / 10,000 phone particles, two draw calls and cached inputs. Native performance safeguards remain; this is not a physical-device FPS benchmark. The mobile field fades at its internal drawing bounds. The replacement favicon uses one asymmetric river bend and a fresh cache version; existing browser fallbacks and touch size are regenerated. Evidence: tributary-builder-eddy-desktop.jpg, tributary-builder-eddy-mobile.jpg and tributary-river-favicon-review.png in the task workspace.
+
+---
+
 # Current review: builder gap fixed and distinct footer, 2026-10-07
 
 The rectangular gap in participation came from separated curve endpoints at x=.46 and x=.54. The curves now share x=.5 and a continuous tangent, then extend across the other bank. Static and WebGL geometry both change. A regression check covers continuity, tangent matching and particles reaching the opposite bank. The footer uses a new braided-current preset with two crossing filament ribbons, replacing its repeated Gateway silhouette. Its canvas fills the complete section on desktop and mobile to avoid an internal rectangular crop.

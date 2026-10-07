@@ -1,9 +1,13 @@
 /** Supporting scenes share a current material, with their own trajectories. */
-export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple','braid'] as const;
+export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple','braid','eddy'] as const;
 export type AmbientComposition = typeof ambientCompositions[number];
 const cubic=(a:number,b:number,c:number,d:number,t:number)=>{const q=1-t;return q*q*q*a+3*q*q*t*b+3*q*t*t*c+t*t*t*d;};
 export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:number){
  const q=(lane+.2)/1.4;
+ if(shape==='eddy'){
+  const angle=-Math.PI*.75+t*Math.PI*3,radius=.035+(1-t)*(.33+q*.12);
+  return {x:.72+Math.cos(angle)*radius,y:.54+Math.sin(angle)*radius*1.6};
+ }
  if(shape==='braid'){
   const width=.09+.07*Math.sin(t*Math.PI)**2;
   return {x:-.12+t*1.24,y:.54+(side?1:-1)*.24*Math.sin((t-.12)*Math.PI*2)+(q-.5)*width};
@@ -34,6 +38,10 @@ export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:
 export const ambientPositionShader=`
 vec2 ambientPosition(float shape,float lane,float side,float t){
  float q=(lane+.2)/1.4;
+ if(shape>7.5){
+  float angle=-2.35619449019+t*9.42477796077,radius=.035+(1.0-t)*(.33+q*.12);
+  return vec2(.72,.54)+vec2(cos(angle),sin(angle)*1.6)*radius;
+ }
  if(shape>6.5){
   float spread=.09+.07*pow(sin(t*3.14159265359),2.0);
   return vec2(-.12+t*1.24,.54+mix(-1.0,1.0,side)*.24*sin((t-.12)*6.28318530718)+(q-.5)*spread);

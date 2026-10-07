@@ -225,3 +225,24 @@
  .people-flow.ambient-flow{height:600px}
  .participation-grid .builder-panel{background:linear-gradient(#050505 0%,#050505e6 52%,#05050500 85%)}
 }
+
+/* Each audience has room for its own current; the builder gets a full eddy scene. */
+.participation-grid{grid-template-columns:1fr;background:#050505}
+.participation-grid article{isolation:isolate;overflow:hidden;padding:64px;min-height:540px}
+.participation-grid .creator-panel,.participation-grid .builder-panel{background:#050505}
+.participation-grid .builder-panel{min-height:720px;border-left:0;border-top:1px solid #30343c;display:flex;align-items:center}
+.audience-copy{position:relative;z-index:2;max-width:500px}
+.participation-grid .builder-panel h3{font-size:56px;line-height:1.06}
+.participation-grid .builder-panel p{font-size:18px;max-width:400px;margin-top:32px}
+.participation-grid .builder-panel .text-link{margin-top:28px}
+.creator-current,.builder-current{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.participation-grid article::before{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,#050505 0%,#050505e6 32%,#05050566 50%,transparent 70%)}
+@media(max-width:768px){
+ .participation-grid article{padding:40px 24px;min-height:660px}
+ .participation-grid .builder-panel{min-height:850px;display:block}
+ .participation-grid .builder-panel h3{font-size:40px;margin-top:28px}
+ .participation-grid .builder-panel p{font-size:16px;margin-top:24px}
+ .creator-current,.builder-current{inset:auto auto 0 -80%;width:200%;height:420px;mask-image:linear-gradient(transparent,#000 18%,#000 94%,transparent)}
+ .participation-grid article::before{background:linear-gradient(#050505 0%,#050505f2 40%,#05050566 58%,transparent 72%)}
+}
+@media(max-width:350px){.participation-grid article{padding-inline:20px}.participation-grid .builder-panel h3{font-size:34px}}
