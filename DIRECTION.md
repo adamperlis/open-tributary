@@ -1,3 +1,11 @@
+# Current direction: constellation closing scene, 2026-10-07
+
+The shared footer brings back the accepted blue-white constellation as a full-sized backdrop to “Value should flow back.” Its vertical Gateway-derived silhouette converges near the bottom, with a left reading gradient keeping the statement and links clear. Mobile shifts the current to the right without changing the accepted footer layout. This is closing artwork, not a standalone icon or miniature divider.
+
+Reuse the existing full-detail WebGL field, palette and native display resolution. A small native Astro controller imports the renderer only when the footer is visible, then suspends it offscreen, on hidden tabs and under reduced motion. The main story is already suspended at the bottom of the page. Reduced motion, unavailable WebGL and context loss retain a static source-derived flow. Page lifecycle listeners clean up on unload and resume after BFCache restoration. No new dependency or React island is added.
+
+---
+
 # Current direction: one motion rhythm beyond the river, 2026-10-07
 
 Preserve the accepted layout, current brand, creator-first whitepaper framing, fonts, and all existing river effects. This is a motion refinement rather than a UI redesign. Primary archetype: research/editorial proposal, with developer-platform evidence. The audience remains open-source creators, maintainers and builders; the goal is community feedback and participation.

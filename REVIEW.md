@@ -1,3 +1,15 @@
+# Current review: footer constellation, 2026-10-07
+
+The shared footer uses the existing custom WebGL constellation field and blue-white palette behind its closing statement. A right-side composition, reading gradient and mobile placement keep the accepted wordmark, links and copy clear. The canonical ThreeUI bundle remains unchanged; this reuses the authorized material adaptation rather than claiming an unmodified registered runtime.
+
+Validation: Astro check reports 42 files with zero errors, warnings or hints; the build produces six pages and verifies the three canonical hashes. The new native footer controller is 2.39 kB / 1.15 kB gzip. Vite extracts the common field into a shared 9.33 kB / 4.40 kB gzip chunk; no animation dependency or React island is added.
+
+Browser review at http://localhost:4325/ covers 1440 × 900 desktop and 390 × 844 mobile. Before reaching the footer, its field remains uninitialized. At the bottom, it renders with 20,500 desktop / 10,000 mobile particles, two draw calls and cached vertex inputs. The desktop backing is 2188 × 1190 for a 1094.4 × 595.0 CSS-pixel area at DPR 2; mobile is 488 × 456 at DPR 1. The main story is suspended while the footer runs. Scrolling away stops the footer; a later mobile snapshot retains its phase at 27.5864. Both layouts have zero horizontal overflow, clear text and links. Keyboard navigation reaches GitHub with a visible focus outline. Browser error/warning logs are empty. These are rendered-state checks, not physical-device FPS measurements.
+
+Reduced-motion/static, hidden-tab, context-loss and BFCache behavior are reviewed in source; browser preferences and WebGL loss were not forced. Rendered evidence alongside this task: tributary-footer-desktop.jpg and tributary-footer-mobile.jpg.
+
+---
+
 # Current review: coordinated page entrances, 2026-10-07
 
 The accepted layout, proposal copy, fonts, palette, river geometry and particle effects are preserved. Thirty later-page targets now use one native IntersectionObserver and short Web Animations entrances: facts, participation, questions, invitation, supporting flow artwork, and footer. Related targets use 40ms stagger capped at 120ms; mobile uses 30ms stagger, 55% travel and 80% duration. Headlines carry the emphasis; body/detail movement is quieter. No animation dependency, continuous frame loop, permanent will-change layer, blur or decorative tilt is added. Effects release after completion and do not replay on backward scrolling.
