@@ -1,3 +1,15 @@
+# Centered vertical composition correction, 2026-10-07
+
+This review supersedes the earlier vertical-to-horizontal fan-out below. Both the hero and diagram stay vertical throughout the scroll. The scroll rotation/expansion controller was removed. One sticky source canvas remains mounted across the two scenes with a constant 90° host rotation; the annotation SVG shares the identical frame and transform. The headline, subhead, actions, and both visual centers share the horizontal midpoint.
+
+Rendered at 1440 × 900, 1280 × 720, 390 × 844, and 320 × 740. DOM measurements at 1280px return center x=640 for headline, subhead, action group, source current, annotation frame, and project. At 320px the equivalent midpoint is x=160. No horizontal overflow. The products appear above the project, with upright labels and downward royalty arrows; short-screen typography and diagram dimensions keep the desktop scenes visible. Small phones use additional reading height.
+
+The direction switch updates pressed states and captions. Pause removes the iframe (count=0); resume remounts it. Only one source iframe is mounted while active. Browser error log returned no errors during the local check. The three registered source files remain unchanged. Authored Canvas 2D rendering is retained; the user's permission to use WebGL does not require replacing the exact source implementation.
+
+`npm run check`: 27 files, zero errors, warnings, or hints. `npm run build`: six static pages completed; all three registered SHA-256 hashes verified. Published verification follows deployment. Prior checks below are historical and do not describe the current orientation or coordinates.
+
+---
+
 # Current review: monochrome Gateway Flow, 2026-10-07
 
 ## Vertical-to-fan follow-up

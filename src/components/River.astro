@@ -11,7 +11,7 @@ function arrowSegment(y: number, right = false) {
  const x = (value: number) => right ? 1000-value : value;
  return `M${x(p.x)} ${p.y}C${x(p.x+u.x*d)} ${p.y+u.y*d} ${x(q.x-v.x*d)} ${q.y-v.y*d} ${x(q.x)} ${q.y}`;
 }
-const arrows=[arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
+const arrows=connected ? [arrowSegment(560),arrowSegment(350),arrowSegment(140)] : [arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
 ---
 <figure id="flow-map" class:list={['river-figure', { 'connected-diagram': connected }]} data-mode="royalty">
 <div class="map-topline"><span class="eyebrow">THE PROPOSED FLOW</span><span class="map-index">FIG. 01</span></div>
