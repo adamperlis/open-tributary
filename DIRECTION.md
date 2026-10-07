@@ -1,8 +1,10 @@
 # Current direction: constellation closing scene, 2026-10-07
 
-The shared footer brings back the accepted blue-white constellation as a full-sized backdrop to “Value should flow back.” Its vertical Gateway-derived silhouette converges near the bottom, with a left reading gradient keeping the statement and links clear. Mobile shifts the current to the right without changing the accepted footer layout. This is closing artwork, not a standalone icon or miniature divider.
+The shared footer brings back the accepted blue-white constellation as a full-sized backdrop to “Value should flow back.” Its horizontal Gateway-derived silhouette converges beside the statement, with a left reading gradient keeping the statement and links clear. The quarter turn happens in the native GPU camera, with aspect-aware span so the canvas stays crisp; the static fallback also turns sideways. Mobile shifts the current to the right without changing the accepted footer layout. This is closing artwork, not a standalone icon or miniature divider.
 
 Reuse the existing full-detail WebGL field, palette and native display resolution. A small native Astro controller imports the renderer only when the footer is visible, then suspends it offscreen, on hidden tabs and under reduced motion. The main story is already suspended at the bottom of the page. Reduced motion, unavailable WebGL and context loss retain a static source-derived flow. Page lifecycle listeners clean up on unload and resume after BFCache restoration. No new dependency or React island is added.
+
+The invitation above the footer lets its existing SVG curves extend outside the SVG viewport into a section-sized artwork layer. A 96px upper fade removes the hard crop inside the section. Shape, placement, line colors, particles, reveal animation and copy remain; clipping at the outer section prevents page overflow.
 
 ---
 

@@ -85,7 +85,7 @@ export interface TributaryField {
  dispose(): void;
 }
 
-export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement): TributaryField | null {
+export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement, options: { orientation?: 'horizontal' | 'vertical' } = {}): TributaryField | null {
  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:'low-power',preserveDrawingBuffer:false});
  if(!gl){host.dataset.fieldError='WebGL context unavailable';return null;}
  const shaders: WebGLShader[]=[];
@@ -151,6 +151,12 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
    gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform1f(time,elapsed);
    if(cameraDirty){
     const camera=fieldCamera(progress,viewportWidth,viewportHeight);
+    // Rotate in native render space so the footer remains crisp at every aspect ratio.
+    if(options.orientation==='horizontal'){
+     camera.rotationX=0;camera.rotationY=-1;
+     camera.stretch=1.65*viewportWidth/viewportHeight;
+     camera.focusX=.55;camera.focusY=.54;
+    }
     gl.uniform1f(story,camera.morph);gl.uniform1f(follow,camera.follow);
     gl.uniform1f(junction,camera.junction);gl.uniform1f(stretch,camera.stretch);
     gl.uniform2f(rotation,camera.rotationX,camera.rotationY);gl.uniform2f(focus,camera.focusX,camera.focusY);

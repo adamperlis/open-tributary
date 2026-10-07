@@ -1,3 +1,13 @@
+# Current review: continuous invitation edge and sideways footer, 2026-10-07
+
+The invitation's SVG viewport used to crop its upper curves at an internal horizontal edge. A section-sized artwork layer now allows those curves to overflow the SVG and applies a 96px fade at the section top. Existing shape, placement, material and entrance timing remain. The footer turns the constellation sideways through a native WebGL camera option, with an aspect-aware horizontal span and the existing reading gradient. Its static fallback also turns horizontally. The homepage story still uses its original camera; source hashes and particle materials are unchanged.
+
+Validation: Astro check reports 42 files, zero errors/warnings/hints. Build passes for six pages and verifies all three canonical hashes. Existing field performance and resolution checks pass: 24,240 camera positions, 30,507 seed/material assignments, 140 moving-product positions and native 4K/Retina/phone resolutions. The renderer adds no draw pass or dependency.
+
+Browser review at 2048 × 1000 reproduces the supplied wide composition: invitation curves extend above the former SVG edge and fade smoothly at the outer boundary; the horizontal footer remains readable. At 390 × 844 both the invitation fade and sideways footer render without horizontal overflow. Footer diagnostics retain 10,000 phone particles, two draw calls and a 488 × 456 native backing, and it stops rendering when scrolled offscreen. Error/warning logs are empty. Reduced-motion/static behavior was reviewed in source rather than forced in the browser. Evidence alongside this task: tributary-invitation-unclipped-wide.jpg, tributary-invitation-unclipped-mobile.jpg, tributary-footer-sideways-wide.jpg, and tributary-footer-sideways-mobile.jpg.
+
+---
+
 # Current review: footer constellation, 2026-10-07
 
 The shared footer uses the existing custom WebGL constellation field and blue-white palette behind its closing statement. A right-side composition, reading gradient and mobile placement keep the accepted wordmark, links and copy clear. The canonical ThreeUI bundle remains unchanged; this reuses the authorized material adaptation rather than claiming an unmodified registered runtime.

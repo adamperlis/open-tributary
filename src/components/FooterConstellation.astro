@@ -2,9 +2,9 @@
 import { gatewayRiverPath } from '../lib/river-shape';
 import { FLOW_INK, flowColor } from '../lib/flow-palette';
 ---
-<div class="gateway-host footer-constellation" data-footer-constellation data-available="false" aria-hidden="true">
+<div class="gateway-host footer-constellation" data-footer-constellation data-orientation="horizontal" data-available="false" aria-hidden="true">
  <div class="gateway-still"><svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-  <g fill="none" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" stroke-dasharray="1 4" opacity=".25">
+  <g transform="translate(550 540) rotate(-90) scale(1 1.65) translate(-500 -790)" fill="none" stroke={flowColor(FLOW_INK.filament)} stroke-width=".7" stroke-dasharray="1 4" opacity=".25">
    {Array.from({length:80},(_,i)=><path d={gatewayRiverPath(i,{spread:.26,source:.42,junction:.79})} vector-effect="non-scaling-stroke"/>)}
   </g>
  </svg></div>
@@ -26,7 +26,7 @@ for(const host of document.querySelectorAll<HTMLElement>('[data-footer-constella
   loading=true;
   try{
    const { mountTributaryField }=await import('../lib/tributary-field');
-   if(!disposed){field=mountTributaryField(canvas,host);update();}
+   if(!disposed){field=mountTributaryField(canvas,host,{orientation:'horizontal'});update();}
   }catch{host.dataset.fieldError='Renderer unavailable';update();}
   finally{loading=false;}
  };
