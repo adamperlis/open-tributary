@@ -1,4 +1,4 @@
-import { gatewayArrowPath as arrowPath, ease, riverCurves, riverFrame, gatewayRiverPath } from './river-shape';
+import { ease, riverCurves, riverFrame, gatewayRiverPath } from './river-shape';
 interface StoryField { setStory(progress:number):void; }
 
 /** Scroll supplies a camera position; it never starts an independent scene animation. */
@@ -12,8 +12,6 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
  const products = [...mechanism.querySelectorAll<HTMLElement>('.diagram-node:not(.project-node)')];
  const project = mechanism.querySelector<HTMLElement>('.project-node')!;
  const controls = mechanism.querySelector<HTMLElement>('.diagram-bottom')!;
- const afterword = mechanism.querySelector<HTMLElement>('.mechanism-afterword')!;
- const arrows = mechanism.querySelector<SVGGElement>('.direction-lines')!;
  const cue = hero.querySelector<HTMLElement>('.river-scroll-cue');
  const chrome = document.querySelector<HTMLElement>('.site-chrome');
  let enabled = false, disposed = false, frame = 0, last = 0, position = 0, target = 0;
@@ -48,8 +46,8 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
   const junction = .79 + (layout.junction-.79)*morph;
   project.style.top=`${junction*100}%`;opacity(project,ease(.42,.59,value));
   const details = ease(.61,.73,value);
-  opacity(controls,details);opacity(afterword,details);opacity(arrows,ease(.58,.70,value)*.7);
-  controls.inert=details<.95;afterword.inert=details<.95;
+  opacity(controls,details);
+  controls.inert=details<.95;
   if(cue)opacity(cue,1-ease(.02,.14,value));
   story!.dataset.storyProgress=value.toFixed(4);
   story!.dataset.riverMorph=morph.toFixed(4);
@@ -76,7 +74,6 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
   story!.style.setProperty('--source-spread',`${layout.spread*100}%`);
   story!.style.setProperty('--source-y',`${layout.source*100}%`);
   story!.style.setProperty('--project-y',`${layout.junction*100}%`);
-  mechanism.querySelectorAll<SVGPathElement>('[data-river-arrow]').forEach((path,i)=>path.setAttribute('d',arrowPath(i,layout)));
   mechanism.querySelectorAll<SVGPathElement>('[data-static-branch]').forEach(path=>path.setAttribute('d',gatewayRiverPath(Number(path.dataset.staticBranch),layout)));
   measureTarget();if(enabled)paint(position);
  };
@@ -89,8 +86,8 @@ export function mountRiverStory(host: HTMLElement, getField: () => StoryField | 
    enabled=value;story.dataset.storyReady=String(value);cancelAnimationFrame(frame);frame=0;last=0;
    if(value){resize();measureTarget();position=target;paint(position);}
    else{
-    [hero,mechanism,controls,afterword,copy,project,...products].forEach(element=>{element.style.removeProperty('opacity');element.style.removeProperty('transform');element.inert=false;});
-    opacity(arrows,.7);if(cue)cue.style.removeProperty('opacity');
+    [hero,mechanism,controls,copy,project,...products].forEach(element=>{element.style.removeProperty('opacity');element.style.removeProperty('transform');element.inert=false;});
+    if(cue)cue.style.removeProperty('opacity');
     products.forEach(element=>{element.style.removeProperty('top');element.style.removeProperty('left');});
     project.style.removeProperty('top');getField()?.setStory(0);
    }

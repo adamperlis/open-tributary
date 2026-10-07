@@ -77,19 +77,6 @@
 }
 /* Native labels and curve coordinates share the full stage, including wide screens. */
 .mechanism-grid{width:100%;max-width:none}
-@media(max-width:768px){
- .river-story .motion-toggle{display:inline-flex;top:8px;bottom:auto;right:12px;min-width:36px;min-height:36px;padding:8px;justify-content:center;background:#000b;border-color:#333}
- .motion-label{display:none}
-}
-
-/* Registered source stays unchanged. This frame turns its x axis vertical. */
-.river-story .registered-current{inset:auto;top:var(--gateway-junction,79%);left:50%;width:var(--scene-height);height:var(--gateway-breadth,100vw);transform:translate(-50%,-50%) rotate(90deg);transform-origin:center;opacity:.7;filter:sepia(.6) saturate(1.2) hue-rotate(180deg);pointer-events:none}
-.registered-current .shader-frame{position:absolute;inset:0;pointer-events:auto}
-.registered-current iframe{display:block;width:100%;height:100%;pointer-events:auto}
-.registered-artwork{position:absolute;inset:0;overflow:hidden;pointer-events:none;mask-image:linear-gradient(180deg,#0000 var(--gateway-fade-start,34%),#000 var(--gateway-fade-end,52%));-webkit-mask-image:linear-gradient(180deg,#0000 var(--gateway-fade-start,34%),#000 var(--gateway-fade-end,52%))}
-.gateway-host[data-renderer="registered-threeui"] .motion-toggle,.gateway-host[data-renderer="registered-threeui"] .gateway-caption{filter:none}
-.gateway-host[data-renderer="registered-threeui"][data-available="true"] .gateway-still{visibility:hidden}
-.gateway-host[data-renderer="registered-threeui"][data-available="false"] .gateway-still{visibility:visible}
 /* The arrow follows its direction without shifting the button's layout. */
 :where(a,button) .icon[data-arrow]{--arrow-x:4px;--arrow-y:0px;transform:translate(0,0);transition:transform 200ms cubic-bezier(.22,1,.36,1)}
 .icon[data-arrow="arrow-down-linear"]{--arrow-x:0px;--arrow-y:4px}
@@ -99,4 +86,33 @@
 @media(hover:hover) and (pointer:fine){:where(a,button):hover:not(:disabled) .icon[data-arrow]{transform:translate(var(--arrow-x),var(--arrow-y))}}
 @media(prefers-reduced-motion:reduce){:where(a,button) .icon[data-arrow]{transition:none;transform:none!important}}
 
-.river-story .registered-current .shader-frame,.river-story .registered-current .gateway-still{inset:0;opacity:1}
+
+/* Give the flow the stage: one headline, four labels, one quiet control. */
+.river-story{--source-y:42%;--project-y:66%}
+.mechanism-grid{padding-top:48px}
+.mechanism-copy{max-width:900px;padding-inline:24px}
+.mechanism-copy h2{font-size:44px;line-height:1.08;margin:0}
+.connected-diagram .diagram-node{font-size:14px;padding-bottom:16px}
+.connected-diagram .project-node{border:0;padding:12px 20px;background:#000e6}
+.connected-diagram .project-node strong{font-size:22px}
+.connected-diagram .diagram-bottom{bottom:40px;width:min(420px,calc(100% - 48px));padding:0;border:0;background:transparent;text-align:center}
+.connected-diagram .flow-switch{padding:4px;gap:4px;border-color:#3a4151;background:#000e6}
+.connected-diagram .flow-switch button{min-height:44px;font-size:12px;padding:8px 12px}
+.connected-diagram .flow-switch button:not([aria-pressed="true"]):is(:hover,:focus-visible){background:#19202c;color:#fff}
+.connected-diagram figcaption{font-size:9px;color:#a1a7b5;margin-top:12px}
+.gateway-host::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23fff' d='M0 0h1v1H0zM2 2h1v1H2z'/%3E%3C/svg%3E");mask-image:linear-gradient(#0000 25%,#000 60%)}
+@media(max-width:768px){
+ .mechanism-grid{padding-top:36px}
+ .mechanism-copy h2{font-size:32px}
+ .connected-diagram .diagram-node{font-size:11px;padding-bottom:12px}
+ .connected-diagram .project-node{padding:10px 16px}
+ .connected-diagram .project-node strong{font-size:20px}
+ .connected-diagram .diagram-bottom{bottom:32px}
+ .connected-diagram .flow-switch button{font-size:11px;padding:8px}
+ .connected-diagram figcaption{font-size:8px}
+}
+@media(min-width:769px) and (max-height:800px){
+ .mechanism-grid{padding-top:32px}.mechanism-copy h2{font-size:36px}
+ .connected-diagram .diagram-bottom{bottom:32px}
+}
+@media(max-width:350px){.mechanism-copy h2{font-size:28px}.connected-diagram .flow-switch button{font-size:10px}}

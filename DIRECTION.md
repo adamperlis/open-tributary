@@ -1,3 +1,17 @@
+# Current direction: streaming material and a quieter diagram, 2026-10-07
+
+Keep the accepted centered layout and the vertical Gateway silhouette. Restore the blue-white filaments, particles and subtle texture from the Holotx video study because the river itself should explain the relationship between creators and downstream products. Adam explicitly requested less copy, more breathing room, no pause button, and no relationship arrows.
+
+The chosen composition uses a two-line 44px desktop / 32px mobile heading, product labels at 42% of the stage, the centered project at 65–66%, and a single 44px-high segmented control near the bottom. The repeated paragraph, eyebrow, per-product sublabels, project sublabel, numbered explanation and extra question link are removed. The caption only identifies an illustrative proposed model. The alternative of keeping the framed explanation panel was rejected because it repeated the heading and crowded the flow.
+
+The active custom WebGL material now follows the rotated registered Gateway cubic. The exact source files and configured component remain preserved separately. One canvas survives both full-frame scenes; the junction moves from the hero at 79% into the diagram without restarting particles. Mode selection reverses particles and travelling dash intensity with a 45ms exponential velocity response. An initial faint-line pass lost the streaming strands; Adam's feedback prompted stronger blue-white line contrast and fewer, more distinct strands. Reduced-motion and WebGL-failure fallbacks stay static and readable. Offscreen and hidden-tab suspension preserve phase. No visible pause control remains, per the explicit request.
+
+Secondary buttons switch to white backgrounds with black text and arrows on hover and keyboard focus. Arrow motion retains its existing 200ms eased translation and reduced-motion handling. Creator-first proposal language, wordmark identity, later section content, and native page/scroll behavior remain.
+
+---
+
+# Historical directions
+
 # Current direction: restored exact Gateway Flow, 2026-10-07
 
 Adam identified the ThreeUI Gateway Flow shape as the intended hero geometry. The homepage again uses its registered component with the exact supplied variant and props. The complete source bundle was fetched and read before editing; all three supplied hashes match the local source. The former original single-current WebGL renderer is no longer the active scene.

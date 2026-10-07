@@ -1,3 +1,23 @@
+# Current review: streaming lines, restored material, simplified flow, 2026-10-07
+
+The active renderer is the original Tributary WebGL material adapted to the rotated Gateway source cubic, rather than the registered iframe runtime. Source hashes remain unchanged and verify before every build. The diagram contains one headline, four labels, one segmented control and a short illustrative-model caption. There are zero pause controls and zero relationship-arrow overlays in the connected chart. The earlier review entries below refer to superseded revisions.
+
+Validation: `npm run check` reports 30 files and zero errors/warnings/hints. `npm run build` builds six pages and verifies all three canonical hashes. Active scene island: 12.31 kB / 5.58 kB gzip. The geometry script passes its 252 legacy continuity cases and 320 rotated canonical-path checks across four viewport frames. Browser review used 1440 × 900 and 390 × 844 at http://localhost:4325/.
+
+Desktop: one canvas remains through the hero, midpoint, and settled diagram. Its phase continues forward through scroll; source and native project center share the same 66% stage junction. Code selection reports outward motion, negative settled velocity, decreasing phase, and the correct pressed button; royalty selection restores positive velocity and increasing phase. The shader uses this same phase for moving line dashes and particles. Reversal does not reseed particles. Offscreen suspension stops the field and preserves phase. The first material pass made lines too faint; the final pass raises filament contrast, reduces strand count, and makes travelling dashes visible. Screenshots were reviewed after this correction.
+
+Mobile: the final hero and diagram retain the streaming lines, blue-white particles, clear spacing, and no horizontal overflow. Controls are 44px high; the project label and controls do not overlap. Mobile code selection also reverses the field and updates pressed state. These are browser viewport checks, not physical-device profiling.
+
+Secondary-button checks: actual pointer hover on hero and bottom CTA returns white backgrounds with black text and arrows. Keyboard focus on hero, bottom CTA, and confirmation secondary buttons returns the same colors with visible focus treatment. Arrow motion remains 200ms and uses the existing reduced-motion rule. No new application errors were observed; the browser log retains a Tailwind CDN warning from the earlier iframe revision.
+
+Reduced-motion, script-free, unavailable-WebGL, and context-loss fallback paths were reviewed in source; browser preference emulation and forced context-loss tests are not claimed. The visible pause control was removed as explicitly requested.
+
+Rendered evidence is saved alongside this task: `tributary-streaming-hero.jpg`, `tributary-streaming-midpoint.jpg`, `tributary-streaming-diagram.jpg`, `tributary-streaming-mobile-hero.jpg`, and `tributary-streaming-mobile-diagram.jpg` in `/Users/adamperlis/Documents/Codex/2026-10-07/i-want-you-to-clone-a/`.
+
+---
+
+# Historical reviews
+
 # Current review: exact Gateway Flow restoration and arrow motion, 2026-10-07
 
 Fetched https://threeui.com/source-code/gateway-flow.json again and confirmed every downloaded registered file matches its supplied SHA-256 and the pinned local file. The active homepage mounts the exact configured component and preserves its scripts, geometry, dependencies and source CSS. Host-level rotation, placement, tint and fading connect the hero to the vertical chart.

@@ -1,4 +1,5 @@
-/** Original Tributary renderer. Registered ThreeUI source is retained separately. */
+/** Tributary material on the registered Gateway cubic, rotated onto a vertical axis.
+ * The three canonical source files are retained byte-for-byte separately. */
 import { ease, riverFrame } from './river-shape';
 const vertex = `
 precision highp float;
@@ -12,47 +13,39 @@ vec2 cubic(vec2 a, vec2 b, vec2 c, vec2 d, float t){
  float q=1.0-t;return q*q*q*a+3.0*q*q*t*b+3.0*q*t*t*c+t*t*t*d;
 }
 void main(){
- float lane=a_seed.x, side=0.0, seed=a_seed.w;
+ float lane=a_seed.x, seed=a_seed.w;
  float t=a_seed.z;
- if(u_kind>.5)t=fract(t+u_time*(.018+seed*.022));
+ if(u_kind>.5)t=fract(t+u_time*(.045+seed*.035));
  float m=u_story;
- float startX=mix(.5+side*.062,.5+side*u_frame.x,m);
- float source=mix(.28,u_frame.y,m),junction=mix(.79,u_frame.z,m);
- vec2 control=vec2(mix(.36,.5,m),mix(.59,junction-.10,m));
- vec2 entry=vec2(mix(startX+.16,startX,m),source+.09);
- vec2 p;float local;
- if(t<.35){
-  local=t/.35;
-  p=cubic(vec2(mix(.5+side*.062,startX,m),-.22),vec2(mix(.62+side*.062,startX,m),.05),2.0*vec2(startX,source)-entry,vec2(startX,source),local);
- }else if(t<.70){
-  local=(t-.35)/.35;
-  p=cubic(vec2(startX,source),entry,
-   control,vec2(.5,junction),local);
- }else{
-  local=(t-.70)/.30;
-  p=cubic(vec2(.5,junction),vec2(.5,junction)+(vec2(.5,junction)-control)*(.30/.35),vec2(mix(.62,.53,m),1.01),vec2(.5,1.18),local);
- }
- float envelope=sin(local*3.14159265);
- // One broad continuous current. Product relationships are DOM/SVG annotations.
- float ribbon=min(.075,max(.028,30.0/u_size.x))*(1.0+.12*sin(t*9.0));
- p.x+=lane*ribbon + envelope*sin(u_time*.14+t*8.0+side*.8)*mix(.009,.0015,m);
- p.y+=envelope*sin(u_time*.11+t*9.0+lane)*.0015;
+ float junction=mix(.79,u_frame.z,m);
+ float sign=a_seed.y<.5?-1.0:1.0;
+ // Exact Gateway control points after a clockwise quarter turn.
+ // The junction moves with the same camera as the native project label.
+ vec2 p=cubic(vec2(lane,junction+sign*.5),vec2(lane,junction+sign*.25),
+  vec2(.5,junction+sign*.10),vec2(.5,junction),t);
+ // Subpixel weave gives the lines a material quality without changing the silhouette.
+ float envelope=sin(t*3.14159265);
+ p.x+=envelope*sin(u_time*.14+t*8.0+seed*9.0)*.55/u_size.x;
  if(u_kind>.5){
-  float dust=u_kind>1.5?5.0:1.1;
+  float dust=u_kind>1.5?3.0:.65;
   p+=vec2(sin(seed*93.1+t*9.0),cos(seed*71.7+t*7.0))*dust/u_size;
  }
- float fade=smoothstep(-.12,.06,p.y)*(1.0-smoothstep(1.03,1.18,p.y));
- // Keep the headline clear; the river acquires definition below the copy.
- float diagramFade=.035+.965*smoothstep(source-.03,source+.055,p.y);
- fade*=mix(.10+.90*smoothstep(.35,.68,p.y),diagramFade,m);
- float broken=.48+.52*smoothstep(-.8,.2,sin(t*151.0+seed*83.0+u_time*.1));
+ float fade=smoothstep(-.05,.05,p.y)*(1.0-smoothstep(.98,1.10,p.y));
+ // Leave a quiet zone behind the headline; expose the field in the diagram.
+ float diagramFade=smoothstep(.18,.32,p.y);
+ fade*=mix(smoothstep(.52,.69,p.y),diagramFade,m);
+ // Avoid a hot knot underneath the project wordmark.
+ fade*=mix(.35,1.0,smoothstep(.005,.055,abs(p.y-junction)));
+ // Travelling dashes move along the strands with the particle current.
+ float broken=.28+.72*smoothstep(-.5,.35,sin(t*151.0+seed*83.0-u_time*9.0));
  float glint=pow(max(0.0,sin(seed*173.0+u_time*.18)),28.0);
- vec3 dim=vec3(.29,.32,.46),silver=vec3(.70,.75,.86);
- float alpha=(.045+seed*.08)*broken*fade;
- if(u_kind>.5){alpha=(u_kind>1.5?.10:.35)*fade;dim=mix(dim,silver,glint*.85);}
+ float highlight=max(glint,step(.82,seed));
+ vec3 dim=vec3(.50,.62,.82),silver=vec3(.94,.97,1.0);
+ float alpha=(.16+seed*.14)*broken*fade;
+ if(u_kind>.5){alpha=(u_kind>1.5?.13:.72)*fade;dim=mix(vec3(.47,.62,.86),silver,highlight);}
  v_ink=vec4(dim,alpha);
  gl_Position=vec4(p.x*2.0-1.0,1.0-p.y*2.0,0.0,1.0);
- gl_PointSize=(u_kind>1.5?1.0:1.25+glint*.65)*u_pixel;
+ gl_PointSize=(u_kind>1.5?1.0:1.3+highlight*.65)*u_pixel;
 }`;
 const fragment = `
 precision mediump float;
@@ -89,20 +82,20 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
   let randomState=731;
   const random=()=>{randomState=(Math.imul(randomState,1664525)+1013904223)>>>0;return randomState/4294967296;};
   const mobile=matchMedia('(max-width:768px)').matches;
-  const lanes=mobile?180:320,steps=120,streamCount=mobile?3500:6500,dustCount=mobile?6500:14000;
+  const lanes=mobile?96:160,steps=160,streamCount=mobile?3500:6500,dustCount=mobile?6500:14000;
   const curves=new Float32Array(lanes*steps*2*4);
   let offset=0;
   for(let l=0;l<lanes;l++){
-   const y=(l/lanes)*2-1,side=l%3,seed=random();
+   const y=1-(l/lanes*1.4-.2),side=l%2,seed=random();
    for(let s=0;s<steps;s++)for(let end=0;end<2;end++){
     curves[offset++]=y;curves[offset++]=side;curves[offset++]=(s+end)/steps;curves[offset++]=seed;
    }
   }
-  const particles=(count:number)=>{const data=new Float32Array(count*4);for(let i=0;i<count;i++){data[i*4]=random()*2-1;data[i*4+1]=i%3;data[i*4+2]=random();data[i*4+3]=random();}return data;};
+  const particles=(count:number)=>{const data=new Float32Array(count*4);for(let i=0;i<count;i++){data[i*4]=1-(random()*1.4-.2);data[i*4+1]=i%2;data[i*4+2]=random();data[i*4+3]=random();}return data;};
   const upload=(data:Float32Array)=>{const buffer=gl.createBuffer();if(!buffer)throw Error('Buffer unavailable');buffers.push(buffer);gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);return {buffer,count:data.length/4};};
   const batches=[upload(curves),upload(particles(streamCount)),upload(particles(dustCount))];
   gl.enableVertexAttribArray(attribute);gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE);gl.disable(gl.DEPTH_TEST);gl.clearColor(0,0,0,0);
-  let disposed=false,running=false,raf=0,last=0,elapsed=0,progress=0,outward=false,quality=1,slowFrames=0,frames=0,frameTotal=0;
+  let disposed=false,running=false,raf=0,last=0,elapsed=0,progress=0,outward=false,velocity=1,contextLost=false,quality=1,slowFrames=0,frames=0,frameTotal=0;
   let dirty=true;
   const resize=()=>{
    const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);
@@ -120,22 +113,27 @@ export function mountTributaryField(canvas: HTMLCanvasElement, host: HTMLElement
    batches.forEach((batch,i)=>{gl.bindBuffer(gl.ARRAY_BUFFER,batch.buffer);gl.vertexAttribPointer(attribute,4,gl.FLOAT,false,0,0);gl.uniform1f(kind,i);gl.drawArrays(i===0?gl.LINES:gl.POINTS,0,Math.floor(batch.count*(i===0?1:quality)));});dirty=false;
   };
   const tick=(now:number)=>{
-   if(!running||disposed)return;
-   const dt=last?now-last:16.67;last=now;elapsed+=Math.min(dt,50)/1000*(outward?-1:1);
+   if(!running||disposed||contextLost)return;
+   const dt=last?now-last:16.67;last=now;
+   velocity+=((outward?-1:1)-velocity)*(1-Math.exp(-Math.min(dt,50)/45));
+   elapsed+=Math.min(dt,50)/1000*velocity;
    // Adapt once after sustained missed frames; no GPU readback in the loop.
    if(dt>27&&dt<100)slowFrames++;else slowFrames=Math.max(0,slowFrames-1);
    if(slowFrames>80&&quality===1){quality=.65;resize();}
    frames++;frameTotal+=dt;
-   if(frames===120){host.dataset.frameMs=(frameTotal/frames).toFixed(1);host.dataset.flowPhase=elapsed.toFixed(2);frames=0;frameTotal=0;}
+   if(frames===120){host.dataset.frameMs=(frameTotal/frames).toFixed(1);frames=0;frameTotal=0;}
+   host.dataset.flowPhase=elapsed.toFixed(4);host.dataset.flowVelocity=velocity.toFixed(3);
    render();raf=requestAnimationFrame(tick);
   };
-  const observer=new ResizeObserver(()=>{resize();if(!running)render();});observer.observe(canvas);
+  const loseContext=(event:Event)=>{event.preventDefault();contextLost=true;running=false;cancelAnimationFrame(raf);host.dataset.available='false';host.dataset.fieldRunning='false';host.dataset.fieldError='WebGL context lost';};
+  canvas.addEventListener('webglcontextlost',loseContext);
+  const observer=new ResizeObserver(()=>{resize();if(!running&&!contextLost)render();});observer.observe(canvas);
   resize();render();host.dataset.renderer='webgl';host.dataset.particleCount=String(streamCount+dustCount);
   return {
-   setRunning(value){if(disposed||running===value)return;running=value;host.dataset.fieldRunning=String(value);if(value){last=0;raf=requestAnimationFrame(tick);}else{cancelAnimationFrame(raf);last=0;}},
-   setStory(value){progress=ease(.16,.64,value);dirty=true;if(!running&&dirty&&!disposed)render();},
+   setRunning(value){if(disposed||contextLost||running===value)return;running=value;host.dataset.fieldRunning=String(value);if(value){last=0;raf=requestAnimationFrame(tick);}else{cancelAnimationFrame(raf);last=0;}},
+   setStory(value){progress=ease(.16,.64,value);dirty=true;if(!running&&dirty&&!disposed&&!contextLost)render();},
    setDirection(value){outward=value;host.dataset.flowDirection=value?'outward':'return';},
-   dispose(){disposed=true;running=false;cancelAnimationFrame(raf);observer.disconnect();cleanup();},
+   dispose(){disposed=true;running=false;cancelAnimationFrame(raf);observer.disconnect();canvas.removeEventListener('webglcontextlost',loseContext);cleanup();},
   };
  }catch(error){host.dataset.fieldError=error instanceof Error?error.message:'Renderer unavailable';cleanup();return null;}
 }

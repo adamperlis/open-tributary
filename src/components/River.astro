@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { gatewayArrowPath as arrowPath, gatewayRiverPath } from '../lib/river-shape';
+import { gatewayRiverPath } from '../lib/river-shape';
 interface Props { connected?: boolean; }
 const { connected = false } = Astro.props;
 const contours = Array.from({length:40},(_,i)=>i/40*980-140);
@@ -12,33 +12,34 @@ function arrowSegment(y: number, right = false) {
  const x = (value: number) => right ? 1000-value : value;
  return `M${x(p.x)} ${p.y}C${x(p.x+u.x*d)} ${p.y+u.y*d} ${x(q.x-v.x*d)} ${q.y-v.y*d} ${x(q.x)} ${q.y}`;
 }
-const frame={spread:.26,source:.38,junction:.62};
-const arrows=connected ? [0,1,2].map(branch=>arrowPath(branch,frame)) : [arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
+const frame={spread:.26,source:.42,junction:.66};
+const arrows=[arrowSegment(140),arrowSegment(560),arrowSegment(140,true)];
 ---
 <figure id="flow-map" class:list={['river-figure', { 'connected-diagram': connected }]} data-mode="royalty">
 <div class="map-topline"><span class="eyebrow">THE PROPOSED FLOW</span><span class="map-index">FIG. 01</span></div>
 <div class="river-map">
 <svg class="gateway-diagram" viewBox={connected ? "0 0 1000 1000" : "0 0 1000 700"} preserveAspectRatio="none" role="img" aria-labelledby="river-title river-desc">
-<title id="river-title">Products connected to your project</title><desc id="river-desc">Product A, Product B, and Product C build on your project. Arrows show proposed royalties returning to you. Select code to reverse the relationship arrows.</desc>
-<defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>
+<title id="river-title">Products connected to your project</title><desc id="river-desc">Products built with your code connect to your project. Switch between royalties returning to you and code flowing outward. This illustrates a proposed model.</desc>
+{!connected && <defs><marker id="flow-down" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="white" stroke-width="1.5"/></marker></defs>}
 {!connected && <g fill="none" stroke="white" stroke-width="1.2" stroke-dasharray="1 4" opacity=".3">{contours.map(y=><><path d={`M0 ${y}C250 ${y} 400 350 500 350`}/><path d={`M1000 ${y}C750 ${y} 600 350 500 350`}/></>)}</g>}
 {connected && <g class="static-diagram-current" fill="none" stroke="#7f87a6" stroke-width=".7" opacity=".25">{Array.from({length:80},(_,i)=><path data-static-branch={i} d={gatewayRiverPath(i,frame)} stroke-dasharray="1 4" vector-effect="non-scaling-stroke"/>)}</g>}
-<g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map((d,i)=><path data-river-arrow={connected ? i : undefined} d={d}/>)}</g>
+{!connected && <g class="direction-lines" fill="none" stroke="white" stroke-width="1.5">{arrows.map(d=><path d={d}/>)}</g>}
 </svg>
-<div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span><small>BUILT WITH YOUR CODE</small></div>
-<div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span><small>BUILT WITH YOUR CODE</small></div>
-<div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span><small>BUILT WITH YOUR CODE</small></div>
-<div class="diagram-node project-node"><strong>Your project</strong><small>THE ORIGINAL CONTRIBUTION</small></div>
+<div class="diagram-node product-a"><span class="node-dot"></span><span>Product A</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
+<div class="diagram-node product-b"><span class="node-dot"></span><span>Product B</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
+<div class="diagram-node product-c"><span class="node-dot"></span><span>Product C</span>{!connected && <small>BUILT WITH YOUR CODE</small>}</div>
+<div class="diagram-node project-node"><strong>Your project</strong>{!connected && <small>THE ORIGINAL CONTRIBUTION</small>}</div>
 </div>
-<div class="diagram-bottom"><div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>
-<div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you <Icon name="arrow-right-down-linear" size={16}/></button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out <Icon name="arrow-left-up-linear" size={16}/></button></div>
-<figcaption>Sample relationships · Arrows show direction, not payment amounts. {connected && 'Ambient currents converge; the arrows show the selected relationship.'}</figcaption></div>
+<div class="diagram-bottom">{!connected && <div class="flow-caption" aria-live="polite"><span class="flow-number">01</span><p data-flow-copy>When their products earn, royalties would return to you.</p></div>}
+<div class="flow-switch" role="group" aria-label="Explore the proposed flow"><button type="button" data-flow="royalty" aria-pressed="true" disabled>Royalties to you {!connected && <Icon name="arrow-right-down-linear" size={16}/>}</button><button type="button" data-flow="code" aria-pressed="false" disabled>Your code goes out {!connected && <Icon name="arrow-left-up-linear" size={16}/>}</button></div>
+<figcaption>{connected ? 'Illustrative flow · Proposed model' : 'Sample relationships · Arrows show direction, not payment amounts.'}</figcaption></div>
 </figure>
 <script>
 document.querySelectorAll<HTMLElement>('.river-figure').forEach(figure => {
 figure.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(b => b.disabled = false);
 figure.querySelectorAll<HTMLButtonElement>('[data-flow]').forEach(button => button.addEventListener('click', () => {
 const mode = button.dataset.flow ?? 'royalty'; figure.dataset.mode = mode;
+figure.dispatchEvent(new CustomEvent('tributary:direction'));
 figure.querySelectorAll('[data-flow]').forEach(b => b.setAttribute('aria-pressed', String((b as HTMLElement).dataset.flow === mode)));
 const caption = figure.querySelector('[data-flow-copy]'); if (caption) caption.textContent = mode === 'code' ? 'Your code becomes part of products other people build.' : 'When their products earn, royalties would return to you.';
 const number = figure.querySelector('.flow-number'); if (number) number.textContent = mode === 'royalty' ? '01' : '02';

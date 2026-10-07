@@ -7,7 +7,7 @@ export const ease = (a: number, b: number, value: number) => {
  return t * t * (3 - 2 * t);
 };
 export function riverFrame(width: number, height: number): RiverFrame {
- return { spread: Math.min(width * .26, 260) / width, source: .38, junction: height < 650 ? .60 : .62 };
+ return { spread: Math.min(width * .26, 260) / width, source: .42, junction: height < 650 ? .65 : .66 };
 }
 export function riverCurves(branch: number, morph: number, frame: RiverFrame): readonly [Curve, Curve, Curve] {
  const side = branch - 1;
