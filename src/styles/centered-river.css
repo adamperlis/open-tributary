@@ -257,3 +257,44 @@
  .creator-panel>.creator-current{top:auto;left:-10%;right:-40%;height:320px;mask-image:linear-gradient(transparent,#000 45%)}
 }
 @media(max-width:420px){.participation-grid article{padding-inline:20px}.participation-grid h3{font-size:34px}.audience-spec div{grid-template-columns:72px 1fr}}
+
+/* The proposal's royalty loop. Wide containers draw the diagram; narrow ones read the same steps as a list. */
+.royalty-loop{margin-top:64px}
+.royalty-loop>.eyebrow{margin-bottom:24px}
+.royalty-loop>h2{font-size:48px;line-height:1.08}
+.loop-figure{position:relative;container-type:inline-size;margin:40px 0 0}
+.loop-diagram{display:block;width:100%;height:auto;overflow:visible;color:#111}
+.loop-box rect{fill:#fff;stroke:#111;stroke-width:1}
+.loop-box.is-protocol rect{fill:#000}
+.loop-diagram .loop-index,.loop-diagram .loop-flow{font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.loop-diagram .loop-index{fill:#6a6a6a}
+.loop-diagram .loop-title{font-size:16px;font-weight:500;letter-spacing:-.02em;fill:#111}
+.loop-diagram .loop-text{font-size:13px;fill:#4a4a4a}
+.loop-diagram .is-protocol .loop-index{fill:#ffffff99}
+.loop-diagram .is-protocol .loop-title{fill:#fff}
+.loop-diagram .is-protocol .loop-text{fill:#d6d6d6}
+.loop-diagram .loop-flow{fill:#6a6a6a}
+.loop-line{fill:none;stroke:currentColor;stroke-width:1;opacity:.45}
+/* Payments drifting downstream along each connector. */
+.loop-current{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-dasharray:0 8;animation:loop-drift 1.6s linear infinite}
+@keyframes loop-drift{from{stroke-dashoffset:16}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.loop-current{animation:none;opacity:.5}}
+.loop-steps{list-style:none;margin:0;padding:0}
+.loop-note{margin-top:20px;font-size:14px;line-height:1.6;color:var(--muted)}
+/* Wide: the list stays for screen readers only. */
+@container (min-width:600px){.loop-steps{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}
+/* Narrow: drop the diagram and run the steps down a single rail. */
+@container (max-width:599.98px){
+ .loop-diagram{display:none}
+ .loop-steps li{position:relative;display:grid;grid-template-columns:32px 1fr;gap:16px;padding-bottom:28px}
+ .loop-steps li::before{content:'';position:absolute;left:5px;top:24px;bottom:4px;border-left:1px solid #111;opacity:.35}
+ .loop-steps li:last-child::before{display:none}
+ .loop-steps .loop-index{font-family:var(--mono);font-size:12px;color:#6a6a6a;padding-top:4px}
+ .loop-steps h3{font-size:20px;font-weight:500;letter-spacing:-.02em}
+ .loop-steps p{font-size:16px;line-height:1.55;color:#4a4a4a;margin-top:6px}
+ .loop-steps .loop-flow{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:#6a6a6a}
+ .loop-steps .is-protocol>div{background:#000;color:#fff;padding:16px;margin-left:-4px}
+ .loop-steps .is-protocol p{color:#d6d6d6}
+ .loop-steps .is-protocol .loop-flow{color:#bdbdbd}
+}
+@media(max-width:768px){.royalty-loop{margin-top:48px}.royalty-loop>h2{font-size:36px}}

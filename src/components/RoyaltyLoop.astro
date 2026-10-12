@@ -1,0 +1,44 @@
+---
+// The proposal's core loop, from the build plan's "How Tributary works" diagram.
+// One source of truth for the steps: wide containers draw them as a looping diagram,
+// narrow ones (and screen readers, always) get the same steps as an ordered list.
+const steps = [
+  { title: 'Creators', lines: ['Publish code under the', 'Open Royalty License'] },
+  { title: 'Builders', lines: ['Build on ORL code, free', 'for personal use'] },
+  { title: 'The app earns money', lines: ['A royalty is owed only', 'once the product earns'] },
+  { title: 'Open Tributary', lines: ['Tracks what each app uses,', 'pays every creator, and', 'keeps a small cut'], protocol: true },
+  { title: 'Creators get paid', lines: ['Royalties reach every', 'project in the chain'] },
+];
+// What flows out of each step toward the next one (step 5 loops back to step 1).
+const flows: Record<number, string> = { 2: 'royalty flows in', 3: 'paid out automatically', 4: 'funds more open source' };
+// Diagram geometry: three boxes across the top, the protocol and the payout below, joined into a loop.
+const W = 220, H = 120;
+const boxes = [[20, 20], [280, 20], [540, 20], [540, 220], [20, 220]];
+const connectors = ['M240 80H274', 'M500 80H534', 'M650 140V214', 'M540 280H246', 'M130 220V146'];
+const labels = [{ i: 2, x: 638, y: 184, anchor: 'end' }, { i: 3, x: 390, y: 268, anchor: 'middle' }, { i: 4, x: 142, y: 184, anchor: 'start' }];
+---
+<figure class="loop-figure">
+  <svg class="loop-diagram" viewBox="0 0 780 360" aria-hidden="true" focusable="false">
+    <defs><marker id="loop-arrow" viewBox="0 0 10 10" refX="4" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 1L8 5L0 9" fill="none" stroke="currentColor" stroke-width="1.4"/></marker></defs>
+    {connectors.map(d => <path class="loop-line" d={d} marker-end="url(#loop-arrow)"/>)}
+    {connectors.map(d => <path class="loop-current" d={d}/>)}
+    {labels.map(({ i, x, y, anchor }) => <text class="loop-flow" x={x} y={y} text-anchor={anchor}>{flows[i]}</text>)}
+    {steps.map((step, i) => { const [x, y] = boxes[i]; return (
+      <g class:list={['loop-box', { 'is-protocol': step.protocol }]}>
+        <rect x={x} y={y} width={W} height={H}/>
+        <text class="loop-index" x={x + 16} y={y + 28}>0{i + 1}</text>
+        <text class="loop-title" x={x + 16} y={y + 54}>{step.title}</text>
+        {step.lines.map((line, k) => <text class="loop-text" x={x + 16} y={y + 78 + k * 18}>{line}</text>)}
+      </g>
+    ); })}
+  </svg>
+  <ol class="loop-steps">
+    {steps.map((step, i) => (
+      <li class:list={{ 'is-protocol': step.protocol }}>
+        <span class="loop-index">0{i + 1}</span>
+        <div><h3>{step.title}</h3><p>{step.lines.join(' ')}</p>{flows[i] && <span class="loop-flow">{flows[i]}</span>}</div>
+      </li>
+    ))}
+  </ol>
+  <figcaption class="loop-note">A proposed flow. Rates, allocation, and enforcement are still open.</figcaption>
+</figure>
