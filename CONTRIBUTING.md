@@ -18,8 +18,7 @@ lawyers, and skeptics are all welcome.
   - the royalty loop: `src/components/RoyaltyLoop.astro`
 - **Fix the site.** Report problems with a
   [site issue](https://github.com/adamperlis/open-tributary/issues/new?template=site-issue.yml), or send a pull request.
-- **Prefer to stay private?** The form at [open-tributary.vercel.app/license#feedback](https://open-tributary.vercel.app/license#feedback)
-  emails the team directly.
+- **Prefer to stay private?** Email [support@b150.ai](mailto:support@b150.ai).
 
 ## Ground rules for proposal changes
 

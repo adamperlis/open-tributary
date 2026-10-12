@@ -3,6 +3,6 @@ contact_links:
   - name: Discuss the proposal in public
     url: https://github.com/adamperlis/open-tributary/discussions
     about: Questions, ideas, and open-ended debate belong in Discussions.
-  - name: Send feedback privately
-    url: https://open-tributary.vercel.app/license#feedback
-    about: The form on the proposal page emails the team directly.
+  - name: Read the proposal
+    url: https://open-tributary.vercel.app/license
+    about: The full v0.1 draft, including where it could break.
