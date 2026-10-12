@@ -9,7 +9,8 @@
     "preview": "node scripts/serve-preview.mjs",
     "check": "astro check",
     "verify:threeui": "node scripts/verify-threeui.mjs",
-    "verify:forms": "node scripts/verify-form-email.mjs"
+    "verify:forms": "node scripts/verify-form-email.mjs",
+    "verify:discussions": "node scripts/verify-discussions.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",

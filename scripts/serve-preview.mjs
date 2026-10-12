@@ -1,4 +1,4 @@
-/** Static build preview plus the same email handler used by the Vercel /api function. */
+/** Static build preview plus the same email and discussions handlers used by the Vercel /api functions. */
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve, extname, sep } from 'node:path';
@@ -13,10 +13,17 @@ const source = await readFile(new URL('../src/server/form-email.ts', import.meta
 const js = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } }).outputText;
 const { createFormEmailHandler } = await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
 const handle = createFormEmailHandler({ env });
+const discussionsJs = ts.transpileModule(await readFile(new URL('../src/server/discussions.ts', import.meta.url), 'utf8'), { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } }).outputText;
+const { createDiscussionsHandler } = await import(`data:text/javascript;base64,${Buffer.from(discussionsJs).toString('base64')}`);
+const listDiscussions = createDiscussionsHandler({ env });
 const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.woff': 'font/woff', '.woff2': 'font/woff2', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain', '.mp4': 'video/mp4' };
 const server = createServer(async (req, res) => {
  try {
   const url = new URL(req.url || '/', `http://${req.headers.host || `localhost:${port}`}`);
+  if (url.pathname === '/api/discussions') {
+   const response = await listDiscussions(new Request(url, { method: req.method }));
+   res.writeHead(response.status, Object.fromEntries(response.headers)); res.end(req.method === 'HEAD' ? undefined : Buffer.from(await response.arrayBuffer())); return;
+  }
   if (url.pathname === '/api/contact') {
    const headers = new Headers();
    for (const [key, value] of Object.entries(req.headers)) if (value) headers.set(key, Array.isArray(value) ? value.join(',') : value);
