@@ -1,0 +1,47 @@
+name: Proposal feedback
+description: Challenge an assumption, point out a flaw, or suggest a change to the Open Tributary proposal.
+title: "[Proposal] "
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public draft, and it's meant to be picked apart. Open-ended questions fit better in [Discussions](https://github.com/adamperlis/open-tributary/discussions).
+  - type: dropdown
+    id: section
+    attributes:
+      label: Which part of the proposal?
+      options:
+        - How it would work (the royalty loop)
+        - The principles
+        - Open questions
+        - Where this could break (limitations)
+        - The manifesto
+        - Something else
+    validations:
+      required: true
+  - type: dropdown
+    id: perspective
+    attributes:
+      label: Your perspective
+      options:
+        - Maintainer or creator
+        - Builder
+        - Company
+        - Legal or policy
+        - Other
+    validations:
+      required: false
+  - type: textarea
+    id: feedback
+    attributes:
+      label: What should change, and why?
+      description: Quote the part you're responding to, and link sources where you can.
+    validations:
+      required: true
+  - type: textarea
+    id: alternative
+    attributes:
+      label: What would you propose instead?
+    validations:
+      required: false

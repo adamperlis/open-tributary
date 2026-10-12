@@ -1,14 +1,18 @@
 ---
 import Icon from './Icon.astro';
+import { github } from '../lib/links';
 const { heading = 'Help us make the principles workable.' } = Astro.props;
 ---
-<section class="feedback-section" id="feedback"><span class="eyebrow">AN OPEN CONVERSATION</span><h2>{heading}</h2><form data-email-form="feedback" class="feedback-form"><div class="form-pair"><label class="field">Name <span class="optional">Optional</span><input name="name" autocomplete="name" maxlength="100" /></label><label class="field">Email <span class="optional">Optional, for a reply</span><input name="email" type="email" autocomplete="email" maxlength="254" /></label></div><label class="field">Your perspective<select name="role" required><option value="">Choose a role</option><option>Creator / maintainer</option><option>Builder</option><option>Company</option><option>Other</option></select></label><label class="field">Your feedback<textarea name="feedback" rows="5" required maxlength="5000" placeholder="What should we think through?" /></label><label class="email-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label><div class="feedback-actions"><button class="button feedback-submit" type="submit" disabled><span data-submit-label>Send feedback</span> <Icon/></button><p class="form-note">Contact: <a href="mailto:support@b150.ai">support@b150.ai</a>.</p></div><p class="form-result" role="status" tabindex="-1" hidden></p><noscript><p class="form-note">Please email <a href="mailto:support@b150.ai">support@b150.ai</a> directly.</p></noscript></form></section>
+<section class="feedback-section" id="feedback"><span class="eyebrow">AN OPEN CONVERSATION</span><h2>{heading}</h2><p class="feedback-public">Prefer to debate it in public? <a href={github.discussions}>Start a discussion on GitHub</a>, or <a href={github.proposalIssue}>open an issue</a> on a specific part of the proposal.</p><form data-email-form="feedback" class="feedback-form"><div class="form-pair"><label class="field">Name <span class="optional">Optional</span><input name="name" autocomplete="name" maxlength="100" /></label><label class="field">Email <span class="optional">Optional, for a reply</span><input name="email" type="email" autocomplete="email" maxlength="254" /></label></div><label class="field">Your perspective<select name="role" required><option value="">Choose a role</option><option>Creator / maintainer</option><option>Builder</option><option>Company</option><option>Other</option></select></label><label class="field">Your feedback<textarea name="feedback" rows="5" required maxlength="5000" placeholder="What should we think through?" /></label><label class="email-honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label><div class="feedback-actions"><button class="button feedback-submit" type="submit" disabled><span data-submit-label>Send feedback</span> <Icon/></button><p class="form-note">Contact: <a href="mailto:support@b150.ai">support@b150.ai</a>.</p></div><p class="form-result" role="status" tabindex="-1" hidden></p><noscript><p class="form-note">Please email <a href="mailto:support@b150.ai">support@b150.ai</a> directly.</p></noscript></form></section>
 <script>
 import { mountEmailForms } from '../lib/email-forms';
 mountEmailForms();
 </script>
 
 <style>
+.feedback-public{margin-top:16px;max-width:560px;font-size:16px;line-height:1.6;color:#555}
+.feedback-public a{color:#111;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+.feedback-public a:is(:hover,:focus-visible){color:#245794}
 .feedback-actions{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px;border:1px solid #ccc;background:#f3f3f3}
 .feedback-submit.button{flex:none;background:#111;border-color:#111;color:#fff;gap:24px}
 .feedback-submit.button:is(:hover,:focus-visible):not(:disabled){background:#fff;border-color:#111;color:#111}

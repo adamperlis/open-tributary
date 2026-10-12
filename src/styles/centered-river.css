@@ -298,3 +298,4 @@
  .loop-steps .is-protocol .loop-flow{color:#bdbdbd}
 }
 @media(max-width:768px){.royalty-loop{margin-top:48px}.royalty-loop>h2{font-size:36px}}
+.join-story-links{display:flex;flex-wrap:wrap;gap:0 32px}

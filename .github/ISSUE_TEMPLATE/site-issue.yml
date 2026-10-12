@@ -1,0 +1,19 @@
+name: Site issue
+description: Something on the Open Tributary site is broken, unclear, or hard to use.
+title: "[Site] "
+labels: ["site"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      placeholder: https://open-tributary.vercel.app/license
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: What you expected, what you saw, and your browser and device.
+    validations:
+      required: true

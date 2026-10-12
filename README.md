@@ -39,3 +39,11 @@ References: [Resend send API](https://resend.com/docs/api-reference/emails/send-
 Run `vercel deploy --prod --scope adamperlis-projects`. Vercel configuration builds Astro and publishes `dist`. The site source and design review records are tracked in this repository.
 
 See BUILD-BRIEF.md for the proposed direction and REVIEW.md for verification evidence.
+
+## Contributing
+
+The proposal is an open draft. Discuss it in [Discussions](https://github.com/adamperlis/open-tributary/discussions), challenge a specific part with a [proposal feedback issue](https://github.com/adamperlis/open-tributary/issues/new?template=proposal-feedback.yml), or propose new wording in a pull request. See [CONTRIBUTING.md](CONTRIBUTING.md) for where each part of the proposal lives and the ground rules.
+
+## License
+
+The site's code is licensed under the [MIT License](LICENSE.md). The proposal and essays are licensed under [CC BY 4.0](LICENSE-CONTENT.md). The Open Tributary name, wordmark, favicon, and share image are not covered by either license.
