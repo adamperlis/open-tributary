@@ -8,6 +8,7 @@ import 'lenis/dist/lenis.css';
 import Icon from '../components/Icon.astro';
 import FooterConstellation from '../components/FooterConstellation.astro';
 import Wordmark from '../components/Wordmark.astro';
+import Analytics from '@vercel/analytics/astro';
 interface Props { title?: string; description?: string; }
 const { title = 'Open Tributary — Value should flow back.', description = 'A whitepaper proposal for royalties in shared software. We’re seeking feedback from the community.' } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -27,7 +28,7 @@ const structuredData = JSON.stringify({ '@context': 'https://schema.org', '@grap
 ---
 <!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="description" content={description} /><meta name="robots" content={indexable ? 'index, follow' : 'noindex, follow'} /><meta name="theme-color" content="#000000" /><title>{title}</title><link rel="icon" href="/favicon.ico?v=flow-6" sizes="16x16 32x32 48x48" /><link rel="icon" type="image/png" href="/favicon-32.png?v=flow-6" sizes="32x32" /><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=flow-6" sizes="any" /><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=flow-6" sizes="180x180" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><link rel="canonical" href={canonical.href} /><meta property="og:url" content={canonical.href} /><meta property="og:site_name" content="Open Tributary" /><meta property="og:type" content={path === '/manifesto' ? 'article' : 'website'} /><meta property="og:image" content={socialImage.href} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content="Open Tributary: Your code. Their products. You should get paid. A whitepaper proposal." /><meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} /><meta name="twitter:image" content={socialImage.href} /><script type="application/ld+json" set:html={structuredData} />
 
-</head><body data-page={path === '/' ? 'home' : path.split('/')[1]}>
+<Analytics /></head><body data-page={path === '/' ? 'home' : path.split('/')[1]}>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site-chrome"><div class="announcement"><span>OPEN TRIBUTARY IS A WHITEPAPER PROPOSAL</span><a href="/license#feedback">Help shape it <Icon size={12}/></a></div><header class="site-header wrap"><Wordmark/><nav aria-label="Main navigation"><a class:list={['nav-link',{current:path === '/manifesto'}]} href="/manifesto">Manifesto</a><a class:list={['nav-link',{current:path === '/license'}]} href="/license">The proposal</a><a href="/join" class="button button-small">Join the conversation <Icon size={16}/></a></nav></header></div>
 <main id="main"><slot /></main>

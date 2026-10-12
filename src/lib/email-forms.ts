@@ -1,3 +1,5 @@
+import { track } from '@vercel/analytics';
+
 /** Send through the same-origin server endpoint; retain input and the idempotency key on failure. */
 export function mountEmailForms(root: ParentNode = document) {
  for (const form of root.querySelectorAll<HTMLFormElement>('[data-email-form]')) {
@@ -29,6 +31,8 @@ export function mountEmailForms(root: ParentNode = document) {
      throw new Error(payload && typeof payload === 'object' && 'message' in payload && typeof payload.message === 'string' ? payload.message : 'We couldn’t confirm sending. Please try again or email support@b150.ai.');
     }
     complete = true; result.dataset.state = 'success'; label.textContent = 'Sent';
+    // Count submissions by form and role only; no names or addresses reach analytics.
+    track(form.dataset.emailForm === 'join' ? 'Join' : 'Feedback', { role: typeof fields.role === 'string' ? fields.role : 'unspecified' });
     result.textContent = 'Thank you. Your message has been sent to the Open Tributary team.';
     if (form.dataset.emailForm === 'join') { location.assign('/join/thanks'); return; }
    } catch (caught) {
