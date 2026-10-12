@@ -1,9 +1,15 @@
 /** Supporting scenes share a current material, with their own trajectories. */
-export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple','braid','eddy'] as const;
+export const ambientCompositions = ['gateway','confluence','meander','fan','orbit','cascade','ripple','braid','eddy','river'] as const;
 export type AmbientComposition = typeof ambientCompositions[number];
 const cubic=(a:number,b:number,c:number,d:number,t:number)=>{const q=1-t;return q*q*q*a+3*q*q*t*b+3*q*t*t*c+t*t*t*d;};
 export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:number){
  const q=(lane+.2)/1.4;
+ if(shape==='river'){
+  // A band of currents falling top to bottom through one S-bend, a little wider at each bend.
+  // It stays near the frame's center so tall, narrow hosts (which crop the sides) keep the whole river.
+  const bend=Math.sin(t*Math.PI*2-.35);
+  return {x:.5+.07*bend+(q-.5)*(.05+.018*Math.abs(bend)),y:-.12+t*1.24};
+ }
  if(shape==='eddy'){
   const angle=-Math.PI*.75+t*Math.PI*3,radius=.035+(1-t)*(.33+q*.12);
   return {x:.72+Math.cos(angle)*radius,y:.54+Math.sin(angle)*radius*1.6};
@@ -38,6 +44,10 @@ export function ambientPoint(shape:AmbientComposition,lane:number,side:number,t:
 export const ambientPositionShader=`
 vec2 ambientPosition(float shape,float lane,float side,float t){
  float q=(lane+.2)/1.4;
+ if(shape>8.5){
+  float bend=sin(t*6.28318530718-.35);
+  return vec2(.5+.07*bend+(q-.5)*(.05+.018*abs(bend)),-.12+t*1.24);
+ }
  if(shape>7.5){
   float angle=-2.35619449019+t*9.42477796077,radius=.035+(1.0-t)*(.33+q*.12);
   return vec2(.72,.54)+vec2(cos(angle),sin(angle)*1.6)*radius;
