@@ -102,11 +102,11 @@ Some pieces already exist. Dependency manifests can identify many of the package
 
 Which is why I think my next build might be exactly that: a payment protocol for open source creators. One open standard that tracks what your software is built on and pays those creators automatically when you earn.
 
-It needs two pieces. A license, the way open source has MIT: I'd call it the [**Open Royalty License (ORL)**](/license). And a protocol that enforces it and moves the money: [**Tributary**](/). Every app is a river fed by smaller streams, the open source projects underneath it. Tributary makes sure those streams get paid.
+It needs two pieces. A license, the way open source has MIT: I'd call it the [**Open Royalty License (ORL)**](/license). And a protocol that enforces it and moves the money: [**Open Tributary**](/). Every app is a river fed by smaller streams, the open source projects underneath it. Open Tributary makes sure those streams get paid.
 
-Released under the Open Royalty License. Paid out through Tributary.
+Released under the Open Royalty License. Paid out through Open Tributary.
 
-Tributary would run on the same model it proposes. It handles the hard part, tracking and payouts to every creator in the chain, and takes a small cut only when creators get paid. We'd literally dogfood our own product.
+Open Tributary would run on the same model it proposes. It handles the hard part, tracking and payouts to every creator in the chain, and takes a small cut only when creators get paid. We'd literally dogfood our own product.
 
 If you maintain an open source project, or you'd use something like this, I want to hear from you.
 

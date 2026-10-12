@@ -34,6 +34,6 @@ const server = createServer(async (req, res) => {
   res.end(req.method === 'HEAD' ? undefined : data);
  } catch { res.writeHead(404, { 'Content-Type': 'text/plain' }); res.end('Not found'); }
 });
-server.listen(port, '127.0.0.1', () => console.log(`Tributary preview and email endpoint: http://localhost:${port}/`));
+server.listen(port, '127.0.0.1', () => console.log(`Open Tributary preview and email endpoint: http://localhost:${port}/`));
 process.on('SIGTERM', () => server.close());
 process.on('SIGINT', () => server.close());

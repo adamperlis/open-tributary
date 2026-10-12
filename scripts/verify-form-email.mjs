@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 const source = await readFile(new URL('../src/server/form-email.ts', import.meta.url), 'utf8');
 const js = ts.transpileModule(source, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ES2022 } }).outputText;
 const { createFormEmailHandler } = await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
-const env = { RESEND_API_KEY: 'test-only-key', FORM_EMAIL_FROM: 'Tributary <forms@b150.ai>' };
+const env = { RESEND_API_KEY: 'test-only-key', FORM_EMAIL_FROM: 'Open Tributary <forms@b150.ai>' };
 const feedback = { kind: 'feedback', name: 'Community member', email: 'creator@example.com', role: 'Creator / maintainer', feedback: '<script>plain text only</script>', source: '/license', submissionId: randomUUID(), website: '' };
 const join = { kind: 'join', email: 'builder@example.com', role: 'builder', project: 'https://github.com/example/project', note: 'Interested in the proposal.', source: '/join', submissionId: randomUUID(), website: '' };
 const request = (data, headers = {}, method = 'POST') => new Request('https://open-tributary.vercel.app/api/contact', { method, headers: { Origin: 'https://open-tributary.vercel.app', 'Content-Type': 'application/json', ...headers }, ...(method === 'POST' ? { body: JSON.stringify(data) } : {}) });

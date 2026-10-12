@@ -1,6 +1,6 @@
-# Tributary
+# Open Tributary
 
-A whitepaper proposal site for Tributary and the Open Royalty License.
+A whitepaper proposal site for Open Tributary and the Open Royalty License.
 
 Mobile-accessible design preview: https://open-tributary.vercel.app
 
@@ -22,7 +22,7 @@ Signup and proposal feedback post to `/api/contact`, a standalone Vercel functio
 
 ## Email setup
 
-Copy `.env.example` to an ignored local `.env` for local sending. In Vercel’s open-tributary project, configure `RESEND_API_KEY` and `FORM_EMAIL_FROM` for the environments that should send email. The default sender is `Tributary <forms@b150.ai>`; b150.ai must be verified in Resend. The recipient is fixed in server code, and no secret uses a `PUBLIC_` variable. Add the key directly in Vercel rather than committing it or posting it in chat. Redeploy after setting the variables; restart the local preview after changing `.env`.
+Copy `.env.example` to an ignored local `.env` for local sending. In Vercel’s open-tributary project, configure `RESEND_API_KEY` and `FORM_EMAIL_FROM` for the environments that should send email. The default sender is `Open Tributary <forms@b150.ai>`; b150.ai must be verified in Resend. The recipient is fixed in server code, and no secret uses a `PUBLIC_` variable. Add the key directly in Vercel rather than committing it or posting it in chat. Redeploy after setting the variables; restart the local preview after changing `.env`.
 
 The handler validates fields and source pages, limits request size, checks same-origin requests, drops honeypot submissions, and uses Resend idempotency keys for unchanged retries. It applies a best-effort five-attempt/ten-minute limit per address per warm function instance, not a distributed rate limit. Add an edge/distributed limit if traffic requires stronger spam controls. Only provider status/kind metadata is logged; form bodies and credentials are not logged.
 

@@ -41,7 +41,7 @@ export function createFormEmailHandler(options: Options = {}) {
  const attempts = new Map<string, { count: number; expires: number }>();
  return async (request: Request, address = 'unknown'): Promise<Response> => {
   if (request.method !== 'POST') return error(405, 'Use the form to send a message.', { Allow: 'POST' });
-  if (request.headers.get('origin') !== new URL(request.url).origin || request.headers.get('sec-fetch-site') === 'cross-site') return error(403, 'Please send this form from the Tributary website.');
+  if (request.headers.get('origin') !== new URL(request.url).origin || request.headers.get('sec-fetch-site') === 'cross-site') return error(403, 'Please send this form from the Open Tributary website.');
   if (!/^application\/json(?:\s*;|$)/i.test(request.headers.get('content-type') ?? '')) return error(415, 'Please send the form as JSON.');
   if (Number(request.headers.get('content-length')) > maxBytes) return error(413, 'Your message is too long.');
   try {
@@ -69,7 +69,7 @@ export function createFormEmailHandler(options: Options = {}) {
    }
    const env = options.env ?? process.env;
    if (!env.RESEND_API_KEY?.trim()) return error(503, 'Email sending isn’t connected yet. Please email support@b150.ai.');
-   const from = env.FORM_EMAIL_FROM?.trim() || 'Tributary <forms@b150.ai>';
+   const from = env.FORM_EMAIL_FROM?.trim() || 'Open Tributary <forms@b150.ai>';
    if (/[\r\n]/.test(from)) return error(503, 'Email sending is temporarily unavailable. Please email support@b150.ai.');
    const now = (options.now ?? Date.now)();
    for (const [key, value] of attempts) if (value.expires <= now) attempts.delete(key);
@@ -80,8 +80,8 @@ export function createFormEmailHandler(options: Options = {}) {
    attempts.set(key, { count: (recent?.count ?? 0) + 1, expires: recent?.expires ?? now + 600_000 });
    const body = {
     from, to: [recipient], ...(email ? { reply_to: email } : {}),
-    subject: kind === 'join' ? `Tributary — New interest (${joinRoles[role]})` : `Tributary — Proposal feedback (${role})`,
-    text: [kind === 'join' ? 'New Tributary interest' : 'Tributary proposal feedback', '', `Name: ${name || 'Not provided'}`, `Email: ${email || 'Not provided'}`, `Perspective: ${kind === 'join' ? joinRoles[role] : role}`, `Page: ${source}`, ...(project ? [`Project: ${project}`] : []), '', message || 'No additional note.'].join('\n'),
+    subject: kind === 'join' ? `Open Tributary — New interest (${joinRoles[role]})` : `Open Tributary — Proposal feedback (${role})`,
+    text: [kind === 'join' ? 'New Open Tributary interest' : 'Open Tributary proposal feedback', '', `Name: ${name || 'Not provided'}`, `Email: ${email || 'Not provided'}`, `Perspective: ${kind === 'join' ? joinRoles[role] : role}`, `Page: ${source}`, ...(project ? [`Project: ${project}`] : []), '', message || 'No additional note.'].join('\n'),
    };
    const hash = createHash('sha256').update(JSON.stringify(body)).digest('hex');
    try {
